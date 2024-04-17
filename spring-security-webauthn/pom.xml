@@ -9,10 +9,10 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>example</groupId>
-    <artifactId>webauthn</artifactId>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-webauthn</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.1-DGARNIER</version>
+    <version>0.0.1-rwinch</version>
 
     <dependencies>
         <dependency>

@@ -16,6 +16,7 @@
 
 package org.springframework.security.webauthn.api;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +33,8 @@ import java.util.function.Consumer;
  * @since 6.3
  * @author Rob Winch
  */
-public class PublicKeyCredentialCreationOptions {
+public class PublicKeyCredentialCreationOptions
+	implements Serializable {
 
 	private final PublicKeyCredentialRpEntity rp;
 

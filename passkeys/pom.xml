@@ -18,9 +18,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>example</groupId>
-            <artifactId>webauthn</artifactId>
-            <version>0.0.1-DGARNIER</version>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-webauthn</artifactId>
+            <version>0.0.1-rwinch</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -48,11 +48,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-           <!--     <configuration>
+                <configuration>
                     <jvmArguments>
                         -agentlib:native-image-agent=config-output-dir=target/joshs-native-image
                     </jvmArguments>
-                </configuration>-->
+                </configuration>
             </plugin>
         </plugins>
     </build>

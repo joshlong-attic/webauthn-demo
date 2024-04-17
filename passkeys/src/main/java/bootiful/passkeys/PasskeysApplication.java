@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.ImportRuntimeHints;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,8 +20,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.webauthn.registration.WebAuthnRegistrationFilter;
+import org.springframework.security.webauthn.api.*;
 import org.springframework.util.StringUtils;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -207,8 +212,84 @@ public class PasskeysApplication {
                 }
             }
 
-            hints.reflection().registerType(com.webauthn4j.data.attestation.authenticator.AttestedCredentialData.class, mcs);
-            hints.reflection().registerType(WebAuthnRegistrationFilter.WebAuthnRegistrationRequest.class, mcs);
+            var one = findClassesInPackage("org.springframework.security.webauthn");
+            var two = findClassesInPackage("org.springframework.security.web.webauthn");
+            var springSecurityWebauthn = new HashSet<TypeReference>();
+            springSecurityWebauthn.addAll(one);
+            springSecurityWebauthn.addAll(two);
+
+            for (var r : springSecurityWebauthn) {
+                try {
+                    hints.reflection().registerType(r, mcs);
+                }// 
+                catch (Throwable throwable) {
+                    System.out.println("couldn't register for reflection " + r.getName() + " got exception " + throwable);
+                    System.out.println(throwable.getLocalizedMessage());
+                    throwable.printStackTrace();
+                }
+            }
+
+            for (var c : springSecurityWebauthn) {
+
+                var clazzName = c.getName();
+                if (StringUtils.hasText(clazzName)) {
+                    try {
+                        System.out.println("got the class " + clazzName);
+                        var clzz = Class.forName(clazzName);
+                        var a = Serializable.class.isAssignableFrom(clzz);
+                        if (a) {
+                            System.out.println("serializable registration: " + c.getName());
+                            hints.serialization().registerType(c);
+                        }
+
+                    }//
+                    catch (Throwable e) {
+                        System.out.println("got an error registering " +
+                                c.getName() + " : " + e.getLocalizedMessage());
+
+                    }
+                }
+
+            }
+
+            var registrationSpecificClasses = Set.of(PublicKeyCredentialCreationOptions.class,
+                    AttestationConveyancePreference.class,
+                    PublicKeyCredentialUserEntity.class,
+                    Base64Url.class, PublicKeyCredentialParameters.class,
+                    PublicKeyCredentialDescriptor.class,
+                    AuthenticatorSelectionCriteria.class,
+                    AuthenticationExtensionsClientInputs.class,
+                    PublicKeyCredentialRpEntity.class,
+                    COSEAlgorithmIdentifier.class,
+                    PublicKeyCredentialType.class
+            );
+
+            for (var s : registrationSpecificClasses) {
+                try {
+                    hints.reflection().registerType(s, mcs);
+                } catch (Throwable throwable) {
+                    // don't care
+                }
+            }
+            for (var s : registrationSpecificClasses) {
+                try {
+                    hints.serialization().registerType(TypeReference.of(s));
+                } catch (Throwable throwable) {
+                    // don't care
+                }
+            }
+
+            for (var c : Set.of(
+                    AuthenticatorAttestationResponse.AuthenticatorAttestationResponseBuilder.class,
+                    AuthenticatorTransport.class,
+
+                    AuthenticatorAttestationResponse.class, PublicKeyCredential.class,
+                    HttpMessageConverter.class, MappingJackson2HttpMessageConverter.class,
+                    WebAuthnRegistrationFilter.SuccessfulUserRegistrationResponse.class,
+                    com.webauthn4j.data.attestation.authenticator.AttestedCredentialData.class,
+                    WebAuthnRegistrationFilter.WebAuthnRegistrationRequest.class
+            ))
+                hints.reflection().registerType(c, mcs);
         }
 
 

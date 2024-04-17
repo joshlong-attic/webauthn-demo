@@ -16,6 +16,7 @@
 
 package org.springframework.security.web.webauthn.registration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,11 +33,7 @@ import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.security.webauthn.api.Base64Url;
 import org.springframework.security.webauthn.api.PublicKeyCredentialCreationOptions;
-import org.springframework.security.webauthn.management.RelyingPartyPublicKey;
-import org.springframework.security.webauthn.management.RelyingPartyRegistrationRequest;
-import org.springframework.security.webauthn.management.CredentialRecord;
-import org.springframework.security.webauthn.management.UserCredentialRepository;
-import org.springframework.security.webauthn.management.WebAuthnRelyingPartyOperations;
+import org.springframework.security.webauthn.management.*;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -136,6 +133,7 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 	}
 
 	private void registerCredential(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		System.out.println("registerCredential");
 		WebAuthnRegistrationRequest registrationRequest = readRegistrationRequest(request);
 		if (registrationRequest == null) {
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
@@ -154,11 +152,20 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 	}
 
 	private WebAuthnRegistrationRequest readRegistrationRequest(HttpServletRequest request) {
+		System.out.println("reading registration request " + request);
 		HttpInputMessage inputMessage = new ServletServerHttpRequest(request);
+		System.out.println("preparing input message " + inputMessage);
 		try {
+//			var field = this.converter.getClass().getField("defaultObjectMapper");
+//			var om = (ObjectMapper) field.get(this.converter);
+//			Assert.notNull(om, "the objectMapper is null");
+			System.out.println("about to convert to " + WebAuthnRegistrationRequest.class + " for " + inputMessage);
 			return (WebAuthnRegistrationRequest) this.converter.read(WebAuthnRegistrationRequest.class, inputMessage);
 		}
 		catch (Exception e) {
+			System.out.println("oops! " +e.getLocalizedMessage() );
+			logger.error(e);
+			e.printStackTrace();
 			return null;
 		}
 	}
