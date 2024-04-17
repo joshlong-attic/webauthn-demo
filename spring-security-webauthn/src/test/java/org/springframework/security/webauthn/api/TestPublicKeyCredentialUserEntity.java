@@ -19,10 +19,9 @@ package org.springframework.security.webauthn.api;
 import org.springframework.security.webauthn.api.PublicKeyCredentialUserEntity.PublicKeyCredentialUserEntityBuilder;
 
 public class TestPublicKeyCredentialUserEntity {
+
 	public static PublicKeyCredentialUserEntityBuilder userEntity() {
-		return PublicKeyCredentialUserEntity.builder()
-				.name("user")
-				.id(Base64Url.random())
-				.displayName("user");
+		return PublicKeyCredentialUserEntity.builder().name("user").id(Base64Url.random()).displayName("user");
 	}
+
 }

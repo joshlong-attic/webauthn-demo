@@ -20,10 +20,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.webauthn.api.PublicKeyCredentialCreationOptions;
 
-
 /**
- * Saves {@link PublicKeyCredentialCreationOptions} between a request to generate an assertion and the validation of the
- * assertion.
+ * Saves {@link PublicKeyCredentialCreationOptions} between a request to generate an
+ * assertion and the validation of the assertion.
  *
  * @since 6.3
  * @author Rob Winch
@@ -33,21 +32,23 @@ public interface PublicKeyCredentialCreationOptionsRepository {
 	/**
 	 * Saves the provided {@link PublicKeyCredentialCreationOptions} or clears an existing
 	 * {@link PublicKeyCredentialCreationOptions} if {@code options} is null.
-	 *
 	 * @param request the {@link HttpServletRequest}
 	 * @param response the {@link HttpServletResponse}
-	 * @param options the {@link PublicKeyCredentialCreationOptions} to save or null if an existing
-	 * {@link PublicKeyCredentialCreationOptions} should be removed.
+	 * @param options the {@link PublicKeyCredentialCreationOptions} to save or null if an
+	 * existing {@link PublicKeyCredentialCreationOptions} should be removed.
 	 */
 	void save(HttpServletRequest request, HttpServletResponse response, PublicKeyCredentialCreationOptions options);
 
 	/**
-	 * Gets a saved {@link PublicKeyCredentialCreationOptions} if it exists, otherwise null.
-	 *
+	 * Gets a saved {@link PublicKeyCredentialCreationOptions} if it exists, otherwise
+	 * null.
 	 * @param request the {@link HttpServletRequest}
-	 * @return the {@link PublicKeyCredentialCreationOptions} that was saved, otherwise null.
+	 * @return the {@link PublicKeyCredentialCreationOptions} that was saved, otherwise
+	 * null.
 	 */
 	PublicKeyCredentialCreationOptions load(HttpServletRequest request);
 
-	// FIXME: add a method to load / remove in a single method? Are there other places Spring Security does this?
+	// FIXME: add a method to load / remove in a single method? Are there other places
+	// Spring Security does this?
+
 }

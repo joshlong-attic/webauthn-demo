@@ -21,8 +21,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.webauthn.api.PublicKeyCredentialRequestOptions;
 
 /**
- * Saves {@link PublicKeyCredentialRequestOptions} between a request to generate an assertion and the validation of the
- * assertion.
+ * Saves {@link PublicKeyCredentialRequestOptions} between a request to generate an
+ * assertion and the validation of the assertion.
  *
  * @since 6.3
  * @author Rob Winch
@@ -32,19 +32,19 @@ public interface PublicKeyCredentialRequestOptionsRepository {
 	/**
 	 * Saves the provided {@link PublicKeyCredentialRequestOptions} or clears an existing
 	 * {@link PublicKeyCredentialRequestOptions} if {@code options} is null.
-	 *
 	 * @param request the {@link HttpServletRequest}
 	 * @param response the {@link HttpServletResponse}
-	 * @param options the {@link PublicKeyCredentialRequestOptions} to save or null if an existing
-	 * {@link PublicKeyCredentialRequestOptions} should be removed.
+	 * @param options the {@link PublicKeyCredentialRequestOptions} to save or null if an
+	 * existing {@link PublicKeyCredentialRequestOptions} should be removed.
 	 */
 	void save(HttpServletRequest request, HttpServletResponse response, PublicKeyCredentialRequestOptions options);
 
 	/**
-	 * Gets a saved {@link PublicKeyCredentialRequestOptions} if it exists, otherwise null.
-	 *
+	 * Gets a saved {@link PublicKeyCredentialRequestOptions} if it exists, otherwise
+	 * null.
 	 * @param request the {@link HttpServletRequest}
-	 * @return the {@link PublicKeyCredentialRequestOptions} that was saved, otherwise null.
+	 * @return the {@link PublicKeyCredentialRequestOptions} that was saved, otherwise
+	 * null.
 	 */
 	PublicKeyCredentialRequestOptions load(HttpServletRequest request);
 

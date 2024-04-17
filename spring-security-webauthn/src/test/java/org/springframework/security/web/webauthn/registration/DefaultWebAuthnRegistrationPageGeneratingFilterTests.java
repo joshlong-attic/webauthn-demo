@@ -61,19 +61,19 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 	@Test
 	void constructorWhenNullUserEntities() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new DefaultWebAuthnRegistrationPageGeneratingFilter(null, this.userCredentials))
-				.withMessage("userEntities cannot be null");
+			.isThrownBy(() -> new DefaultWebAuthnRegistrationPageGeneratingFilter(null, this.userCredentials))
+			.withMessage("userEntities cannot be null");
 	}
 
 	@Test
 	void constructorWhenNullUserCredentials() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new DefaultWebAuthnRegistrationPageGeneratingFilter(this.userEntities, null))
-				.withMessage("userCredentials cannot be null");
+			.isThrownBy(() -> new DefaultWebAuthnRegistrationPageGeneratingFilter(this.userEntities, null))
+			.withMessage("userCredentials cannot be null");
 	}
 
 	@Test
-	void doFilterWhenNotMatchThenNoInteractions() throws Exception{
+	void doFilterWhenNotMatchThenNoInteractions() throws Exception {
 		MockMvc mockMvc = mockMvc();
 		mockMvc.perform(get("/not-match"));
 
@@ -83,12 +83,13 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 	@Test
 	void doFilterThenCsrfDataAttrsPresent() throws Exception {
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.name("user")
-				.id(Base64Url.random())
-				.displayName("User")
-				.build();
+			.name("user")
+			.id(Base64Url.random())
+			.displayName("User")
+			.build();
 		when(this.userEntities.findByUsername(any())).thenReturn(userEntity);
-		when(this.userCredentials.findByUserId(userEntity.getId())).thenReturn(Arrays.asList(TestCredentialRecord.userCredential().build()));
+		when(this.userCredentials.findByUserId(userEntity.getId()))
+			.thenReturn(Arrays.asList(TestCredentialRecord.userCredential().build()));
 		String body = bodyAsString(matchingRequest());
 		assertThat(body).contains("data-csrf-token=\"CSRF_TOKEN\"");
 		assertThat(body).contains("data-csrf-header-name=\"X-CSRF-TOKEN\"");
@@ -105,10 +106,10 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 	@Test
 	void doFilterWhenNoCredentialsThenNoResults() throws Exception {
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.name("user")
-				.id(Base64Url.random())
-				.displayName("User")
-				.build();
+			.name("user")
+			.id(Base64Url.random())
+			.displayName("User")
+			.build();
 		when(this.userEntities.findByUsername(any())).thenReturn(userEntity);
 		when(this.userCredentials.findByUserId(userEntity.getId())).thenReturn(Collections.emptyList());
 		String body = bodyAsString(matchingRequest());
@@ -119,10 +120,10 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 	@Test
 	void doFilterWhenResultsThenDisplayed() throws Exception {
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.name("user")
-				.id(Base64Url.random())
-				.displayName("User")
-				.build();
+			.name("user")
+			.id(Base64Url.random())
+			.displayName("User")
+			.build();
 		ImmutableCredentialRecord credential = TestCredentialRecord.userCredential().build();
 		when(this.userEntities.findByUsername(any())).thenReturn(userEntity);
 		when(this.userCredentials.findByUserId(userEntity.getId())).thenReturn(Arrays.asList(credential));
@@ -140,13 +141,11 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 		String htmlEncodedLabel = HtmlUtils.htmlEscape(label);
 		assertThat(label).isNotEqualTo(htmlEncodedLabel);
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.name("user")
-				.id(Base64Url.random())
-				.displayName("User")
-				.build();
-		ImmutableCredentialRecord credential = TestCredentialRecord.userCredential()
-			.label(label)
+			.name("user")
+			.id(Base64Url.random())
+			.displayName("User")
 			.build();
+		ImmutableCredentialRecord credential = TestCredentialRecord.userCredential().label(label).build();
 		when(this.userEntities.findByUsername(any())).thenReturn(userEntity);
 		when(this.userCredentials.findByUserId(userEntity.getId())).thenReturn(Arrays.asList(credential));
 		String body = bodyAsString(matchingRequest());
@@ -169,10 +168,10 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 	@Test
 	void doFilterWhenContextEmptyThenUrlsEmptyPrefix() throws Exception {
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.name("user")
-				.id(Base64Url.random())
-				.displayName("User")
-				.build();
+			.name("user")
+			.id(Base64Url.random())
+			.displayName("User")
+			.build();
 		ImmutableCredentialRecord credential = TestCredentialRecord.userCredential().build();
 		when(this.userEntities.findByUsername(any())).thenReturn(userEntity);
 		when(this.userCredentials.findByUserId(userEntity.getId())).thenReturn(Arrays.asList(credential));
@@ -180,16 +179,17 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 		assertThat(body).contains("await fetch('/webauthn/register', {");
 		assertThat(body).contains("await fetch('/webauthn/register/options', {");
 		assertThat(body).contains("window.location.href = '/webauthn/register?success'");
-		assertThat(body).contains(String.format("action=\"/webauthn/register/%s\"", credential.getCredentialId().getBytesAsBase64()));
+		assertThat(body).contains(
+				String.format("action=\"/webauthn/register/%s\"", credential.getCredentialId().getBytesAsBase64()));
 	}
 
 	@Test
 	void doFilterWhenContextNotEmptyThenUrlsPrefixed() throws Exception {
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.name("user")
-				.id(Base64Url.random())
-				.displayName("User")
-				.build();
+			.name("user")
+			.id(Base64Url.random())
+			.displayName("User")
+			.build();
 		ImmutableCredentialRecord credential = TestCredentialRecord.userCredential().build();
 		when(this.userEntities.findByUsername(any())).thenReturn(userEntity);
 		when(this.userCredentials.findByUserId(userEntity.getId())).thenReturn(Arrays.asList(credential));
@@ -197,7 +197,8 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 		assertThat(body).contains("await fetch('/foo/webauthn/register', {");
 		assertThat(body).contains("await fetch('/foo/webauthn/register/options', {");
 		assertThat(body).contains("window.location.href = '/foo/webauthn/register?success'");
-		assertThat(body).contains(String.format("action=\"/foo/webauthn/register/%s\"", credential.getCredentialId().getBytesAsBase64()));
+		assertThat(body).contains(
+				String.format("action=\"/foo/webauthn/register/%s\"", credential.getCredentialId().getBytesAsBase64()));
 	}
 
 	private String bodyAsString(RequestBuilder request) throws Exception {
@@ -215,15 +216,14 @@ class DefaultWebAuthnRegistrationPageGeneratingFilterTests {
 
 	private MockHttpServletRequestBuilder matchingRequest(String contextPath) {
 		DefaultCsrfToken token = new DefaultCsrfToken("X-CSRF-TOKEN", "_csrf", "CSRF_TOKEN");
-		return get(contextPath + "/webauthn/register")
-			.contextPath(contextPath)
+		return get(contextPath + "/webauthn/register").contextPath(contextPath)
 			.requestAttr(CsrfToken.class.getName(), token);
 	}
 
 	private MockMvc mockMvc() {
-		return MockMvcBuilders
-				.standaloneSetup(new Object())
-				.addFilter(new DefaultWebAuthnRegistrationPageGeneratingFilter(this.userEntities, this.userCredentials))
-				.build();
+		return MockMvcBuilders.standaloneSetup(new Object())
+			.addFilter(new DefaultWebAuthnRegistrationPageGeneratingFilter(this.userEntities, this.userCredentials))
+			.build();
 	}
+
 }

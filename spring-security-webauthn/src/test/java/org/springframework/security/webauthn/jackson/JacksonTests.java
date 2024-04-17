@@ -37,33 +37,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JacksonTests {
 
 	private static final String PUBLIC_KEY_JSON = """
-			{
-			   "id": "AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM",
-			   "rawId": "AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM",
-			   "response": {
-				 "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjFSZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk",
-				 "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSUJRbnVZMVowSzFIcUJvRldDcDJ4bEpsOC1vcV9hRklYenlUX0YwLTBHVSIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
-				 "transports": [
-				   "hybrid",
-				   "internal"
-				 ],
-				 "publicKeyAlgorithm": -7,
-				 "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkr7Z6k8TDS6Mc36C9WnYend5_wLNTfOrA7nKXHwvY6wrnHk6VMYQ_EtL7zlMAAG6bhqpUrgJJYnstgN2SO4EuQ",
-				 "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"
-			   },
-			   "type": "public-key",
-			   "clientExtensionResults": {
-				 "credProps": {
-				   "rk": false
+				{
+				   "id": "AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM",
+				   "rawId": "AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM",
+				   "response": {
+					 "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjFSZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk",
+					 "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSUJRbnVZMVowSzFIcUJvRldDcDJ4bEpsOC1vcV9hRklYenlUX0YwLTBHVSIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+					 "transports": [
+					   "hybrid",
+					   "internal"
+					 ],
+					 "publicKeyAlgorithm": -7,
+					 "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkr7Z6k8TDS6Mc36C9WnYend5_wLNTfOrA7nKXHwvY6wrnHk6VMYQ_EtL7zlMAAG6bhqpUrgJJYnstgN2SO4EuQ",
+					 "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"
+				   },
+				   "type": "public-key",
+				   "clientExtensionResults": {
+					 "credProps": {
+					   "rk": false
+					 }
+				   },
+				   "authenticatorAttachment": "cross-platform"
 				 }
-			   },
-			   "authenticatorAttachment": "cross-platform"
-			 }
-		""";
+			""";
 
 	private ObjectMapper mapper;
+
 	@BeforeEach
-	void setup () {
+	void setup() {
 		this.mapper = new ObjectMapper();
 		this.mapper.registerModule(new WebauthnJackson2Module());
 	}
@@ -90,31 +91,34 @@ class JacksonTests {
 	@Test
 	void readAuthenticationExtensionsClientOutputs() throws Exception {
 		String json = """
-			{
-				"credProps": {
-					"rk": false
+				{
+					"credProps": {
+						"rk": false
+					}
 				}
-			}
-			""";
-		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(new CredentialPropertiesOutput(false));
+				""";
+		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(
+				new CredentialPropertiesOutput(false));
 
-		AuthenticationExtensionsClientOutputs outputs = this.mapper.readValue(json, AuthenticationExtensionsClientOutputs.class);
+		AuthenticationExtensionsClientOutputs outputs = this.mapper.readValue(json,
+				AuthenticationExtensionsClientOutputs.class);
 		assertThat(outputs).usingRecursiveComparison().isEqualTo(clientExtensionResults);
 	}
 
 	@Test
 	void readAuthenticationExtensionsClientOutputsWhenFieldAfter() throws Exception {
 		String json = """
-   			{
-				"clientOutputs": {
-					"credProps": {
-						"rk": false
-					}
-				},
-				"label": "Cell Phone"
-			}
-			""";
-		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(new CredentialPropertiesOutput(false));
+							{
+					"clientOutputs": {
+						"credProps": {
+							"rk": false
+						}
+					},
+					"label": "Cell Phone"
+				}
+				""";
+		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(
+				new CredentialPropertiesOutput(false));
 
 		ClassWithOutputsAndAnotherField expected = new ClassWithOutputsAndAnotherField();
 		expected.setClientOutputs(clientExtensionResults);
@@ -125,6 +129,7 @@ class JacksonTests {
 	}
 
 	public static class ClassWithOutputsAndAnotherField {
+
 		private String label;
 
 		private AuthenticationExtensionsClientOutputs clientOutputs;
@@ -144,6 +149,7 @@ class JacksonTests {
 		public void setClientOutputs(AuthenticationExtensionsClientOutputs clientOutputs) {
 			this.clientOutputs = clientOutputs;
 		}
+
 	}
 
 	@Test
@@ -185,7 +191,8 @@ class JacksonTests {
 				}
 				""";
 
-		PublicKeyCredentialCreationOptions options = TestPublicKeyCredentialCreationOptions.createPublicKeyCredentialCreationOptions()
+		PublicKeyCredentialCreationOptions options = TestPublicKeyCredentialCreationOptions
+			.createPublicKeyCredentialCreationOptions()
 			.build();
 
 		String string = this.mapper.writeValueAsString(options);
@@ -196,26 +203,33 @@ class JacksonTests {
 	@Test
 	void readPublicKeyCredentialAuthenticatorAttestationResponse() throws Exception {
 
-		PublicKeyCredential<AuthenticatorAttestationResponse> publicKeyCredential = this.mapper.readValue(PUBLIC_KEY_JSON, new TypeReference<PublicKeyCredential<AuthenticatorAttestationResponse>>() {
-		});
+		PublicKeyCredential<AuthenticatorAttestationResponse> publicKeyCredential = this.mapper
+			.readValue(PUBLIC_KEY_JSON, new TypeReference<PublicKeyCredential<AuthenticatorAttestationResponse>>() {
+			});
 
-		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(new CredentialPropertiesOutput(false));
+		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(
+				new CredentialPropertiesOutput(false));
 
 		PublicKeyCredential<AuthenticatorAttestationResponse> expected = PublicKeyCredential.builder()
-				.id("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM")
-				.rawId(Base64Url.fromBase64("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM"))
-				.response(AuthenticatorAttestationResponse.builder()
-						.attestationObject(Base64Url.fromBase64("o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjFSZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
-						.clientDataJSON(Base64Url.fromBase64("eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSUJRbnVZMVowSzFIcUJvRldDcDJ4bEpsOC1vcV9hRklYenlUX0YwLTBHVSIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0"))
-						.transports(AuthenticatorTransport.HYBRID, AuthenticatorTransport.INTERNAL)
-						.publicKeyAlgorithm(COSEAlgorithmIdentifier.ES256)
-						.publicKey(Base64Url.fromBase64("MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkr7Z6k8TDS6Mc36C9WnYend5_wLNTfOrA7nKXHwvY6wrnHk6VMYQ_EtL7zlMAAG6bhqpUrgJJYnstgN2SO4EuQ"))
-						.authenticatorData(Base64Url.fromBase64("SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
-						.build())
-				.type(PublicKeyCredentialType.PUBLIC_KEY)
-				.clientExtensionResults(clientExtensionResults)
-				.authenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
-				.build();
+			.id("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM")
+			.rawId(Base64Url
+				.fromBase64("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM"))
+			.response(AuthenticatorAttestationResponse.builder()
+				.attestationObject(Base64Url.fromBase64(
+						"o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjFSZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
+				.clientDataJSON(Base64Url.fromBase64(
+						"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSUJRbnVZMVowSzFIcUJvRldDcDJ4bEpsOC1vcV9hRklYenlUX0YwLTBHVSIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0"))
+				.transports(AuthenticatorTransport.HYBRID, AuthenticatorTransport.INTERNAL)
+				.publicKeyAlgorithm(COSEAlgorithmIdentifier.ES256)
+				.publicKey(Base64Url.fromBase64(
+						"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkr7Z6k8TDS6Mc36C9WnYend5_wLNTfOrA7nKXHwvY6wrnHk6VMYQ_EtL7zlMAAG6bhqpUrgJJYnstgN2SO4EuQ"))
+				.authenticatorData(Base64Url.fromBase64(
+						"SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
+				.build())
+			.type(PublicKeyCredentialType.PUBLIC_KEY)
+			.clientExtensionResults(clientExtensionResults)
+			.authenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
+			.build();
 
 		assertThat(publicKeyCredential).usingRecursiveComparison().isEqualTo(expected);
 	}
@@ -223,63 +237,65 @@ class JacksonTests {
 	@Test
 	void writeAuthenticationOptions() throws Exception {
 		PublicKeyCredentialRequestOptions credentialRequestOptions = PublicKeyCredentialRequestOptions.builder()
-				.allowCredentials(Arrays.asList())
-				.challenge(Base64Url.fromBase64("I69THX904Q8ONhCgUgOu2PCQCcEjTDiNmokdbgsAsYU"))
-				.rpId("example.localhost")
-				.timeout(Duration.ofMinutes(5))
-				.userVerification(UserVerificationRequirement.REQUIRED)
-				.build();
+			.allowCredentials(Arrays.asList())
+			.challenge(Base64Url.fromBase64("I69THX904Q8ONhCgUgOu2PCQCcEjTDiNmokdbgsAsYU"))
+			.rpId("example.localhost")
+			.timeout(Duration.ofMinutes(5))
+			.userVerification(UserVerificationRequirement.REQUIRED)
+			.build();
 		String actual = this.mapper.writeValueAsString(credentialRequestOptions);
 
 		String expected = """
-		{
-    "challenge": "I69THX904Q8ONhCgUgOu2PCQCcEjTDiNmokdbgsAsYU",
-    "allowCredentials": [],
-    "timeout": 300000,
-    "userVerification": "required",
-    "rpId": "example.localhost"
-  }
-  
-""";
+						{
+				    "challenge": "I69THX904Q8ONhCgUgOu2PCQCcEjTDiNmokdbgsAsYU",
+				    "allowCredentials": [],
+				    "timeout": 300000,
+				    "userVerification": "required",
+				    "rpId": "example.localhost"
+				  }
+
+				""";
 		JSONAssert.assertEquals(expected, actual, false);
 	}
-
 
 	@Test
 	void readPublicKeyCredentialAuthenticatorAssertionResponse() throws Exception {
 		String json = """
-			{
-			   "id": "IquGb208Fffq2cROa1ZxMg",
-			   "rawId": "IquGb208Fffq2cROa1ZxMg",
-			   "response": {
-				 "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MdAAAAAA",
-				 "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiaDB2Z3dHUWpvQ3pBekRVc216UHBrLUpWSUpSUmduMEw0S1ZTWU5SY0VaYyIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
-				 "signature": "MEUCIAdfzPAn3voyXynwa0IXk1S0envMY5KP3NEe9aj4B2BuAiEAm_KJhQoWXdvfhbzwACU3NM4ltQe7_Il46qFUwtpuTdg",
-				 "userHandle": "oWJtkJ6vJ_m5b84LB4_K7QKTCTEwLIjCh4tFMCGHO4w"
-			   },
-			   "type": "public-key",
-			   "clientExtensionResults": {},
-			   "authenticatorAttachment": "cross-platform"
-			 }
-		""";
-		PublicKeyCredential<AuthenticatorAssertionResponse> publicKeyCredential = this.mapper.readValue(json, new TypeReference<PublicKeyCredential<AuthenticatorAssertionResponse>>() {
-		});
+					{
+					   "id": "IquGb208Fffq2cROa1ZxMg",
+					   "rawId": "IquGb208Fffq2cROa1ZxMg",
+					   "response": {
+						 "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MdAAAAAA",
+						 "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiaDB2Z3dHUWpvQ3pBekRVc216UHBrLUpWSUpSUmduMEw0S1ZTWU5SY0VaYyIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+						 "signature": "MEUCIAdfzPAn3voyXynwa0IXk1S0envMY5KP3NEe9aj4B2BuAiEAm_KJhQoWXdvfhbzwACU3NM4ltQe7_Il46qFUwtpuTdg",
+						 "userHandle": "oWJtkJ6vJ_m5b84LB4_K7QKTCTEwLIjCh4tFMCGHO4w"
+					   },
+					   "type": "public-key",
+					   "clientExtensionResults": {},
+					   "authenticatorAttachment": "cross-platform"
+					 }
+				""";
+		PublicKeyCredential<AuthenticatorAssertionResponse> publicKeyCredential = this.mapper.readValue(json,
+				new TypeReference<PublicKeyCredential<AuthenticatorAssertionResponse>>() {
+				});
 
 		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs();
 
 		PublicKeyCredential<AuthenticatorAssertionResponse> expected = PublicKeyCredential.builder()
-				.id("IquGb208Fffq2cROa1ZxMg")
-				.rawId(Base64Url.fromBase64("IquGb208Fffq2cROa1ZxMg"))
-				.response(AuthenticatorAssertionResponse.builder()
-						.authenticatorData(Base64Url.fromBase64("SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MdAAAAAA"))
-						.clientDataJSON(Base64Url.fromBase64("eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiaDB2Z3dHUWpvQ3pBekRVc216UHBrLUpWSUpSUmduMEw0S1ZTWU5SY0VaYyIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0"))
-						.signature(Base64Url.fromBase64("MEUCIAdfzPAn3voyXynwa0IXk1S0envMY5KP3NEe9aj4B2BuAiEAm_KJhQoWXdvfhbzwACU3NM4ltQe7_Il46qFUwtpuTdg"))
-						.userHandle(Base64Url.fromBase64("oWJtkJ6vJ_m5b84LB4_K7QKTCTEwLIjCh4tFMCGHO4w"))
-						.build())
-				.type(PublicKeyCredentialType.PUBLIC_KEY)
-				.clientExtensionResults(clientExtensionResults)
-				.authenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
-				.build();
+			.id("IquGb208Fffq2cROa1ZxMg")
+			.rawId(Base64Url.fromBase64("IquGb208Fffq2cROa1ZxMg"))
+			.response(AuthenticatorAssertionResponse.builder()
+				.authenticatorData(Base64Url.fromBase64("SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MdAAAAAA"))
+				.clientDataJSON(Base64Url.fromBase64(
+						"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiaDB2Z3dHUWpvQ3pBekRVc216UHBrLUpWSUpSUmduMEw0S1ZTWU5SY0VaYyIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0"))
+				.signature(Base64Url.fromBase64(
+						"MEUCIAdfzPAn3voyXynwa0IXk1S0envMY5KP3NEe9aj4B2BuAiEAm_KJhQoWXdvfhbzwACU3NM4ltQe7_Il46qFUwtpuTdg"))
+				.userHandle(Base64Url.fromBase64("oWJtkJ6vJ_m5b84LB4_K7QKTCTEwLIjCh4tFMCGHO4w"))
+				.build())
+			.type(PublicKeyCredentialType.PUBLIC_KEY)
+			.clientExtensionResults(clientExtensionResults)
+			.authenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
+			.build();
 
 		assertThat(publicKeyCredential).usingRecursiveComparison().isEqualTo(expected);
 	}
@@ -287,33 +303,39 @@ class JacksonTests {
 	@Test
 	void readRelyingPartyRequest() throws Exception {
 		String json = """
-			{
-				"publicKey": {
-					"label": "Cell Phone",
-					"credential": %s
+				{
+					"publicKey": {
+						"label": "Cell Phone",
+						"credential": %s
+					}
 				}
-			}
-			""".formatted(PUBLIC_KEY_JSON);
-		WebAuthnRegistrationFilter.WebAuthnRegistrationRequest registrationRequest = this.mapper.readValue(json, WebAuthnRegistrationFilter.WebAuthnRegistrationRequest.class);
+				""".formatted(PUBLIC_KEY_JSON);
+		WebAuthnRegistrationFilter.WebAuthnRegistrationRequest registrationRequest = this.mapper.readValue(json,
+				WebAuthnRegistrationFilter.WebAuthnRegistrationRequest.class);
 
-
-		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(new CredentialPropertiesOutput(false));
+		ImmutableAuthenticationExtensionsClientOutputs clientExtensionResults = new ImmutableAuthenticationExtensionsClientOutputs(
+				new CredentialPropertiesOutput(false));
 
 		PublicKeyCredential<AuthenticatorAttestationResponse> credential = PublicKeyCredential.builder()
-				.id("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM")
-				.rawId(Base64Url.fromBase64("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM"))
-				.response(AuthenticatorAttestationResponse.builder()
-						.attestationObject(Base64Url.fromBase64("o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjFSZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
-						.clientDataJSON(Base64Url.fromBase64("eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSUJRbnVZMVowSzFIcUJvRldDcDJ4bEpsOC1vcV9hRklYenlUX0YwLTBHVSIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0"))
-						.transports(AuthenticatorTransport.HYBRID, AuthenticatorTransport.INTERNAL)
-						.publicKeyAlgorithm(COSEAlgorithmIdentifier.ES256)
-						.publicKey(Base64Url.fromBase64("MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkr7Z6k8TDS6Mc36C9WnYend5_wLNTfOrA7nKXHwvY6wrnHk6VMYQ_EtL7zlMAAG6bhqpUrgJJYnstgN2SO4EuQ"))
-						.authenticatorData(Base64Url.fromBase64("SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
-						.build())
-				.type(PublicKeyCredentialType.PUBLIC_KEY)
-				.clientExtensionResults(clientExtensionResults)
-				.authenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
-				.build();
+			.id("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM")
+			.rawId(Base64Url
+				.fromBase64("AX6nVVERrH6opMafUGn3Z9EyNEy6cftfBKV_2YxYl1jdW8CSJxMKGXFV3bnrKTiMSJeInkG7C6B2lPt8E5i3KaM"))
+			.response(AuthenticatorAttestationResponse.builder()
+				.attestationObject(Base64Url.fromBase64(
+						"o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjFSZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
+				.clientDataJSON(Base64Url.fromBase64(
+						"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSUJRbnVZMVowSzFIcUJvRldDcDJ4bEpsOC1vcV9hRklYenlUX0YwLTBHVSIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImNyb3NzT3JpZ2luIjpmYWxzZX0"))
+				.transports(AuthenticatorTransport.HYBRID, AuthenticatorTransport.INTERNAL)
+				.publicKeyAlgorithm(COSEAlgorithmIdentifier.ES256)
+				.publicKey(Base64Url.fromBase64(
+						"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkr7Z6k8TDS6Mc36C9WnYend5_wLNTfOrA7nKXHwvY6wrnHk6VMYQ_EtL7zlMAAG6bhqpUrgJJYnstgN2SO4EuQ"))
+				.authenticatorData(Base64Url.fromBase64(
+						"SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2NFAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQF-p1VREax-qKTGn1Bp92fRMjRMunH7XwSlf9mMWJdY3VvAkicTChlxVd256yk4jEiXiJ5BuwugdpT7fBOYtymjpQECAyYgASFYIJK-2epPEw0ujHN-gvVp2Hp3ef8CzU3zqwO5ylx8L2OsIlggK5x5OlTGEPxLS-85TAABum4aqVK4CSWJ7LYDdkjuBLk"))
+				.build())
+			.type(PublicKeyCredentialType.PUBLIC_KEY)
+			.clientExtensionResults(clientExtensionResults)
+			.authenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
+			.build();
 
 		WebAuthnRegistrationFilter.WebAuthnRegistrationRequest expected = new WebAuthnRegistrationFilter.WebAuthnRegistrationRequest();
 		expected.setPublicKey(new RelyingPartyPublicKey(credential, "Cell Phone"));

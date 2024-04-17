@@ -30,17 +30,14 @@ public class SecurityConfig {
 
 	@Bean
 	DefaultSecurityFilterChain springSecurity(HttpSecurity http) throws Exception {
-		http
-			.formLogin(Customizer.withDefaults())
-			.authorizeHttpRequests(requests -> requests
-				.requestMatchers("/login/**").permitAll()
-				.anyRequest().authenticated()
-			)
-			.with(new WebauthnConfigurer<>(), (passkeys) -> passkeys
-					.rpName("Spring Security Relying Party")
-					.rpId("localhost")
-					.allowedOrigins("http://localhost:8080")
-			);
+		http.formLogin(Customizer.withDefaults())
+			.authorizeHttpRequests(
+					requests -> requests.requestMatchers("/login/**").permitAll().anyRequest().authenticated())
+			.with(new WebauthnConfigurer<>(),
+					(passkeys) -> passkeys.rpName("Spring Security Relying Party")
+						.rpId("localhost")
+						.allowedOrigins("http://localhost:8080"));
 		return http.build();
 	}
+
 }

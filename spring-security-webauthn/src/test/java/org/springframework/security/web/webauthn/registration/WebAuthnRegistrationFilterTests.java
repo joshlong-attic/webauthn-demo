@@ -53,6 +53,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  */
 @ExtendWith(MockitoExtension.class)
 class WebAuthnRegistrationFilterTests {
+
 	@Mock
 	private UserCredentialRepository userCredentials;
 
@@ -71,30 +72,30 @@ class WebAuthnRegistrationFilterTests {
 	private MockHttpServletResponse response = new MockHttpServletResponse();
 
 	private static final String REGISTRATION_REQUEST_BODY = """
-	{
-		"publicKey": {
-			"credential": {
-				"id": "dYF7EGnRFFIXkpXi9XU2wg",
-				"rawId": "dYF7EGnRFFIXkpXi9XU2wg",
-				"response": {
-					"attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViUy9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNhdAAAAALraVWanqkAfvZZFYZpVEg0AEHWBexBp0RRSF5KV4vV1NsKlAQIDJiABIVggQjmrekPGzyqtoKK9HPUH-8Z2FLpoqkklFpFPQVICQ3IiWCD6I9Jvmor685fOZOyGXqUd87tXfvJk8rxj9OhuZvUALA",
-					"clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSl9RTi10SFJYRWVKYjlNcUNrWmFPLUdOVmlibXpGVGVWMk43Z0ptQUdrQSIsIm9yaWdpbiI6Imh0dHBzOi8vZXhhbXBsZS5sb2NhbGhvc3Q6ODQ0MyIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
-					"transports": [
-						"internal",
-						"hybrid"
-					],
-					"publicKeyAlgorithm": -7,
-					"publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQjmrekPGzyqtoKK9HPUH-8Z2FLpoqkklFpFPQVICQ3L6I9Jvmor685fOZOyGXqUd87tXfvJk8rxj9OhuZvUALA",
-					"authenticatorData": "y9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNhdAAAAALraVWanqkAfvZZFYZpVEg0AEHWBexBp0RRSF5KV4vV1NsKlAQIDJiABIVggQjmrekPGzyqtoKK9HPUH-8Z2FLpoqkklFpFPQVICQ3IiWCD6I9Jvmor685fOZOyGXqUd87tXfvJk8rxj9OhuZvUALA"
-				},
-				"type": "public-key",
-				"clientExtensionResults": {},
-				"authenticatorAttachment": "platform"
-			},
-			"label": "1password"
-		}
-	}
-	""";
+			{
+				"publicKey": {
+					"credential": {
+						"id": "dYF7EGnRFFIXkpXi9XU2wg",
+						"rawId": "dYF7EGnRFFIXkpXi9XU2wg",
+						"response": {
+							"attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViUy9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNhdAAAAALraVWanqkAfvZZFYZpVEg0AEHWBexBp0RRSF5KV4vV1NsKlAQIDJiABIVggQjmrekPGzyqtoKK9HPUH-8Z2FLpoqkklFpFPQVICQ3IiWCD6I9Jvmor685fOZOyGXqUd87tXfvJk8rxj9OhuZvUALA",
+							"clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSl9RTi10SFJYRWVKYjlNcUNrWmFPLUdOVmlibXpGVGVWMk43Z0ptQUdrQSIsIm9yaWdpbiI6Imh0dHBzOi8vZXhhbXBsZS5sb2NhbGhvc3Q6ODQ0MyIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+							"transports": [
+								"internal",
+								"hybrid"
+							],
+							"publicKeyAlgorithm": -7,
+							"publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQjmrekPGzyqtoKK9HPUH-8Z2FLpoqkklFpFPQVICQ3L6I9Jvmor685fOZOyGXqUd87tXfvJk8rxj9OhuZvUALA",
+							"authenticatorData": "y9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNhdAAAAALraVWanqkAfvZZFYZpVEg0AEHWBexBp0RRSF5KV4vV1NsKlAQIDJiABIVggQjmrekPGzyqtoKK9HPUH-8Z2FLpoqkklFpFPQVICQ3IiWCD6I9Jvmor685fOZOyGXqUd87tXfvJk8rxj9OhuZvUALA"
+						},
+						"type": "public-key",
+						"clientExtensionResults": {},
+						"authenticatorAttachment": "platform"
+					},
+					"label": "1password"
+				}
+			}
+			""";
 
 	private WebAuthnRegistrationFilter filter;
 
@@ -110,7 +111,8 @@ class WebAuthnRegistrationFilterTests {
 
 	@Test
 	void constructorWhenNullOperations() {
-		assertThatIllegalArgumentException().isThrownBy(() -> new WebAuthnRegistrationFilter(this.userCredentials, null));
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new WebAuthnRegistrationFilter(this.userCredentials, null));
 	}
 
 	@Test
@@ -128,7 +130,9 @@ class WebAuthnRegistrationFilterTests {
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		this.filter.setConverter(this.converter);
 		this.filter.setCreationOptionsRepository(this.creationOptionsRepository);
-		this.filter.doFilter(get(WebAuthnRegistrationFilter.DEFAULT_REGISTER_CREDENTIAL_URL).buildRequest(new MockServletContext()), response, this.chain);
+		this.filter.doFilter(
+				get(WebAuthnRegistrationFilter.DEFAULT_REGISTER_CREDENTIAL_URL).buildRequest(new MockServletContext()),
+				response, this.chain);
 		verifyNoInteractions(this.converter, this.creationOptionsRepository, response);
 		verify(this.chain).doFilter(any(), any());
 	}
@@ -157,30 +161,28 @@ class WebAuthnRegistrationFilterTests {
 	void doFilterWhenRegisterSuccessThenOk() throws Exception {
 		this.filter.setCreationOptionsRepository(this.creationOptionsRepository);
 		PublicKeyCredentialCreationOptions creationOptions = TestPublicKeyCredentialCreationOptions
-				.createPublicKeyCredentialCreationOptions()
-				.build();
-		given(this.creationOptionsRepository.load(any())).willReturn(creationOptions);
-		ImmutableCredentialRecord userCredential = TestCredentialRecord
-			.userCredential()
+			.createPublicKeyCredentialCreationOptions()
 			.build();
+		given(this.creationOptionsRepository.load(any())).willReturn(creationOptions);
+		ImmutableCredentialRecord userCredential = TestCredentialRecord.userCredential().build();
 		given(this.operations.registerCredential(any())).willReturn(userCredential);
 		MockHttpServletRequest request = registerCredentialRequest(REGISTRATION_REQUEST_BODY);
 		this.filter.doFilter(request, this.response, this.chain);
 		assertThat(this.response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		String actualBody = this.response.getContentAsString();
 		String expectedBody = """
-			{
-				"success": true
-			}
-			""";
+				{
+					"success": true
+				}
+				""";
 		JSONAssert.assertEquals(expectedBody, actualBody, false);
 		verify(this.creationOptionsRepository).save(any(), any(), eq(null));
 	}
 
 	private static MockHttpServletRequest registerCredentialRequest(String body) {
-		return MockMvcRequestBuilders
-				.post(WebAuthnRegistrationFilter.DEFAULT_REGISTER_CREDENTIAL_URL)
-				.content(body)
-				.buildRequest(new MockServletContext());
+		return MockMvcRequestBuilders.post(WebAuthnRegistrationFilter.DEFAULT_REGISTER_CREDENTIAL_URL)
+			.content(body)
+			.buildRequest(new MockServletContext());
 	}
+
 }

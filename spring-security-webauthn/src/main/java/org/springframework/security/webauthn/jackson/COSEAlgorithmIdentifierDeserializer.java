@@ -27,6 +27,7 @@ import java.io.IOException;
 
 /**
  * Jackson serializer for {@link COSEAlgorithmIdentifier}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -37,7 +38,8 @@ class COSEAlgorithmIdentifierDeserializer extends StdDeserializer<COSEAlgorithmI
 	}
 
 	@Override
-	public COSEAlgorithmIdentifier deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JacksonException {
+	public COSEAlgorithmIdentifier deserialize(JsonParser parser, DeserializationContext ctxt)
+			throws IOException, JacksonException {
 		Long transportValue = parser.readValueAs(Long.class);
 		for (COSEAlgorithmIdentifier identifier : COSEAlgorithmIdentifier.values()) {
 			if (identifier.getValue() == transportValue.longValue()) {
@@ -46,6 +48,5 @@ class COSEAlgorithmIdentifierDeserializer extends StdDeserializer<COSEAlgorithmI
 		}
 		return null;
 	}
-
 
 }

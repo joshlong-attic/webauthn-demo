@@ -17,31 +17,38 @@
 package org.springframework.security.webauthn.api;
 
 /**
- * <a href="https://www.w3.org/TR/webauthn-3/#enumdef-userverificationrequirement">UserVerificationRequirement</a> is
- * used by the Relying Party to indicate if user verification is needed.
+ * <a href=
+ * "https://www.w3.org/TR/webauthn-3/#enumdef-userverificationrequirement">UserVerificationRequirement</a>
+ * is used by the Relying Party to indicate if user verification is needed.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 public enum UserVerificationRequirement {
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-userverificationrequirement-discouraged">discouraged</a> value
-	 * indicates that the Relying Party does not want user verification employed during the operation (e.g., in the
-	 * interest of minimizing disruption to the user interaction flow).
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-userverificationrequirement-discouraged">discouraged</a>
+	 * value indicates that the Relying Party does not want user verification employed
+	 * during the operation (e.g., in the interest of minimizing disruption to the user
+	 * interaction flow).
 	 */
 	DISCOURAGED("discouraged"),
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-userverificationrequirement-preferred>preferred</a> value
-	 * indicates that the Relying Party prefers user verification for the operation if possible, but will not fail the
-	 * operation if the response does not have the UV flag set.
+	 * The <a
+	 * href="https://www.w3.org/TR/webauthn-3/#dom-userverificationrequirement-preferred>preferred</a>
+	 * value indicates that the Relying Party prefers user verification for the operation
+	 * if possible, but will not fail the operation if the response does not have the UV
+	 * flag set.
 	 */
 	PREFERRED("preferred"),
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-userverificationrequirement-required">required</a> value
-	 * indicates that the Relying Party requires user verification for the operation and will fail the overall ceremony
-	 * if the response does not have the UV flag set.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-userverificationrequirement-required">required</a>
+	 * value indicates that the Relying Party requires user verification for the operation
+	 * and will fail the overall ceremony if the response does not have the UV flag set.
 	 */
 	REQUIRED("required");
 

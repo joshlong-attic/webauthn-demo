@@ -22,8 +22,9 @@ import org.springframework.security.webauthn.management.RelyingPartyAuthenticati
 import org.springframework.util.Assert;
 
 /**
- * An {@link org.springframework.security.core.Authentication} used in {@link WebAuthnAuthenticationProvider} for
- * authenticating via WebAuthn.
+ * An {@link org.springframework.security.core.Authentication} used in
+ * {@link WebAuthnAuthenticationProvider} for authenticating via WebAuthn.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -33,7 +34,8 @@ public class WebAuthnAuthenticationRequestToken extends AbstractAuthenticationTo
 
 	/**
 	 * Creates a new instance.
-	 * @param webAuthnRequest the {@link RelyingPartyAuthenticationRequest} to use for authentication. Cannot be null.
+	 * @param webAuthnRequest the {@link RelyingPartyAuthenticationRequest} to use for
+	 * authentication. Cannot be null.
 	 */
 	public WebAuthnAuthenticationRequestToken(RelyingPartyAuthenticationRequest webAuthnRequest) {
 		super(AuthorityUtils.NO_AUTHORITIES);
@@ -51,8 +53,7 @@ public class WebAuthnAuthenticationRequestToken extends AbstractAuthenticationTo
 
 	@Override
 	public void setAuthenticated(boolean authenticated) {
-		Assert.isTrue(!authenticated,
-				"Cannot set this token to trusted");
+		Assert.isTrue(!authenticated, "Cannot set this token to trusted");
 		super.setAuthenticated(authenticated);
 	}
 
@@ -65,4 +66,5 @@ public class WebAuthnAuthenticationRequestToken extends AbstractAuthenticationTo
 	public Object getPrincipal() {
 		return this.webAuthnRequest.getPublicKey().getResponse().getUserHandle();
 	}
+
 }

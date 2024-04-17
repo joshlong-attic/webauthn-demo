@@ -23,8 +23,8 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 /**
- * Represents a Base64 URL encoded String.
- * FIXME: Consider a new name it contains bytes that are raw and can be encoded as Base64 URL String
+ * Represents a Base64 URL encoded String. FIXME: Consider a new name it contains bytes
+ * that are raw and can be encoded as Base64 URL String
  */
 public class Base64Url {
 

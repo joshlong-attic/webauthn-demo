@@ -24,17 +24,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Represents the
- * <a href="https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialcreationoptions">PublicKeyCredentialCreationOptions</a>
- * which is an argument to
- * <a href="https://w3c.github.io/webappsec-credential-management/#dom-credentialscontainer-create">creating</a> a
- * new credential.
+ * Represents the <a href=
+ * "https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialcreationoptions">PublicKeyCredentialCreationOptions</a>
+ * which is an argument to <a href=
+ * "https://w3c.github.io/webappsec-credential-management/#dom-credentialscontainer-create">creating</a>
+ * a new credential.
  *
  * @since 6.3
  * @author Rob Winch
  */
-public class PublicKeyCredentialCreationOptions
-	implements Serializable {
+public class PublicKeyCredentialCreationOptions implements Serializable {
 
 	private final PublicKeyCredentialRpEntity rp;
 
@@ -54,7 +53,11 @@ public class PublicKeyCredentialCreationOptions
 
 	private final AuthenticationExtensionsClientInputs extensions;
 
-	private PublicKeyCredentialCreationOptions(PublicKeyCredentialRpEntity rp, PublicKeyCredentialUserEntity user, Base64Url challenge, List<PublicKeyCredentialParameters> pubKeyCredParams, Duration timeout, List<PublicKeyCredentialDescriptor> excludeCredentials, AuthenticatorSelectionCriteria authenticatorSelection, AttestationConveyancePreference attestation, AuthenticationExtensionsClientInputs extensions) {
+	private PublicKeyCredentialCreationOptions(PublicKeyCredentialRpEntity rp, PublicKeyCredentialUserEntity user,
+			Base64Url challenge, List<PublicKeyCredentialParameters> pubKeyCredParams, Duration timeout,
+			List<PublicKeyCredentialDescriptor> excludeCredentials,
+			AuthenticatorSelectionCriteria authenticatorSelection, AttestationConveyancePreference attestation,
+			AuthenticationExtensionsClientInputs extensions) {
 		this.rp = rp;
 		this.user = user;
 		this.challenge = challenge;
@@ -67,8 +70,9 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-rp">rp</a> property
-	 * contains data about the Relying Party responsible for the request.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-rp">rp</a>
+	 * property contains data about the Relying Party responsible for the request.
 	 * @return the relying party
 	 */
 	public PublicKeyCredentialRpEntity getRp() {
@@ -76,8 +80,9 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-user">user</a> contains
-	 * names and an identifier for the user account performing the registration.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-user">user</a>
+	 * contains names and an identifier for the user account performing the registration.
 	 * @return the user
 	 */
 	public PublicKeyCredentialUserEntity getUser() {
@@ -85,9 +90,10 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-challenge">challenge</a>
-	 * specifies the challenge that the authenticator signs, along with other data, when producing an attestation object
-	 * for the newly created credential.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-challenge">challenge</a>
+	 * specifies the challenge that the authenticator signs, along with other data, when
+	 * producing an attestation object for the newly created credential.
 	 * @return the challenge
 	 */
 	public Base64Url getChallenge() {
@@ -95,9 +101,10 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-pubkeycredparams">publicKeyCredParams</a>
-	 * params lisst the key types and signature algorithms the Relying Party Supports, ordered from most preferred to
-	 * least preferred.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-pubkeycredparams">publicKeyCredParams</a>
+	 * params lisst the key types and signature algorithms the Relying Party Supports,
+	 * ordered from most preferred to least preferred.
 	 * @return the public key credential parameters
 	 */
 	public List<PublicKeyCredentialParameters> getPubKeyCredParams() {
@@ -105,8 +112,10 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-timeout">timeout</a>
-	 * property specifies a time, in milliseconds, that the Relying Party is willing to wait for the call to complete.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-timeout">timeout</a>
+	 * property specifies a time, in milliseconds, that the Relying Party is willing to
+	 * wait for the call to complete.
 	 * @return the timeout
 	 */
 	public Duration getTimeout() {
@@ -114,9 +123,10 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-excludecredentials">excludeCredentials</a>
-	 * property is the OPTIONAL member used by the Relying Party to list any existing credentials mapped to this user
-	 * account (as identified by user.id).
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-excludecredentials">excludeCredentials</a>
+	 * property is the OPTIONAL member used by the Relying Party to list any existing
+	 * credentials mapped to this user account (as identified by user.id).
 	 * @return exclude credentials
 	 */
 	public List<PublicKeyCredentialDescriptor> getExcludeCredentials() {
@@ -124,9 +134,10 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-authenticatorselection">authenticatorSelection</a>
-	 * property is an OPTIONAL member used by the Relying Party to list any existing credentials mapped to this user
-	 * account (as identified by user.id).
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-authenticatorselection">authenticatorSelection</a>
+	 * property is an OPTIONAL member used by the Relying Party to list any existing
+	 * credentials mapped to this user account (as identified by user.id).
 	 * @return the authenticatorSelection
 	 */
 	public AuthenticatorSelectionCriteria getAuthenticatorSelection() {
@@ -134,8 +145,10 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-attestation">attestation</a>
-	 * property is an OPTIONAL member used by the Relying Party to specify a preference regarding attestation conveyance.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-attestation">attestation</a>
+	 * property is an OPTIONAL member used by the Relying Party to specify a preference
+	 * regarding attestation conveyance.
 	 * @return the attestation preference
 	 */
 	public AttestationConveyancePreference getAttestation() {
@@ -143,9 +156,10 @@ public class PublicKeyCredentialCreationOptions
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-extensions">extensions</a>
-	 * property is an OPTIONAL member used by the Relying Party to provide client extension inputs requesting additional
-	 * processing by the client and authenticator.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-extensions">extensions</a>
+	 * property is an OPTIONAL member used by the Relying Party to provide client
+	 * extension inputs requesting additional processing by the client and authenticator.
 	 * @return the extensions
 	 */
 	public AuthenticationExtensionsClientInputs getExtensions() {
@@ -162,18 +176,28 @@ public class PublicKeyCredentialCreationOptions
 
 	/**
 	 * Used to build {@link PublicKeyCredentialCreationOptions}.
+	 *
 	 * @since 6.3
 	 * @author Rob Winch
 	 */
 	public static final class PublicKeyCredentialCreationOptionsBuilder {
+
 		private PublicKeyCredentialRpEntity rp;
+
 		private PublicKeyCredentialUserEntity user;
+
 		private Base64Url challenge;
+
 		private List<PublicKeyCredentialParameters> pubKeyCredParams = new ArrayList<>();
+
 		private Duration timeout;
+
 		private List<PublicKeyCredentialDescriptor> excludeCredentials = new ArrayList<>();
+
 		private AuthenticatorSelectionCriteria authenticatorSelection;
+
 		private AttestationConveyancePreference attestation;
+
 		private AuthenticationExtensionsClientInputs extensions;
 
 		private PublicKeyCredentialCreationOptionsBuilder() {
@@ -214,7 +238,8 @@ public class PublicKeyCredentialCreationOptions
 		 * @param pubKeyCredParams the public key credential parameters
 		 * @return the PublicKeyCredentialCreationOptionsBuilder
 		 */
-		public PublicKeyCredentialCreationOptionsBuilder pubKeyCredParams(PublicKeyCredentialParameters... pubKeyCredParams) {
+		public PublicKeyCredentialCreationOptionsBuilder pubKeyCredParams(
+				PublicKeyCredentialParameters... pubKeyCredParams) {
 			return pubKeyCredParams(Arrays.asList(pubKeyCredParams));
 		}
 
@@ -223,7 +248,8 @@ public class PublicKeyCredentialCreationOptions
 		 * @param pubKeyCredParams the public key credential parameters
 		 * @return the PublicKeyCredentialCreationOptionsBuilder
 		 */
-		public PublicKeyCredentialCreationOptionsBuilder pubKeyCredParams(List<PublicKeyCredentialParameters> pubKeyCredParams) {
+		public PublicKeyCredentialCreationOptionsBuilder pubKeyCredParams(
+				List<PublicKeyCredentialParameters> pubKeyCredParams) {
 			this.pubKeyCredParams = pubKeyCredParams;
 			return this;
 		}
@@ -243,7 +269,8 @@ public class PublicKeyCredentialCreationOptions
 		 * @param excludeCredentials the excluded credentials.
 		 * @return the PublicKeyCredentialCreationOptionsBuilder
 		 */
-		public PublicKeyCredentialCreationOptionsBuilder excludeCredentials(List<PublicKeyCredentialDescriptor> excludeCredentials) {
+		public PublicKeyCredentialCreationOptionsBuilder excludeCredentials(
+				List<PublicKeyCredentialDescriptor> excludeCredentials) {
 			this.excludeCredentials = excludeCredentials;
 			return this;
 		}
@@ -253,7 +280,8 @@ public class PublicKeyCredentialCreationOptions
 		 * @param authenticatorSelection the authenticator selection
 		 * @return the PublicKeyCredentialCreationOptionsBuilder
 		 */
-		public PublicKeyCredentialCreationOptionsBuilder authenticatorSelection(AuthenticatorSelectionCriteria authenticatorSelection) {
+		public PublicKeyCredentialCreationOptionsBuilder authenticatorSelection(
+				AuthenticatorSelectionCriteria authenticatorSelection) {
 			this.authenticatorSelection = authenticatorSelection;
 			return this;
 		}
@@ -284,7 +312,8 @@ public class PublicKeyCredentialCreationOptions
 		 * {@link PublicKeyCredentialCreationOptionsBuilder}
 		 * @return the PublicKeyCredentialCreationOptionsBuilder
 		 */
-		public PublicKeyCredentialCreationOptionsBuilder customize(Consumer<PublicKeyCredentialCreationOptionsBuilder> customizer) {
+		public PublicKeyCredentialCreationOptionsBuilder customize(
+				Consumer<PublicKeyCredentialCreationOptionsBuilder> customizer) {
 			customizer.accept(this);
 			return this;
 		}
@@ -294,7 +323,9 @@ public class PublicKeyCredentialCreationOptions
 		 * @return the new {@link PublicKeyCredentialCreationOptions}
 		 */
 		public PublicKeyCredentialCreationOptions build() {
-			return new PublicKeyCredentialCreationOptions(this.rp, this.user, this.challenge, this.pubKeyCredParams, this.timeout, this.excludeCredentials, this.authenticatorSelection, this.attestation, this.extensions);
+			return new PublicKeyCredentialCreationOptions(this.rp, this.user, this.challenge, this.pubKeyCredParams,
+					this.timeout, this.excludeCredentials, this.authenticatorSelection, this.attestation,
+					this.extensions);
 		}
 
 	}

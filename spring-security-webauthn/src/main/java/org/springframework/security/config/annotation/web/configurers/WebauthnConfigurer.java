@@ -41,6 +41,7 @@ import java.util.Set;
 
 /**
  * Configures WebAuthn for Spring Security applications
+ *
  * @since 6.3
  * @author Rob Winch
  * @param <B> the type of builder
@@ -53,7 +54,6 @@ public class WebauthnConfigurer<B extends HttpSecurityBuilder<B>>
 	private String rpName;
 
 	private Set<String> allowedOrigins = new HashSet<>();
-
 
 	public WebauthnConfigurer<B> rpId(String rpId) {
 		this.rpId = rpId;
@@ -73,35 +73,36 @@ public class WebauthnConfigurer<B extends HttpSecurityBuilder<B>>
 	@Override
 	public void configure(B http) throws Exception {
 		UserDetailsService userDetailsService = getSharedOrBean(http, UserDetailsService.class).get();
-		PublicKeyCredentialUserEntityRepository userEntities = getSharedOrBean(http, PublicKeyCredentialUserEntityRepository.class)
-				.orElse(userEntityRepository());
+		PublicKeyCredentialUserEntityRepository userEntities = getSharedOrBean(http,
+				PublicKeyCredentialUserEntityRepository.class)
+			.orElse(userEntityRepository());
 		UserCredentialRepository userCredentials = getSharedOrBean(http, UserCredentialRepository.class)
-				.orElse(userCredentialRepository());
+			.orElse(userCredentialRepository());
 		WebAuthnRelyingPartyOperations rpOperations = webAuthnRelyingPartyOperations(userEntities, userCredentials);
 		WebAuthnAuthenticationFilter webAuthnAuthnFilter = new WebAuthnAuthenticationFilter();
-		webAuthnAuthnFilter.setAuthenticationManager(new ProviderManager(new WebAuthnAuthenticationProvider(rpOperations, userDetailsService)));
+		webAuthnAuthnFilter.setAuthenticationManager(
+				new ProviderManager(new WebAuthnAuthenticationProvider(rpOperations, userDetailsService)));
 		http.addFilterBefore(this.postProcess(webAuthnAuthnFilter), BasicAuthenticationFilter.class);
 		http.addFilterAfter(new WebAuthnRegistrationFilter(userCredentials, rpOperations), AuthorizationFilter.class);
 		// FIXME: Anonymous users should not be able to register a key
 		http.addFilterBefore(new PublicKeyCredentialCreationOptionsFilter(rpOperations), AuthorizationFilter.class);
-		http.addFilterAfter(new DefaultWebAuthnRegistrationPageGeneratingFilter(userEntities, userCredentials), AuthorizationFilter.class);
+		http.addFilterAfter(new DefaultWebAuthnRegistrationPageGeneratingFilter(userEntities, userCredentials),
+				AuthorizationFilter.class);
 		http.addFilterBefore(new PublicKeyCredentialRequestOptionsFilter(rpOperations), AuthorizationFilter.class);
 		DefaultLoginPageGeneratingFilter loginPageGeneratingFilter = http
-				.getSharedObject(DefaultLoginPageGeneratingFilter.class);
+			.getSharedObject(DefaultLoginPageGeneratingFilter.class);
 		if (loginPageGeneratingFilter != null) {
 			loginPageGeneratingFilter.setPasskeysEnabled(true);
 			loginPageGeneratingFilter.setResolveHeaders((request) -> {
 				CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-				return Map.of( csrfToken.getHeaderName(), csrfToken.getToken());
+				return Map.of(csrfToken.getHeaderName(), csrfToken.getToken());
 			});
 		}
 	}
 
 	private <C> Optional<C> getSharedOrBean(B http, Class<C> type) {
 		C shared = http.getSharedObject(type);
-		return Optional
-			.ofNullable(shared)
-			.or(() -> getBeanOrNull(type));
+		return Optional.ofNullable(shared).or(() -> getBeanOrNull(type));
 	}
 
 	private <T> Optional<T> getBeanOrNull(Class<T> type) {
@@ -117,7 +118,6 @@ public class WebauthnConfigurer<B extends HttpSecurityBuilder<B>>
 		}
 	}
 
-
 	private MapUserCredentialRepository userCredentialRepository() {
 		return new MapUserCredentialRepository();
 	}
@@ -126,17 +126,16 @@ public class WebauthnConfigurer<B extends HttpSecurityBuilder<B>>
 		return new MapPublicKeyCredentialUserEntityRepository();
 	}
 
-	private WebAuthnRelyingPartyOperations webAuthnRelyingPartyOperations(PublicKeyCredentialUserEntityRepository userEntities, UserCredentialRepository userCredentials) {
-		Optional<WebAuthnRelyingPartyOperations> webauthnOperationsBean = getBeanOrNull(WebAuthnRelyingPartyOperations.class);
+	private WebAuthnRelyingPartyOperations webAuthnRelyingPartyOperations(
+			PublicKeyCredentialUserEntityRepository userEntities, UserCredentialRepository userCredentials) {
+		Optional<WebAuthnRelyingPartyOperations> webauthnOperationsBean = getBeanOrNull(
+				WebAuthnRelyingPartyOperations.class);
 		if (webauthnOperationsBean.isPresent()) {
 			return webauthnOperationsBean.get();
 		}
-		Webauthn4JRelyingPartyOperations result =  new Webauthn4JRelyingPartyOperations(userEntities, userCredentials,
-				PublicKeyCredentialRpEntity.builder()
-				.id(this.rpId)
-				.name(this.rpName)
-				.build(),
-				this.allowedOrigins);
+		Webauthn4JRelyingPartyOperations result = new Webauthn4JRelyingPartyOperations(userEntities, userCredentials,
+				PublicKeyCredentialRpEntity.builder().id(this.rpId).name(this.rpName).build(), this.allowedOrigins);
 		return result;
 	}
+
 }

@@ -22,7 +22,8 @@ import org.springframework.security.webauthn.api.PublicKeyCredential;
 import org.springframework.util.Assert;
 
 /**
- * The data object used to provide the information necessary to authenticate a user with WebAuthn.
+ * The data object used to provide the information necessary to authenticate a user with
+ * WebAuthn.
  *
  * @see WebAuthnRelyingPartyOperations#authenticate(RelyingPartyAuthenticationRequest)
  * @since 6.3
@@ -39,7 +40,8 @@ public class RelyingPartyAuthenticationRequest {
 	 * @param requestOptions the {@link PublicKeyCredentialRequestOptions}
 	 * @param publicKey the {@link PublicKeyCredential}
 	 */
-	public RelyingPartyAuthenticationRequest(PublicKeyCredentialRequestOptions requestOptions, PublicKeyCredential<AuthenticatorAssertionResponse> publicKey) {
+	public RelyingPartyAuthenticationRequest(PublicKeyCredentialRequestOptions requestOptions,
+			PublicKeyCredential<AuthenticatorAssertionResponse> publicKey) {
 		Assert.notNull(requestOptions, "requestOptions cannot be null");
 		Assert.notNull(publicKey, "publicKey cannot be null");
 		this.requestOptions = requestOptions;

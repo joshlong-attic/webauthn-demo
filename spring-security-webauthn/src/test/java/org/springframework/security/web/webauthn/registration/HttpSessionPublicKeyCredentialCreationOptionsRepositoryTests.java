@@ -25,7 +25,8 @@ import org.springframework.security.webauthn.api.PublicKeyCredentialCreationOpti
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests for {@link org.springframework.security.web.webauthn.authentication.HttpSessionPublicKeyCredentialRequestOptionsRepository}.
+ * Tests for
+ * {@link org.springframework.security.web.webauthn.authentication.HttpSessionPublicKeyCredentialRequestOptionsRepository}.
  *
  * @since 6.3
  * @author Rob Winch
@@ -38,23 +39,25 @@ class HttpSessionPublicKeyCredentialCreationOptionsRepositoryTests {
 
 	private MockHttpServletResponse response = new MockHttpServletResponse();
 
-
 	@Test
 	void integrationTests() {
 		PublicKeyCredentialCreationOptions expected = TestPublicKeyCredentialCreationOptions
-				.createPublicKeyCredentialCreationOptions()
-				.build();
+			.createPublicKeyCredentialCreationOptions()
+			.build();
 		this.repository.save(this.request, this.response, expected);
-		Object attrValue = this.request.getSession().getAttribute(HttpSessionPublicKeyCredentialCreationOptionsRepository.DEFAULT_ATTR_NAME);
+		Object attrValue = this.request.getSession()
+			.getAttribute(HttpSessionPublicKeyCredentialCreationOptionsRepository.DEFAULT_ATTR_NAME);
 		assertThat(attrValue).isEqualTo(expected);
 		PublicKeyCredentialCreationOptions loadOptions = this.repository.load(this.request);
 		assertThat(loadOptions).isEqualTo(expected);
 
 		this.repository.save(this.request, this.response, null);
 
-		Object attrValueAfterRemoval = this.request.getSession().getAttribute(HttpSessionPublicKeyCredentialCreationOptionsRepository.DEFAULT_ATTR_NAME);
+		Object attrValueAfterRemoval = this.request.getSession()
+			.getAttribute(HttpSessionPublicKeyCredentialCreationOptionsRepository.DEFAULT_ATTR_NAME);
 		assertThat(attrValueAfterRemoval).isNull();
-		assertThat(this.request.getSession().getAttributeNames()).doesNotHaveToString(HttpSessionPublicKeyCredentialCreationOptionsRepository.DEFAULT_ATTR_NAME);
+		assertThat(this.request.getSession().getAttributeNames())
+			.doesNotHaveToString(HttpSessionPublicKeyCredentialCreationOptionsRepository.DEFAULT_ATTR_NAME);
 		PublicKeyCredentialCreationOptions loadOptionsAfterRemoval = this.repository.load(this.request);
 		assertThat(loadOptionsAfterRemoval).isNull();
 	}
@@ -69,8 +72,8 @@ class HttpSessionPublicKeyCredentialCreationOptionsRepositoryTests {
 	@Test
 	void saveWhenSetAttrThenCustomAttr() {
 		PublicKeyCredentialCreationOptions expected = TestPublicKeyCredentialCreationOptions
-				.createPublicKeyCredentialCreationOptions()
-				.build();
+			.createPublicKeyCredentialCreationOptions()
+			.build();
 		String customAttr = "custom-attr";
 		this.repository.setAttrName(customAttr);
 		this.repository.save(this.request, this.response, expected);
@@ -80,12 +83,13 @@ class HttpSessionPublicKeyCredentialCreationOptionsRepositoryTests {
 	@Test
 	void loadWhenSetAttrThenCustomAttr() {
 		PublicKeyCredentialCreationOptions expected = TestPublicKeyCredentialCreationOptions
-				.createPublicKeyCredentialCreationOptions()
-				.build();
+			.createPublicKeyCredentialCreationOptions()
+			.build();
 		String customAttr = "custom-attr";
 		this.repository.setAttrName(customAttr);
 		this.request.getSession().setAttribute(customAttr, expected);
 		PublicKeyCredentialCreationOptions actual = this.repository.load(this.request);
 		assertThat(actual).isEqualTo(expected);
 	}
+
 }

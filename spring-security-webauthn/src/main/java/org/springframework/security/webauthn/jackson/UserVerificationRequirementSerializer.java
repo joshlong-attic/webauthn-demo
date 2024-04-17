@@ -25,6 +25,7 @@ import java.io.IOException;
 
 /**
  * Jackson serializer for {@link UserVerificationRequirement}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -38,7 +39,9 @@ class UserVerificationRequirementSerializer extends StdSerializer<UserVerificati
 	}
 
 	@Override
-	public void serialize(UserVerificationRequirement requirement, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+	public void serialize(UserVerificationRequirement requirement, JsonGenerator jgen, SerializerProvider provider)
+			throws IOException {
 		jgen.writeString(requirement.getValue());
 	}
+
 }

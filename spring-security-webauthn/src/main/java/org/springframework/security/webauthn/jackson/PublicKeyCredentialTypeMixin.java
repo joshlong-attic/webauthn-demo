@@ -20,11 +20,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * Jackson mixin for {@link org.springframework.security.webauthn.api.PublicKeyCredentialType}
+ * Jackson mixin for
+ * {@link org.springframework.security.webauthn.api.PublicKeyCredentialType}
+ *
  * @since 6.3
  * @author Rob Winch
  */
 @JsonSerialize(using = PublicKeyCredentialTypeSerializer.class)
 @JsonDeserialize(using = PublicKeyCredentialTypeDeserializer.class)
 abstract class PublicKeyCredentialTypeMixin {
+
 }

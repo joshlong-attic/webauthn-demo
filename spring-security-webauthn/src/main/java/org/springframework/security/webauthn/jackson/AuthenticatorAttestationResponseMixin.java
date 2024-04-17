@@ -25,15 +25,24 @@ import org.springframework.security.webauthn.api.AuthenticatorTransport;
 import java.util.List;
 
 /**
- * Jackson mixin for {@link org.springframework.security.webauthn.api.AuthenticatorAttestationResponse}
+ * Jackson mixin for
+ * {@link org.springframework.security.webauthn.api.AuthenticatorAttestationResponse}
+ *
  * @since 6.3
  * @author Rob Winch
  */
-@JsonDeserialize(builder = AuthenticatorAttestationResponse.AuthenticatorAttestationResponseBuilder.class) // FIXME: Externalize @JsonDeserialize
+@JsonDeserialize(builder = AuthenticatorAttestationResponse.AuthenticatorAttestationResponseBuilder.class) // FIXME:
+																											// Externalize
+																											// @JsonDeserialize
 class AuthenticatorAttestationResponseMixin {
+
 	@JsonPOJOBuilder(withPrefix = "")
 	abstract class AuthenticatorAttestationResponseBuilderMixin {
+
 		@JsonSetter // FIXME: externalize
-		abstract AuthenticatorAttestationResponse.AuthenticatorAttestationResponseBuilder transports(List<AuthenticatorTransport> transports);
+		abstract AuthenticatorAttestationResponse.AuthenticatorAttestationResponseBuilder transports(
+				List<AuthenticatorTransport> transports);
+
 	}
+
 }

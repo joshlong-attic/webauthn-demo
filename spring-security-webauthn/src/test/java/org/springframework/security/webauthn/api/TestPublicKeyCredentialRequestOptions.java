@@ -22,9 +22,10 @@ public class TestPublicKeyCredentialRequestOptions {
 
 	public static PublicKeyCredentialRequestOptions.PublicKeyCredentialRequestOptionsBuilder create() {
 		return PublicKeyCredentialRequestOptions.builder()
-				.timeout(Duration.ofMinutes(5))
-				.rpId("example.localhost")
-				.userVerification(UserVerificationRequirement.PREFERRED)
-				.challenge(Base64Url.fromBase64("cQfdGrj9zDg3zNBkOH3WPL954FTOShVy0-CoNgSewNM"));
+			.timeout(Duration.ofMinutes(5))
+			.rpId("example.localhost")
+			.userVerification(UserVerificationRequirement.PREFERRED)
+			.challenge(Base64Url.fromBase64("cQfdGrj9zDg3zNBkOH3WPL954FTOShVy0-CoNgSewNM"));
 	}
+
 }

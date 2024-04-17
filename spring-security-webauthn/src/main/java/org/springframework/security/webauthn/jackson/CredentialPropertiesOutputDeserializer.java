@@ -26,6 +26,7 @@ import java.io.IOException;
 
 /**
  * Jackson deserializer for {@link CredentialPropertiesOutput}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -39,9 +40,11 @@ class CredentialPropertiesOutputDeserializer extends StdDeserializer<CredentialP
 	}
 
 	@Override
-	public CredentialPropertiesOutput deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+	public CredentialPropertiesOutput deserialize(JsonParser p, DeserializationContext ctxt)
+			throws IOException, JacksonException {
 		p.nextValue();
 		Boolean rk = p.readValueAs(Boolean.class);
 		return new CredentialPropertiesOutput(rk);
 	}
+
 }

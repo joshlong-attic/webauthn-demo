@@ -26,65 +26,75 @@ import org.springframework.security.webauthn.api.PublicKeyCredentialType;
 import org.springframework.security.webauthn.api.PublicKeyCredentialUserEntity;
 
 /**
- * Represents a <a href="https://www.w3.org/TR/webauthn-3/#credential-record">Credential Record</a> that is stored by
- * the Relying Party <a href="https://www.w3.org/TR/webauthn-3/#reg-ceremony-store-credential-record">after successful
- * registration</a>.
+ * Represents a <a href="https://www.w3.org/TR/webauthn-3/#credential-record">Credential
+ * Record</a> that is stored by the Relying Party
+ * <a href="https://www.w3.org/TR/webauthn-3/#reg-ceremony-store-credential-record">after
+ * successful registration</a>.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 public interface CredentialRecord {
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-type">credential.type</a>
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-type">credential.type</a>
 	 * @return
 	 */
 	PublicKeyCredentialType getCredentialType();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-id">credential.id</a>.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-id">credential.id</a>.
 	 * @return
 	 */
 	// FIXME: Change type to CredentialId(id, rawId)
 	Base64Url getCredentialId();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-publickey">publicKey</a>
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-publickey">publicKey</a>
 	 * @return
 	 */
-	// FIXME: Change type so it includes the COSE and may (later?) include other parsed properties
+	// FIXME: Change type so it includes the COSE and may (later?) include other parsed
+	// properties
 	PublicKeyCose getPublicKey();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-signcount">authData.signCount</a>
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-signcount">authData.signCount</a>
 	 * @return
 	 */
 	long getSignatureCount();
 
 	/**
-	 * <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-uvinitialized">uvInitialized</a> is
-	 * the value of the UV (user verified) flag in authData and indicates whether any credential from this public key
-	 * credential source has had the UV flag set.
-	 *
+	 * <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-uvinitialized">uvInitialized</a>
+	 * is the value of the UV (user verified) flag in authData and indicates whether any
+	 * credential from this public key credential source has had the UV flag set.
 	 * @return
 	 */
 	boolean isUvInitialized();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-transports">transpots</a> is the
-	 * value returned from {@code response.getTransports()}.
-	 *
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-transports">transpots</a>
+	 * is the value returned from {@code response.getTransports()}.
 	 * @return
 	 */
 	List<AuthenticatorTransport> getTransports();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-backupeligible">backupElgible</a>
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-backupeligible">backupElgible</a>
 	 * flag is the same as the BE flag in authData.
 	 * @return
 	 */
 	boolean isBackupEligible();
+
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-backupstate">backupState</a>
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-backupstate">backupState</a>
 	 * flag is the same as the BS flag in authData.
 	 * @return
 	 */
@@ -97,15 +107,19 @@ public interface CredentialRecord {
 	Base64Url getUserEntityUserId();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-attestationobject">attestationObject</a>
-	 * is the value of the attestationObject attribute when the public key credential source was registered.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-attestationobject">attestationObject</a>
+	 * is the value of the attestationObject attribute when the public key credential
+	 * source was registered.
 	 * @return the attestationObject
 	 */
 	Base64Url getAttestationObject();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-attestationclientdatajson">attestationClientDataJSON</a>
-	 * is the value of the attestationObject attribute when the public key credential source was registered.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#abstract-opdef-credential-record-attestationclientdatajson">attestationClientDataJSON</a>
+	 * is the value of the attestationObject attribute when the public key credential
+	 * source was registered.
 	 * @return
 	 */
 	Base64Url getAttestationClientDataJSON();

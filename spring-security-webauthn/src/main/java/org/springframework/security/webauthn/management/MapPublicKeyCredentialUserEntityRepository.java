@@ -25,14 +25,15 @@ import java.util.Map;
 
 /**
  * A {@link Map} based implementation of {@link PublicKeyCredentialUserEntityRepository}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 public class MapPublicKeyCredentialUserEntityRepository implements PublicKeyCredentialUserEntityRepository {
 
-	private final Map<String,PublicKeyCredentialUserEntity> usernameToUserEntity = new HashMap<>();
+	private final Map<String, PublicKeyCredentialUserEntity> usernameToUserEntity = new HashMap<>();
 
-	private final Map<Base64Url,String> idToUsername = new HashMap<>();
+	private final Map<Base64Url, String> idToUsername = new HashMap<>();
 
 	@Override
 	public String findUsernameByUserEntityId(Base64Url id) {

@@ -52,11 +52,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Tests for {@link PublicKeyCredentialRequestOptionsFilter}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 @ExtendWith(MockitoExtension.class)
 class PublicKeyCredentialRequestOptionsFilterTests {
+
 	@Mock
 	private WebAuthnRelyingPartyOperations relyingPartyOperations;
 
@@ -77,9 +79,7 @@ class PublicKeyCredentialRequestOptionsFilterTests {
 	void setup() {
 		this.filter = new PublicKeyCredentialRequestOptionsFilter(this.relyingPartyOperations);
 		this.filter.setRequestOptionsRepository(this.requestOptionsRepository);
-		this.mockMvc = MockMvcBuilders.standaloneSetup()
-			.addFilter(this.filter)
-			.build();
+		this.mockMvc = MockMvcBuilders.standaloneSetup().addFilter(this.filter).build();
 	}
 
 	@AfterEach
@@ -90,50 +90,44 @@ class PublicKeyCredentialRequestOptionsFilterTests {
 	@Test
 	void constructorWhenNull() {
 		assertThatThrownBy(() -> new PublicKeyCredentialRequestOptionsFilter(null))
-				.isInstanceOf(IllegalArgumentException.class);
+			.isInstanceOf(IllegalArgumentException.class);
 	}
 
 	@Test
 	void doFilterWhenNoMatch() throws Exception {
 		this.mockMvc.perform(get("/nomatch"))
-				.andExpect(status().isNotFound())
-				.andDo((result) ->
-						assertThat(result.getResponse().getContentAsString()).isEmpty()
-				);
+			.andExpect(status().isNotFound())
+			.andDo((result) -> assertThat(result.getResponse().getContentAsString()).isEmpty());
 		verifyNoInteractions(this.relyingPartyOperations, this.requestOptionsRepository);
 	}
 
 	@Test
 	void doFilterWhenNotGet() throws Exception {
 		this.mockMvc.perform(post("/webauthn/authenticate/options"))
-				.andExpect(status().isNotFound())
-				.andDo((result) ->
-						assertThat(result.getResponse().getContentAsString()).isEmpty()
-				);
+			.andExpect(status().isNotFound())
+			.andDo((result) -> assertThat(result.getResponse().getContentAsString()).isEmpty());
 		verifyNoInteractions(this.relyingPartyOperations, this.requestOptionsRepository);
 	}
 
 	@Test
 	void doFilterWhenMatches() throws Exception {
-		PublicKeyCredentialRequestOptions options = TestPublicKeyCredentialRequestOptions.create()
-				.build();
+		PublicKeyCredentialRequestOptions options = TestPublicKeyCredentialRequestOptions.create().build();
 		when(this.relyingPartyOperations.createCredentialRequestOptions(any())).thenReturn(options);
 
-		PublicKeyCredentialCreationOptions mockResult = this.relyingPartyOperations.createPublicKeyCredentialCreationOptions(null);
+		PublicKeyCredentialCreationOptions mockResult = this.relyingPartyOperations
+			.createPublicKeyCredentialCreationOptions(null);
 		this.mockMvc.perform(get("/webauthn/authenticate/options"))
-				.andExpect(status().isOk())
-				.andDo((result) ->
-						JSONAssert.assertEquals(result.getResponse().getContentAsString(), """
-							{
-								"challenge": "cQfdGrj9zDg3zNBkOH3WPL954FTOShVy0-CoNgSewNM",
-								"timeout": 300000,
-								"rpId": "example.localhost",
-								"allowCredentials": [],
-								"userVerification": "preferred",
-								"extensions": {}
-							}
-							""", false)
-				);
+			.andExpect(status().isOk())
+			.andDo((result) -> JSONAssert.assertEquals(result.getResponse().getContentAsString(), """
+					{
+						"challenge": "cQfdGrj9zDg3zNBkOH3WPL954FTOShVy0-CoNgSewNM",
+						"timeout": 300000,
+						"rpId": "example.localhost",
+						"allowCredentials": [],
+						"userVerification": "preferred",
+						"extensions": {}
+					}
+					""", false));
 	}
 
 	@Test
@@ -147,19 +141,18 @@ class PublicKeyCredentialRequestOptionsFilterTests {
 				return null;
 			}
 		}).given(this.converter).write(any(), any(), any());
-		given(this.contextHolderStrategy.getContext()).willReturn(new SecurityContextImpl(new TestingAuthenticationToken("user", "password", "ROLE_USER")));
+		given(this.contextHolderStrategy.getContext())
+			.willReturn(new SecurityContextImpl(new TestingAuthenticationToken("user", "password", "ROLE_USER")));
 		this.filter.setConverter(this.converter);
 		this.filter.setSecurityContextHolderStrategy(this.contextHolderStrategy);
-		PublicKeyCredentialRequestOptions options = TestPublicKeyCredentialRequestOptions.create()
-				.build();
+		PublicKeyCredentialRequestOptions options = TestPublicKeyCredentialRequestOptions.create().build();
 		when(this.relyingPartyOperations.createCredentialRequestOptions(any())).thenReturn(options);
 
-		PublicKeyCredentialCreationOptions mockResult = this.relyingPartyOperations.createPublicKeyCredentialCreationOptions(null);
+		PublicKeyCredentialCreationOptions mockResult = this.relyingPartyOperations
+			.createPublicKeyCredentialCreationOptions(null);
 		this.mockMvc.perform(get("/webauthn/authenticate/options"))
-				.andExpect(status().isOk())
-				.andDo((result) ->
-						assertThat(result.getResponse().getContentAsString()).isEqualTo(body)
-				);
+			.andExpect(status().isOk())
+			.andDo((result) -> assertThat(result.getResponse().getContentAsString()).isEqualTo(body));
 	}
 
 	@Test
@@ -171,6 +164,5 @@ class PublicKeyCredentialRequestOptionsFilterTests {
 	void setSecurityContextHolderStrategyWhenNull() {
 		assertThatIllegalArgumentException().isThrownBy(() -> this.filter.setSecurityContextHolderStrategy(null));
 	}
-
 
 }

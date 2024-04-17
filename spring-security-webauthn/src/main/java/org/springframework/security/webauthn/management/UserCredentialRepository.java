@@ -23,6 +23,7 @@ import java.util.List;
 
 /**
  * A repository for managing {@link CredentialRecord}s associated to a user.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -49,8 +50,10 @@ public interface UserCredentialRepository {
 
 	/**
 	 * Finds all {@link CredentialRecord} instances for a specific user.
-	 * @param userId the {@link PublicKeyCredentialUserEntity#getId()} to search for a user.
-	 * @return all {@link CredentialRecord} instances for a specific user or empty if no results found. Never null.
+	 * @param userId the {@link PublicKeyCredentialUserEntity#getId()} to search for a
+	 * user.
+	 * @return all {@link CredentialRecord} instances for a specific user or empty if no
+	 * results found. Never null.
 	 * @see PublicKeyCredentialUserEntityRepository
 	 */
 	List<CredentialRecord> findByUserId(Base64Url userId);

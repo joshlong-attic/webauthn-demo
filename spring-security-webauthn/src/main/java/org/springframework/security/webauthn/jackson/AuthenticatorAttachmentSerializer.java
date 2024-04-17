@@ -26,6 +26,7 @@ import java.io.IOException;
 
 /**
  * Jackson serializer for {@link AuthenticatorAttachment}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -36,7 +37,9 @@ class AuthenticatorAttachmentSerializer extends StdSerializer<AuthenticatorAttac
 	}
 
 	@Override
-	public void serialize(AuthenticatorAttachment attachment, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+	public void serialize(AuthenticatorAttachment attachment, JsonGenerator jgen, SerializerProvider provider)
+			throws IOException {
 		jgen.writeString(attachment.getValue());
 	}
+
 }

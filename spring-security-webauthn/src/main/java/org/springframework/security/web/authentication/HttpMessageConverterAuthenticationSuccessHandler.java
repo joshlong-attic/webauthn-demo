@@ -33,8 +33,8 @@ import org.springframework.util.Assert;
 import java.io.IOException;
 
 /**
- * An {@link AuthenticationSuccessHandler} that writes a JSON response with the redirect URL and an authenticated
- * status similar to:
+ * An {@link AuthenticationSuccessHandler} that writes a JSON response with the redirect
+ * URL and an authenticated status similar to:
  *
  * <code>
  *     {
@@ -42,6 +42,7 @@ import java.io.IOException;
  *         "authenticated": true
  *     }
  * </code>
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -52,8 +53,8 @@ public class HttpMessageConverterAuthenticationSuccessHandler implements Authent
 	private RequestCache requestCache = new HttpSessionRequestCache();
 
 	/**
-	 * Sets the {@link GenericHttpMessageConverter} to write to the response. The default is {@link MappingJackson2HttpMessageConverter}.
-	 *
+	 * Sets the {@link GenericHttpMessageConverter} to write to the response. The default
+	 * is {@link MappingJackson2HttpMessageConverter}.
 	 * @param converter the {@link GenericHttpMessageConverter} to use. Cannot be null.
 	 */
 	public void setConverter(HttpMessageConverter<Object> converter) {
@@ -62,7 +63,8 @@ public class HttpMessageConverterAuthenticationSuccessHandler implements Authent
 	}
 
 	/**
-	 * Sets the {@link RequestCache} to use. The default is {@link HttpSessionRequestCache}.
+	 * Sets the {@link RequestCache} to use. The default is
+	 * {@link HttpSessionRequestCache}.
 	 * @param requestCache the {@link RequestCache} to use. Cannot be null
 	 */
 	public void setRequestCache(RequestCache requestCache) {
@@ -71,20 +73,25 @@ public class HttpMessageConverterAuthenticationSuccessHandler implements Authent
 	}
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException, ServletException {
 		final SavedRequest savedRequest = this.requestCache.getRequest(request, response);
-		final String redirectUrl = (savedRequest != null) ? savedRequest.getRedirectUrl() : request.getContextPath() + "/";
+		final String redirectUrl = (savedRequest != null) ? savedRequest.getRedirectUrl()
+				: request.getContextPath() + "/";
 		this.requestCache.removeRequest(request, response);
-		this.converter.write(new AuthenticationSuccess(redirectUrl), MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
+		this.converter.write(new AuthenticationSuccess(redirectUrl), MediaType.APPLICATION_JSON,
+				new ServletServerHttpResponse(response));
 	}
 
 	/**
 	 * A response object used to write the JSON response for successful authentication.
 	 *
-	 * NOTE: We should be careful about writing {@link Authentication} or {@link Authentication#getPrincipal()} to the
-	 * response since it contains credentials.
+	 * NOTE: We should be careful about writing {@link Authentication} or
+	 * {@link Authentication#getPrincipal()} to the response since it contains
+	 * credentials.
 	 */
 	private static class AuthenticationSuccess {
+
 		private final String redirectUrl;
 
 		private AuthenticationSuccess(String redirectUrl) {
@@ -98,5 +105,7 @@ public class HttpMessageConverterAuthenticationSuccessHandler implements Authent
 		public boolean isAuthenticated() {
 			return true;
 		}
+
 	}
+
 }

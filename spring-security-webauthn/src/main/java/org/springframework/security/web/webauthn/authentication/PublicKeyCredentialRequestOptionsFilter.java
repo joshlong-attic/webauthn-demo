@@ -42,24 +42,27 @@ import java.io.IOException;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 /**
- *  A {@link jakarta.servlet.Filter} that renders the {@link PublicKeyCredentialRequestOptions} in order to
- *  <a href="https://w3c.github.io/webappsec-credential-management/#dom-credentialscontainer-get">get</a> a
- *  credential.
+ * A {@link jakarta.servlet.Filter} that renders the
+ * {@link PublicKeyCredentialRequestOptions} in order to <a href=
+ * "https://w3c.github.io/webappsec-credential-management/#dom-credentialscontainer-get">get</a>
+ * a credential.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 public class PublicKeyCredentialRequestOptionsFilter extends OncePerRequestFilter {
 
-	private RequestMatcher matcher = antMatcher(HttpMethod.GET,"/webauthn/authenticate/options");
+	private RequestMatcher matcher = antMatcher(HttpMethod.GET, "/webauthn/authenticate/options");
 
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
-			.getContextHolderStrategy();
+		.getContextHolderStrategy();
 
 	private final WebAuthnRelyingPartyOperations rpOptions;
 
 	private PublicKeyCredentialRequestOptionsRepository requestOptionsRepository = new HttpSessionPublicKeyCredentialRequestOptionsRepository();
 
-	private HttpMessageConverter<Object> converter = new MappingJackson2HttpMessageConverter(Jackson2ObjectMapperBuilder.json().modules(new WebauthnJackson2Module()).build());
+	private HttpMessageConverter<Object> converter = new MappingJackson2HttpMessageConverter(
+			Jackson2ObjectMapperBuilder.json().modules(new WebauthnJackson2Module()).build());
 
 	/**
 	 * Creates a new instance with the provided {@link WebAuthnRelyingPartyOperations}.
@@ -71,23 +74,27 @@ public class PublicKeyCredentialRequestOptionsFilter extends OncePerRequestFilte
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 		if (!this.matcher.matches(request)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		SecurityContext context = this.securityContextHolderStrategy.getContext();
-		PublicKeyCredentialRequestOptions credentialRequestOptions = this.rpOptions.createCredentialRequestOptions(context.getAuthentication());
+		PublicKeyCredentialRequestOptions credentialRequestOptions = this.rpOptions
+			.createCredentialRequestOptions(context.getAuthentication());
 		this.requestOptionsRepository.save(request, response, credentialRequestOptions);
 		response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-		this.converter.write(credentialRequestOptions, MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
+		this.converter.write(credentialRequestOptions, MediaType.APPLICATION_JSON,
+				new ServletServerHttpResponse(response));
 
 	}
 
 	/**
 	 * Sets the {@link PublicKeyCredentialRequestOptionsRepository} to use.
-	 * @param requestOptionsRepository the {@link PublicKeyCredentialRequestOptionsRepository} to use. Cannot be null.
+	 * @param requestOptionsRepository the
+	 * {@link PublicKeyCredentialRequestOptionsRepository} to use. Cannot be null.
 	 */
 	public void setRequestOptionsRepository(PublicKeyCredentialRequestOptionsRepository requestOptionsRepository) {
 		Assert.notNull(requestOptionsRepository, "requestOptionsRepository cannot be null");
@@ -105,10 +112,12 @@ public class PublicKeyCredentialRequestOptionsFilter extends OncePerRequestFilte
 
 	/**
 	 * Sets the {@link SecurityContextHolderStrategy} to use.
-	 * @param securityContextHolderStrategy the {@link SecurityContextHolderStrategy} to use. Cannot be null.
+	 * @param securityContextHolderStrategy the {@link SecurityContextHolderStrategy} to
+	 * use. Cannot be null.
 	 */
 	public void setSecurityContextHolderStrategy(SecurityContextHolderStrategy securityContextHolderStrategy) {
 		Assert.notNull(securityContextHolderStrategy, "securityContextHolderStrategy cannot be null");
 		this.securityContextHolderStrategy = securityContextHolderStrategy;
 	}
+
 }

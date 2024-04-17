@@ -25,6 +25,7 @@ import java.io.IOException;
 
 /**
  * Jackson serializer for {@link Base64Url}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -41,4 +42,5 @@ class Base64Serializer extends StdSerializer<Base64Url> {
 	public void serialize(Base64Url base64Url, JsonGenerator jgen, SerializerProvider provider) throws IOException {
 		jgen.writeString(base64Url.getBytesAsBase64());
 	}
+
 }

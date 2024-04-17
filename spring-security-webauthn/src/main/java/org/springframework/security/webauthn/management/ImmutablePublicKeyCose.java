@@ -21,6 +21,7 @@ import java.util.Base64;
 
 /**
  * An immutable {@link PublicKeyCose}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -50,4 +51,5 @@ public class ImmutablePublicKeyCose implements PublicKeyCose {
 		byte[] decode = Base64.getUrlDecoder().decode(base64EncodedString);
 		return new ImmutablePublicKeyCose(decode);
 	}
+
 }

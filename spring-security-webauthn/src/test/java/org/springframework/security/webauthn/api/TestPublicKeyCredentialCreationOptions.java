@@ -19,32 +19,36 @@ package org.springframework.security.webauthn.api;
 import java.time.Duration;
 
 public class TestPublicKeyCredentialCreationOptions {
+
 	public static PublicKeyCredentialCreationOptions.PublicKeyCredentialCreationOptionsBuilder createPublicKeyCredentialCreationOptions() {
 
 		AuthenticatorSelectionCriteria authenticatorSelection = AuthenticatorSelectionCriteria.builder()
-				.userVerification(UserVerificationRequirement.PREFERRED)
-				.residentKey(ResidentKeyRequirement.REQUIRED)
-				.build();
+			.userVerification(UserVerificationRequirement.PREFERRED)
+			.residentKey(ResidentKeyRequirement.REQUIRED)
+			.build();
 		Base64Url challenge = Base64Url.fromBase64("q7lCdd3SVQxdC-v8pnRAGEn1B2M-t7ZECWPwCAmhWvc");
 		PublicKeyCredentialRpEntity rp = PublicKeyCredentialRpEntity.builder()
-				.id("example.localhost")
-				.name("SimpleWebAuthn Example")
-				.build();
+			.id("example.localhost")
+			.name("SimpleWebAuthn Example")
+			.build();
 		Base64Url userId = Base64Url.fromBase64("oWJtkJ6vJ_m5b84LB4_K7QKTCTEwLIjCh4tFMCGHO4w");
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.displayName("user@example.localhost")
-				.id(userId)
-				.name("user@example.localhost")
-				.build();
-		ImmutableAuthenticationExtensionsClientInputs clientInputs = new ImmutableAuthenticationExtensionsClientInputs(ImmutableAuthenticationExtensionsClientInput.credProps);
-		return  PublicKeyCredentialCreationOptions.builder()
-				.attestation(AttestationConveyancePreference.DIRECT)
-				.user(userEntity)
-				.pubKeyCredParams(PublicKeyCredentialParameters.EdDSA, PublicKeyCredentialParameters.ES256, PublicKeyCredentialParameters.RS256)
-				.authenticatorSelection(authenticatorSelection)
-				.challenge(challenge)
-				.rp(rp)
-				.extensions(clientInputs)
-				.timeout(Duration.ofMinutes(5));
+			.displayName("user@example.localhost")
+			.id(userId)
+			.name("user@example.localhost")
+			.build();
+		ImmutableAuthenticationExtensionsClientInputs clientInputs = new ImmutableAuthenticationExtensionsClientInputs(
+				ImmutableAuthenticationExtensionsClientInput.credProps);
+		return PublicKeyCredentialCreationOptions.builder()
+			.attestation(AttestationConveyancePreference.DIRECT)
+			.user(userEntity)
+			.pubKeyCredParams(PublicKeyCredentialParameters.EdDSA, PublicKeyCredentialParameters.ES256,
+					PublicKeyCredentialParameters.RS256)
+			.authenticatorSelection(authenticatorSelection)
+			.challenge(challenge)
+			.rp(rp)
+			.extensions(clientInputs)
+			.timeout(Duration.ofMinutes(5));
 	}
+
 }

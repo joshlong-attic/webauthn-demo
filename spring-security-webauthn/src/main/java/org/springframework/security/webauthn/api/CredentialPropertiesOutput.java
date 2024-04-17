@@ -17,12 +17,15 @@
 package org.springframework.security.webauthn.api;
 
 /**
- * <a href="https://www.w3.org/TR/webauthn-3/#dictdef-credentialpropertiesoutput">CredentialPropertiesOutput</a> is the
- * Client extension output.
+ * <a href=
+ * "https://www.w3.org/TR/webauthn-3/#dictdef-credentialpropertiesoutput">CredentialPropertiesOutput</a>
+ * is the Client extension output.
+ *
  * @since 6.3
  * @author Rob Winch
  */
-public class CredentialPropertiesOutput implements AuthenticationExtensionsClientOutput<CredentialPropertiesOutput.ExtensionOutput> {
+public class CredentialPropertiesOutput
+		implements AuthenticationExtensionsClientOutput<CredentialPropertiesOutput.ExtensionOutput> {
 
 	/**
 	 * The extension id.
@@ -51,6 +54,7 @@ public class CredentialPropertiesOutput implements AuthenticationExtensionsClien
 
 	/**
 	 * The output for {@link CredentialPropertiesOutput}
+	 *
 	 * @see #getOutput()
 	 * @since 6.3
 	 * @author Rob Winch
@@ -64,9 +68,10 @@ public class CredentialPropertiesOutput implements AuthenticationExtensionsClien
 		}
 
 		/**
-		 * This OPTIONAL property, known abstractly as the resident key credential property (i.e., client-side
-		 * discoverable credential property), is a Boolean value indicating whether the PublicKeyCredential returned as
-		 * a result of a registration ceremony is a client-side discoverable credential.
+		 * This OPTIONAL property, known abstractly as the resident key credential
+		 * property (i.e., client-side discoverable credential property), is a Boolean
+		 * value indicating whether the PublicKeyCredential returned as a result of a
+		 * registration ceremony is a client-side discoverable credential.
 		 * @return is resident key credential property
 		 */
 		public boolean isRk() {

@@ -20,10 +20,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <a href="https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialdescriptor">PublicKeyCredentialDescriptor</a>
- * identifies a specific public key credential. It is used in create() to prevent creating duplicate credentials on the
- * same authenticator, and in get() to determine if and how the credential can currently be reached by the client. It
- * mirrors some fields of the PublicKeyCredential object returned by create() and get().
+ * <a href=
+ * "https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialdescriptor">PublicKeyCredentialDescriptor</a>
+ * identifies a specific public key credential. It is used in create() to prevent creating
+ * duplicate credentials on the same authenticator, and in get() to determine if and how
+ * the credential can currently be reached by the client. It mirrors some fields of the
+ * PublicKeyCredential object returned by create() and get().
  *
  * @since 6.3
  * @author Rob Winch
@@ -36,15 +38,17 @@ public class PublicKeyCredentialDescriptor {
 
 	private final List<AuthenticatorTransport> transports;
 
-	private PublicKeyCredentialDescriptor(PublicKeyCredentialType type, Base64Url id, List<AuthenticatorTransport> transports) {
+	private PublicKeyCredentialDescriptor(PublicKeyCredentialType type, Base64Url id,
+			List<AuthenticatorTransport> transports) {
 		this.type = type;
 		this.id = id;
 		this.transports = transports;
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialdescriptor-type">type</a> property contains
-	 * the type of the public key credential the caller is referring to.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialdescriptor-type">type</a>
+	 * property contains the type of the public key credential the caller is referring to.
 	 * @return the type
 	 */
 	public PublicKeyCredentialType getType() {
@@ -52,8 +56,10 @@ public class PublicKeyCredentialDescriptor {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialdescriptor-id">id</a> property contains the
-	 * credential ID of the public key credential the caller is referring to.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialdescriptor-id">id</a>
+	 * property contains the credential ID of the public key credential the caller is
+	 * referring to.
 	 * @return the id
 	 */
 	public Base64Url getId() {
@@ -61,9 +67,11 @@ public class PublicKeyCredentialDescriptor {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialdescriptor-transports">transports</a>
-	 * property is an OPTIONAL member that contains a hint as to how the client might communicate with the managing
-	 * authenticator of the public key credential the caller is referring to.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialdescriptor-transports">transports</a>
+	 * property is an OPTIONAL member that contains a hint as to how the client might
+	 * communicate with the managing authenticator of the public key credential the caller
+	 * is referring to.
 	 * @return the transports
 	 */
 	public List<AuthenticatorTransport> getTransports() {
@@ -80,12 +88,16 @@ public class PublicKeyCredentialDescriptor {
 
 	/**
 	 * Used to create {@link PublicKeyCredentialDescriptor}
+	 *
 	 * @since 6.3
 	 * @author Rob Winch
 	 */
 	public static final class PublicKeyCredentialDescriptorBuilder {
+
 		private PublicKeyCredentialType type = PublicKeyCredentialType.PUBLIC_KEY;
+
 		private Base64Url id;
+
 		private List<AuthenticatorTransport> transports;
 
 		private PublicKeyCredentialDescriptorBuilder() {

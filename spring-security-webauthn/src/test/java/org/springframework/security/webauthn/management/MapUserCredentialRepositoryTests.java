@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests for {@link MapUserCredentialRepository}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -68,8 +69,10 @@ class MapUserCredentialRepositoryTests {
 	void saveThenFound() {
 		ImmutableCredentialRecord credentialRecord = TestCredentialRecord.userCredential().build();
 		this.userCredentials.save(credentialRecord);
-		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId())).isEqualTo(credentialRecord);
-		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId())).containsOnly(credentialRecord);
+		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId()))
+			.isEqualTo(credentialRecord);
+		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId()))
+			.containsOnly(credentialRecord);
 	}
 
 	@Test
@@ -95,8 +98,10 @@ class MapUserCredentialRepositoryTests {
 			.lastUsed(updatedLastUsed)
 			.build();
 		this.userCredentials.save(updatedCredentialRecord);
-		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId())).isEqualTo(updatedCredentialRecord);
-		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId())).containsOnly(updatedCredentialRecord);
+		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId()))
+			.isEqualTo(updatedCredentialRecord);
+		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId()))
+			.containsOnly(updatedCredentialRecord);
 	}
 
 	@Test
@@ -104,12 +109,15 @@ class MapUserCredentialRepositoryTests {
 		ImmutableCredentialRecord credentialRecord = TestCredentialRecord.userCredential().build();
 		this.userCredentials.save(credentialRecord);
 		CredentialRecord newCredentialRecord = ImmutableCredentialRecord.fromCredentialRecord(credentialRecord)
-				.credentialId(Base64Url.random())
-				.build();
+			.credentialId(Base64Url.random())
+			.build();
 		this.userCredentials.save(newCredentialRecord);
-		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId())).isEqualTo(credentialRecord);
-		assertThat(this.userCredentials.findByCredentialId(newCredentialRecord.getCredentialId())).isEqualTo(newCredentialRecord);
-		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId())).containsOnly(credentialRecord, newCredentialRecord);
+		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId()))
+			.isEqualTo(credentialRecord);
+		assertThat(this.userCredentials.findByCredentialId(newCredentialRecord.getCredentialId()))
+			.isEqualTo(newCredentialRecord);
+		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId()))
+			.containsOnly(credentialRecord, newCredentialRecord);
 	}
 
 	@Test
@@ -117,14 +125,18 @@ class MapUserCredentialRepositoryTests {
 		ImmutableCredentialRecord credentialRecord = TestCredentialRecord.userCredential().build();
 		this.userCredentials.save(credentialRecord);
 		CredentialRecord newCredentialRecord = ImmutableCredentialRecord.fromCredentialRecord(credentialRecord)
-				.userEntityUserId(Base64Url.random())
-				.credentialId(Base64Url.random())
-				.build();
+			.userEntityUserId(Base64Url.random())
+			.credentialId(Base64Url.random())
+			.build();
 		this.userCredentials.save(newCredentialRecord);
-		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId())).isEqualTo(credentialRecord);
-		assertThat(this.userCredentials.findByCredentialId(newCredentialRecord.getCredentialId())).isEqualTo(newCredentialRecord);
-		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId())).containsOnly(credentialRecord);
-		assertThat(this.userCredentials.findByUserId(newCredentialRecord.getUserEntityUserId())).containsOnly(newCredentialRecord);
+		assertThat(this.userCredentials.findByCredentialId(credentialRecord.getCredentialId()))
+			.isEqualTo(credentialRecord);
+		assertThat(this.userCredentials.findByCredentialId(newCredentialRecord.getCredentialId()))
+			.isEqualTo(newCredentialRecord);
+		assertThat(this.userCredentials.findByUserId(credentialRecord.getUserEntityUserId()))
+			.containsOnly(credentialRecord);
+		assertThat(this.userCredentials.findByUserId(newCredentialRecord.getUserEntityUserId()))
+			.containsOnly(newCredentialRecord);
 	}
 
 }

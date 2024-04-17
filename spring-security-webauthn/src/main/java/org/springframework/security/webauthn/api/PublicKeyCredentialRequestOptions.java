@@ -25,27 +25,34 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * <a href="https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialrequestoptions">PublicKeyCredentialRequestOptions</a>
+ * <a href=
+ * "https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialrequestoptions">PublicKeyCredentialRequestOptions</a>
  * contains the information to create an assertion used for authentication.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 public class PublicKeyCredentialRequestOptions {
+
 	private final Base64Url challenge;
 
-	// FIXME: a null timeout is being rendered. Should we forbid null or should we not render null.
+	// FIXME: a null timeout is being rendered. Should we forbid null or should we not
+	// render null.
 	private final Duration timeout;
 
 	private final String rpId;
 
 	private final List<PublicKeyCredentialDescriptor> allowCredentials;
 
-	// FIXME: a null userVerification is being rendered, should we forbid null or should we not render null. I think that preferred is the default
+	// FIXME: a null userVerification is being rendered, should we forbid null or should
+	// we not render null. I think that preferred is the default
 	private final UserVerificationRequirement userVerification;
 
 	private final AuthenticationExtensionsClientInputs extensions;
 
-	private PublicKeyCredentialRequestOptions(Base64Url challenge, Duration timeout, String rpId, List<PublicKeyCredentialDescriptor> allowCredentials, UserVerificationRequirement userVerification, AuthenticationExtensionsClientInputs extensions) {
+	private PublicKeyCredentialRequestOptions(Base64Url challenge, Duration timeout, String rpId,
+			List<PublicKeyCredentialDescriptor> allowCredentials, UserVerificationRequirement userVerification,
+			AuthenticationExtensionsClientInputs extensions) {
 		this.challenge = challenge;
 		this.timeout = timeout;
 		this.rpId = rpId;
@@ -55,9 +62,10 @@ public class PublicKeyCredentialRequestOptions {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-challenge>challenge</a>
-	 * property specifies a challenge that the authenticator signs, along with other data, when producing an
-	 * authentication assertion.
+	 * The <a
+	 * href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-challenge>challenge</a>
+	 * property specifies a challenge that the authenticator signs, along with other data,
+	 * when producing an authentication assertion.
 	 * @return the challenge
 	 */
 	public Base64Url getChallenge() {
@@ -65,9 +73,10 @@ public class PublicKeyCredentialRequestOptions {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-timeout">timeout</a>
-	 * property is an OPTIONAL member specifies a time, in milliseconds, that the Relying Party is willing to wait for
-	 * the call to complete.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-timeout">timeout</a>
+	 * property is an OPTIONAL member specifies a time, in milliseconds, that the Relying
+	 * Party is willing to wait for the call to complete.
 	 * @return the timeout
 	 */
 	public Duration getTimeout() {
@@ -75,9 +84,10 @@ public class PublicKeyCredentialRequestOptions {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-rpid">rpId</a> is an
-	 *  OPTIONAL member specifies the RP ID claimed by the Relying Party. The client MUST verify that the Relying
-	 *  Party's origin matches the scope of this RP ID.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-rpid">rpId</a>
+	 * is an OPTIONAL member specifies the RP ID claimed by the Relying Party. The client
+	 * MUST verify that the Relying Party's origin matches the scope of this RP ID.
 	 * @return the relying party id
 	 */
 	public String getRpId() {
@@ -85,9 +95,10 @@ public class PublicKeyCredentialRequestOptions {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-allowcredentials">allowCredentials</a>
-	 * property is an OPTIONAL member is used by the client to find authenticators eligible for this authentication
-	 * ceremony.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-allowcredentials">allowCredentials</a>
+	 * property is an OPTIONAL member is used by the client to find authenticators
+	 * eligible for this authentication ceremony.
 	 * @return the allowCredentials property
 	 */
 	public List<PublicKeyCredentialDescriptor> getAllowCredentials() {
@@ -95,9 +106,10 @@ public class PublicKeyCredentialRequestOptions {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-userverification">userVerification</a>
-	 * property is an OPTIONAL member specifies the Relying Party's requirements regarding user verification for the
-	 * get() operation.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-userverification">userVerification</a>
+	 * property is an OPTIONAL member specifies the Relying Party's requirements regarding
+	 * user verification for the get() operation.
 	 * @return the user verification
 	 */
 	public UserVerificationRequirement getUserVerification() {
@@ -105,9 +117,10 @@ public class PublicKeyCredentialRequestOptions {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-extensions">extensions</a>
-	 * is an OPTIONAL property used by the Relying Party to provide client extension inputs requesting additional
-	 * processing by the client and authenticator.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-extensions">extensions</a>
+	 * is an OPTIONAL property used by the Relying Party to provide client extension
+	 * inputs requesting additional processing by the client and authenticator.
 	 * @return the extensions
 	 */
 	public AuthenticationExtensionsClientInputs getExtensions() {
@@ -124,16 +137,24 @@ public class PublicKeyCredentialRequestOptions {
 
 	/**
 	 * Used to build a {@link PublicKeyCredentialCreationOptions}.
+	 *
 	 * @since 6.3
 	 * @author Rob Winch
 	 */
 	public static final class PublicKeyCredentialRequestOptionsBuilder {
+
 		private Base64Url challenge;
+
 		private Duration timeout;
+
 		private String rpId;
+
 		private List<PublicKeyCredentialDescriptor> allowCredentials = Collections.emptyList();
+
 		private UserVerificationRequirement userVerification;
-		private AuthenticationExtensionsClientInputs extensions = new ImmutableAuthenticationExtensionsClientInputs(new ArrayList<>());
+
+		private AuthenticationExtensionsClientInputs extensions = new ImmutableAuthenticationExtensionsClientInputs(
+				new ArrayList<>());
 
 		private PublicKeyCredentialRequestOptionsBuilder() {
 		}
@@ -173,7 +194,8 @@ public class PublicKeyCredentialRequestOptions {
 		 * @param allowCredentials the allowed credentials
 		 * @return the {@link PublicKeyCredentialRequestOptionsBuilder}
 		 */
-		public PublicKeyCredentialRequestOptionsBuilder allowCredentials(List<PublicKeyCredentialDescriptor> allowCredentials) {
+		public PublicKeyCredentialRequestOptionsBuilder allowCredentials(
+				List<PublicKeyCredentialDescriptor> allowCredentials) {
 			Assert.notNull(allowCredentials, "allowCredentials cannot be null");
 			this.allowCredentials = allowCredentials;
 			return this;
@@ -204,7 +226,8 @@ public class PublicKeyCredentialRequestOptions {
 		 * @param customizer the {@link Consumer} used to customize the builder
 		 * @return the {@link PublicKeyCredentialRequestOptionsBuilder}
 		 */
-		public PublicKeyCredentialRequestOptionsBuilder customize(Consumer<PublicKeyCredentialRequestOptionsBuilder> customizer) {
+		public PublicKeyCredentialRequestOptionsBuilder customize(
+				Consumer<PublicKeyCredentialRequestOptionsBuilder> customizer) {
 			customizer.accept(this);
 			return this;
 		}
@@ -214,8 +237,8 @@ public class PublicKeyCredentialRequestOptions {
 		 * @return a new {@link PublicKeyCredentialRequestOptions}
 		 */
 		public PublicKeyCredentialRequestOptions build() {
-			return new PublicKeyCredentialRequestOptions(this.challenge, this.timeout, this.rpId,
-					this.allowCredentials, this.userVerification, this.extensions);
+			return new PublicKeyCredentialRequestOptions(this.challenge, this.timeout, this.rpId, this.allowCredentials,
+					this.userVerification, this.extensions);
 		}
 
 	}

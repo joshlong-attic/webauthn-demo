@@ -21,32 +21,42 @@ import org.springframework.security.webauthn.api.PublicKeyCredentialRequestOptio
 import org.springframework.security.webauthn.api.PublicKeyCredentialCreationOptions;
 
 /**
- * An API for <a href="https://www.w3.org/TR/webauthn-3/#sctn-rp-operations">WebAuthn Relying Party Operations</a>
+ * An API for <a href="https://www.w3.org/TR/webauthn-3/#sctn-rp-operations">WebAuthn
+ * Relying Party Operations</a>
+ *
  * @since 6.3
  * @author Rob Winch
  */
 public interface WebAuthnRelyingPartyOperations {
 
 	/**
-	 * Creates the {@link PublicKeyCredentialCreationOptions} used to register new credentials.
-	 * @param authentication the current {@link Authentication}. It must be authenticated to associate the credential to a user.
-	 * @return the {@link PublicKeyCredentialCreationOptions} for the {@link Authentication} passed in. Cannot be null.
+	 * Creates the {@link PublicKeyCredentialCreationOptions} used to register new
+	 * credentials.
+	 * @param authentication the current {@link Authentication}. It must be authenticated
+	 * to associate the credential to a user.
+	 * @return the {@link PublicKeyCredentialCreationOptions} for the
+	 * {@link Authentication} passed in. Cannot be null.
 	 */
 	PublicKeyCredentialCreationOptions createPublicKeyCredentialCreationOptions(Authentication authentication);
 
 	/**
-	 * If {@link RelyingPartyRegistrationRequest} is valid, will register and return a new {@link CredentialRecord}.
-	 * @param relyingPartyRegistrationRequest the {@link RelyingPartyRegistrationRequest} to process.
+	 * If {@link RelyingPartyRegistrationRequest} is valid, will register and return a new
+	 * {@link CredentialRecord}.
+	 * @param relyingPartyRegistrationRequest the {@link RelyingPartyRegistrationRequest}
+	 * to process.
 	 * @return a new {@link CredentialRecord}
-	 * @throws RuntimeException if the {@link RelyingPartyRegistrationRequest} is not valid.
+	 * @throws RuntimeException if the {@link RelyingPartyRegistrationRequest} is not
+	 * valid.
 	 */
-	// FIXME: Think about the name RelyingPartyRegistrationRequest (does it align with rfc)
+	// FIXME: Think about the name RelyingPartyRegistrationRequest (does it align with
+	// rfc)
 	// FIXME: think about the method name (does it align with rfc)
 	CredentialRecord registerCredential(RelyingPartyRegistrationRequest relyingPartyRegistrationRequest);
 
 	/**
 	 * Creates the {@link PublicKeyCredentialRequestOptions} used to authenticate a user.
-	 * @param authentication the current {@link Authentication}. Possibly null or an anonymous.
+	 * @param authentication the current {@link Authentication}. Possibly null or an
+	 * anonymous.
 	 * @return the {@link PublicKeyCredentialRequestOptions} used to authenticate a user.
 	 */
 	PublicKeyCredentialRequestOptions createCredentialRequestOptions(Authentication authentication);
@@ -57,7 +67,9 @@ public interface WebAuthnRelyingPartyOperations {
 	 * @return the principal name (e.g. username) if authentication was successful
 	 * @throws RuntimeException if authentication fails
 	 */
-	// FIXME: Think about the name RelyingPartyAuthenticationRequest (does it align with rfc)
+	// FIXME: Think about the name RelyingPartyAuthenticationRequest (does it align with
+	// rfc)
 	// FIXME: think about the method name (does it align with rfc)
 	String authenticate(RelyingPartyAuthenticationRequest request);
+
 }

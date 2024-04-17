@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 
 /**
  * Submitted by a client to request registration of a new credential.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -50,4 +51,5 @@ public class RelyingPartyPublicKey {
 	public String getLabel() {
 		return this.label;
 	}
+
 }

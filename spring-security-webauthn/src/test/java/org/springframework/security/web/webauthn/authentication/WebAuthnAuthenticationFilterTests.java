@@ -56,19 +56,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 class WebAuthnAuthenticationFilterTests {
 
 	private static final String VALID_BODY = """
-		{
-			"id": "dYF7EGnRFFIXkpXi9XU2wg",
-			"rawId": "dYF7EGnRFFIXkpXi9XU2wg",
-			"response": {
-				"authenticatorData": "y9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNgdAAAAAA",
-				"clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiRFVsRzRDbU9naWhKMG1vdXZFcE9HdUk0ZVJ6MGRRWmxUQmFtbjdHQ1FTNCIsIm9yaWdpbiI6Imh0dHBzOi8vZXhhbXBsZS5sb2NhbGhvc3Q6ODQ0MyIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
-				"signature": "MEYCIQCW2BcUkRCAXDmGxwMi78jknenZ7_amWrUJEYoTkweldAIhAMD0EMp1rw2GfwhdrsFIeDsL7tfOXVPwOtfqJntjAo4z",
-				"userHandle": "Q3_0Xd64_HW0BlKRAJnVagJTpLKLgARCj8zjugpRnVo"
-			},
-			"clientExtensionResults": {},
-			"authenticatorAttachment": "platform"
-		}
-	""";
+				{
+					"id": "dYF7EGnRFFIXkpXi9XU2wg",
+					"rawId": "dYF7EGnRFFIXkpXi9XU2wg",
+					"response": {
+						"authenticatorData": "y9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNgdAAAAAA",
+						"clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiRFVsRzRDbU9naWhKMG1vdXZFcE9HdUk0ZVJ6MGRRWmxUQmFtbjdHQ1FTNCIsIm9yaWdpbiI6Imh0dHBzOi8vZXhhbXBsZS5sb2NhbGhvc3Q6ODQ0MyIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+						"signature": "MEYCIQCW2BcUkRCAXDmGxwMi78jknenZ7_amWrUJEYoTkweldAIhAMD0EMp1rw2GfwhdrsFIeDsL7tfOXVPwOtfqJntjAo4z",
+						"userHandle": "Q3_0Xd64_HW0BlKRAJnVagJTpLKLgARCj8zjugpRnVo"
+					},
+					"clientExtensionResults": {},
+					"authenticatorAttachment": "platform"
+				}
+			""";
 
 	@Mock
 	private GenericHttpMessageConverter<Object> converter;
@@ -149,7 +149,8 @@ class WebAuthnAuthenticationFilterTests {
 		MockHttpServletRequest request = matchingRequest(VALID_BODY);
 		this.filter.doFilter(request, this.response, this.chain);
 		verify(this.requestOptionsRepository).save(any(), any(), isNull());
-		ArgumentCaptor<WebAuthnAuthenticationRequestToken> authenticationCaptor = ArgumentCaptor.forClass(WebAuthnAuthenticationRequestToken.class);
+		ArgumentCaptor<WebAuthnAuthenticationRequestToken> authenticationCaptor = ArgumentCaptor
+			.forClass(WebAuthnAuthenticationRequestToken.class);
 		verify(this.authenticationManager).authenticate(authenticationCaptor.capture());
 		assertThat(this.response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		WebAuthnAuthenticationRequestToken token = authenticationCaptor.getValue();
@@ -159,19 +160,21 @@ class WebAuthnAuthenticationFilterTests {
 		AuthenticatorAssertionResponse assertionResponse = publicKey.getResponse();
 		assertThat(publicKey.getId()).isEqualTo("dYF7EGnRFFIXkpXi9XU2wg");
 		assertThat(publicKey.getRawId().getBytesAsBase64()).isEqualTo("dYF7EGnRFFIXkpXi9XU2wg");
-		assertThat(assertionResponse.getAuthenticatorData().getBytesAsBase64()).isEqualTo("y9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNgdAAAAAA");
-		assertThat(assertionResponse.getClientDataJSON().getBytesAsBase64()).isEqualTo("eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiRFVsRzRDbU9naWhKMG1vdXZFcE9HdUk0ZVJ6MGRRWmxUQmFtbjdHQ1FTNCIsIm9yaWdpbiI6Imh0dHBzOi8vZXhhbXBsZS5sb2NhbGhvc3Q6ODQ0MyIsImNyb3NzT3JpZ2luIjpmYWxzZX0");
-		assertThat(assertionResponse.getSignature().getBytesAsBase64()).isEqualTo("MEYCIQCW2BcUkRCAXDmGxwMi78jknenZ7_amWrUJEYoTkweldAIhAMD0EMp1rw2GfwhdrsFIeDsL7tfOXVPwOtfqJntjAo4z");
-		assertThat(assertionResponse.getUserHandle().getBytesAsBase64()).isEqualTo("Q3_0Xd64_HW0BlKRAJnVagJTpLKLgARCj8zjugpRnVo");
+		assertThat(assertionResponse.getAuthenticatorData().getBytesAsBase64())
+			.isEqualTo("y9GqwTRaMpzVDbXq1dyEAXVOxrou08k22ggRC45MKNgdAAAAAA");
+		assertThat(assertionResponse.getClientDataJSON().getBytesAsBase64()).isEqualTo(
+				"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiRFVsRzRDbU9naWhKMG1vdXZFcE9HdUk0ZVJ6MGRRWmxUQmFtbjdHQ1FTNCIsIm9yaWdpbiI6Imh0dHBzOi8vZXhhbXBsZS5sb2NhbGhvc3Q6ODQ0MyIsImNyb3NzT3JpZ2luIjpmYWxzZX0");
+		assertThat(assertionResponse.getSignature().getBytesAsBase64()).isEqualTo(
+				"MEYCIQCW2BcUkRCAXDmGxwMi78jknenZ7_amWrUJEYoTkweldAIhAMD0EMp1rw2GfwhdrsFIeDsL7tfOXVPwOtfqJntjAo4z");
+		assertThat(assertionResponse.getUserHandle().getBytesAsBase64())
+			.isEqualTo("Q3_0Xd64_HW0BlKRAJnVagJTpLKLgARCj8zjugpRnVo");
 		assertThat(publicKey.getClientExtensionResults().getOutputs()).isEmpty();
 		assertThat(authnRequest.getRequestOptions()).isEqualTo(options);
 		// FIXME: assert authenticatorAttachment: platform but does not exist on publicKey
 	}
 
 	private static MockHttpServletRequest matchingRequest(String body) {
-		return MockMvcRequestBuilders
-				.post("/login/webauthn")
-				.content(body)
-				.buildRequest(new MockServletContext());
+		return MockMvcRequestBuilders.post("/login/webauthn").content(body).buildRequest(new MockServletContext());
 	}
+
 }

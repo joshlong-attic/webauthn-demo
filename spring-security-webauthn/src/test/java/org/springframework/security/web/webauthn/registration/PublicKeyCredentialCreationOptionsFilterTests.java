@@ -69,8 +69,7 @@ class PublicKeyCredentialCreationOptionsFilterTests {
 
 	@Test
 	void constructorWhenRpOperationsIsNullThenIllegalArgumentException() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> new PublicKeyCredentialCreationOptionsFilter(null))
+		assertThatIllegalArgumentException().isThrownBy(() -> new PublicKeyCredentialCreationOptionsFilter(null))
 			.withMessage("rpOperations cannot be null");
 	}
 
@@ -90,7 +89,8 @@ class PublicKeyCredentialCreationOptionsFilterTests {
 
 	@Test
 	void doFilterWhenAnonymousThenNoInvocations() throws Exception {
-		AnonymousAuthenticationToken anonymous = new AnonymousAuthenticationToken("key", "anonymousUser", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
+		AnonymousAuthenticationToken anonymous = new AnonymousAuthenticationToken("key", "anonymousUser",
+				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
 		SecurityContextImpl context = new SecurityContextImpl(anonymous);
 		SecurityContextHolder.setContext(context);
 		doFilterWhenWrongUrlThenNoInteractions();
@@ -106,51 +106,51 @@ class PublicKeyCredentialCreationOptionsFilterTests {
 	@Test
 	void doFilterWhenNoCredentials() throws Exception {
 		PublicKeyCredentialCreationOptions options = TestPublicKeyCredentialCreationOptions
-				.createPublicKeyCredentialCreationOptions()
-				.build();
+			.createPublicKeyCredentialCreationOptions()
+			.build();
 		when(this.rpOperations.createPublicKeyCredentialCreationOptions(any())).thenReturn(options);
 		MockMvc mockMvc = mockMvc();
 		mockMvc.perform(matchingRequest())
-				.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isOk())
-				.andExpect(content().json("""
-		{
-			"rp": {
-				"name": "SimpleWebAuthn Example",
-				"id": "example.localhost"
-			},
-			"user": {
-				"name": "user@example.localhost",
-				"id": "oWJtkJ6vJ_m5b84LB4_K7QKTCTEwLIjCh4tFMCGHO4w",
-				"displayName": "user@example.localhost"
-			},
-			"challenge": "q7lCdd3SVQxdC-v8pnRAGEn1B2M-t7ZECWPwCAmhWvc",
-			"pubKeyCredParams": [
-				{
-					"type": "public-key",
-					"alg": -8
-				},
-				{
-					"type": "public-key",
-					"alg": -7
-				},
-				{
-					"type": "public-key",
-					"alg": -257
-				}
-			],
-			"timeout": 300000,
-			"excludeCredentials": [],
-			"authenticatorSelection": {
-				"residentKey": "required",
-				"userVerification": "preferred"
-			},
-			"attestation": "direct",
-			"extensions": {
-				"credProps": true
-			}
-		}
-"""));
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(status().isOk())
+			.andExpect(content().json("""
+							{
+								"rp": {
+									"name": "SimpleWebAuthn Example",
+									"id": "example.localhost"
+								},
+								"user": {
+									"name": "user@example.localhost",
+									"id": "oWJtkJ6vJ_m5b84LB4_K7QKTCTEwLIjCh4tFMCGHO4w",
+									"displayName": "user@example.localhost"
+								},
+								"challenge": "q7lCdd3SVQxdC-v8pnRAGEn1B2M-t7ZECWPwCAmhWvc",
+								"pubKeyCredParams": [
+									{
+										"type": "public-key",
+										"alg": -8
+									},
+									{
+										"type": "public-key",
+										"alg": -7
+									},
+									{
+										"type": "public-key",
+										"alg": -257
+									}
+								],
+								"timeout": 300000,
+								"excludeCredentials": [],
+								"authenticatorSelection": {
+									"residentKey": "required",
+									"userVerification": "preferred"
+								},
+								"attestation": "direct",
+								"extensions": {
+									"credProps": true
+								}
+							}
+					"""));
 	}
 
 	@Test
@@ -166,21 +166,21 @@ class PublicKeyCredentialCreationOptionsFilterTests {
 		when(this.rpOperations.createPublicKeyCredentialCreationOptions(any())).thenReturn(options);
 		MockMvc mockMvc = mockMvc();
 		mockMvc.perform(matchingRequest())
-				.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isOk())
-				.andExpect(content().json("""
-		{
-			"excludeCredentials": [
-				{
-					"type": "public-key",
-					"id": "ChfoCM8CJA_wwUGDdzdtuw",
-					"transports": [
-						"HYBRID"
-					]
-				}
-			]
-		}
-"""));
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(status().isOk())
+			.andExpect(content().json("""
+							{
+								"excludeCredentials": [
+									{
+										"type": "public-key",
+										"id": "ChfoCM8CJA_wwUGDdzdtuw",
+										"transports": [
+											"HYBRID"
+										]
+									}
+								]
+							}
+					"""));
 	}
 
 	private MockHttpServletRequestBuilder matchingRequest() {
@@ -190,9 +190,9 @@ class PublicKeyCredentialCreationOptionsFilterTests {
 	}
 
 	private MockMvc mockMvc() {
-		return MockMvcBuilders
-				.standaloneSetup(new Object())
-				.addFilter(new PublicKeyCredentialCreationOptionsFilter(this.rpOperations))
-				.build();
+		return MockMvcBuilders.standaloneSetup(new Object())
+			.addFilter(new PublicKeyCredentialCreationOptionsFilter(this.rpOperations))
+			.build();
 	}
+
 }

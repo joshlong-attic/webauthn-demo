@@ -30,7 +30,6 @@ public class ImmutableAuthenticationExtensionsClientInputs implements Authentica
 
 	private final List<AuthenticationExtensionsClientInput> inputs;
 
-
 	public ImmutableAuthenticationExtensionsClientInputs(List<AuthenticationExtensionsClientInput> inputs) {
 		this.inputs = inputs;
 	}

@@ -25,6 +25,7 @@ import java.time.Duration;
 
 /**
  * Jackson serializer for {@link Duration}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -41,4 +42,5 @@ class DurationSerializer extends StdSerializer<Duration> {
 	public void serialize(Duration duration, JsonGenerator jgen, SerializerProvider provider) throws IOException {
 		jgen.writeNumber(duration.toMillis());
 	}
+
 }

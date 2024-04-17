@@ -22,6 +22,7 @@ import org.springframework.security.webauthn.api.PublicKeyCredential;
 
 /**
  * Jackson mixin for {@link org.springframework.security.webauthn.api.PublicKeyCredential}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -29,5 +30,8 @@ import org.springframework.security.webauthn.api.PublicKeyCredential;
 class PublicKeyCredentialMixin {
 
 	@JsonPOJOBuilder(withPrefix = "")
-	static class PublicKeyCredentialBuilderMixin {}
+	static class PublicKeyCredentialBuilderMixin {
+
+	}
+
 }

@@ -26,6 +26,7 @@ import java.io.IOException;
 
 /**
  * Jackson serializer for {@link COSEAlgorithmIdentifier}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -36,7 +37,9 @@ class COSEAlgorithmIdentifierSerializer extends StdSerializer<COSEAlgorithmIdent
 	}
 
 	@Override
-	public void serialize(COSEAlgorithmIdentifier identifier, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+	public void serialize(COSEAlgorithmIdentifier identifier, JsonGenerator jgen, SerializerProvider provider)
+			throws IOException {
 		jgen.writeNumber(identifier.getValue());
 	}
+
 }

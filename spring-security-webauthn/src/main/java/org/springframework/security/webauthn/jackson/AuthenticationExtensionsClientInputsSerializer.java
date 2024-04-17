@@ -26,6 +26,7 @@ import java.io.IOException;
 
 /**
  * Provides Jackson serialization of {@link AuthenticationExtensionsClientInputs}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -39,11 +40,13 @@ class AuthenticationExtensionsClientInputsSerializer extends StdSerializer<Authe
 	}
 
 	@Override
-	public void serialize(AuthenticationExtensionsClientInputs inputs, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+	public void serialize(AuthenticationExtensionsClientInputs inputs, JsonGenerator jgen, SerializerProvider provider)
+			throws IOException {
 		jgen.writeStartObject();
 		for (AuthenticationExtensionsClientInput input : inputs.getInputs()) {
 			jgen.writeObjectField(input.getExtensionId(), input.getInput());
 		}
 		jgen.writeEndObject();
 	}
+
 }

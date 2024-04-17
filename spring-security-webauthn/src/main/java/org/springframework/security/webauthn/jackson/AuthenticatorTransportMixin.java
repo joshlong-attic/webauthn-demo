@@ -19,10 +19,13 @@ package org.springframework.security.webauthn.jackson;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Jackson mixin for {@link org.springframework.security.webauthn.api.AuthenticatorTransport}
+ * Jackson mixin for
+ * {@link org.springframework.security.webauthn.api.AuthenticatorTransport}
+ *
  * @since 6.3
  * @author Rob Winch
  */
 @JsonDeserialize(using = AuthenticatorTransportDeserializer.class)
 class AuthenticatorTransportMixin {
+
 }

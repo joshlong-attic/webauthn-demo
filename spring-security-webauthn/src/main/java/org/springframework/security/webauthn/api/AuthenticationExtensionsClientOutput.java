@@ -18,20 +18,27 @@ package org.springframework.security.webauthn.api;
 
 /**
  * An entry in {@link AuthenticationExtensionsClientOutputs}.
+ *
  * @param <T>
  * @see CredentialPropertiesOutput
  */
 public interface AuthenticationExtensionsClientOutput<T> {
 
 	/**
-	 * Gets the <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension identifier</a>.
-	 * @return the <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension identifier</a>.
+	 * Gets the <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension
+	 * identifier</a>.
+	 * @return the
+	 * <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension
+	 * identifier</a>.
 	 */
 	String getExtensionId();
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#client-extension-output>client extension output</a>.
-	 * @return the <a href="https://www.w3.org/TR/webauthn-3/#client-extension-output>client extension output</a>.
+	 * The <a href="https://www.w3.org/TR/webauthn-3/#client-extension-output>client
+	 * extension output</a>.
+	 * @return the <a
+	 * href="https://www.w3.org/TR/webauthn-3/#client-extension-output>client extension
+	 * output</a>.
 	 */
 	T getOutput();
 

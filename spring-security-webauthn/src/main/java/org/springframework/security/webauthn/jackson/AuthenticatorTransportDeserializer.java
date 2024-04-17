@@ -30,6 +30,7 @@ import java.io.IOException;
 
 /**
  * Jackson deserializer for {@link AuthenticatorTransport}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -40,7 +41,8 @@ class AuthenticatorTransportDeserializer extends StdDeserializer<AuthenticatorTr
 	}
 
 	@Override
-	public AuthenticatorTransport deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JacksonException {
+	public AuthenticatorTransport deserialize(JsonParser parser, DeserializationContext ctxt)
+			throws IOException, JacksonException {
 		String transportValue = parser.readValueAs(String.class);
 		for (AuthenticatorTransport transport : AuthenticatorTransport.values()) {
 			if (transport.getValue().equals(transportValue)) {
@@ -49,6 +51,5 @@ class AuthenticatorTransportDeserializer extends StdDeserializer<AuthenticatorTr
 		}
 		return null;
 	}
-
 
 }

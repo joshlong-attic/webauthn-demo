@@ -27,6 +27,7 @@ import java.io.IOException;
 
 /**
  * Jackson deserializer for {@link AuthenticatorAttachment}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -37,7 +38,8 @@ class AuthenticatorAttachmentDeserializer extends StdDeserializer<AuthenticatorA
 	}
 
 	@Override
-	public AuthenticatorAttachment deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JacksonException {
+	public AuthenticatorAttachment deserialize(JsonParser parser, DeserializationContext ctxt)
+			throws IOException, JacksonException {
 		String type = parser.readValueAs(String.class);
 		for (AuthenticatorAttachment publicKeyCredentialType : AuthenticatorAttachment.values()) {
 			if (publicKeyCredentialType.getValue().equals(type)) {
@@ -46,6 +48,5 @@ class AuthenticatorAttachmentDeserializer extends StdDeserializer<AuthenticatorA
 		}
 		return null;
 	}
-
 
 }

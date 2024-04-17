@@ -118,9 +118,9 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 	}
 
 	/**
-	 * Sets a Function used to resolve a Map of the HTTP headers where the key is the
-	 * name of the header and the value is the value of the header. Typically, this is used
-	 * to resolve the CSRF token.
+	 * Sets a Function used to resolve a Map of the HTTP headers where the key is the name
+	 * of the header and the value is the value of the header. Typically, this is used to
+	 * resolve the CSRF token.
 	 * @param resolveHeaders the function to resolve the headers
 	 */
 	public void setResolveHeaders(Function<HttpServletRequest, Map<String, String>> resolveHeaders) {
@@ -227,8 +227,7 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 				+ "rel=\"stylesheet\" integrity=\"sha384-oOE/3m0LUMPub4kaC09mrdEhIc+e3exm4xOGxAmuFXhBNF4hcg/6MiAXAf5p0P56\" crossorigin=\"anonymous\"/>\n");
 		if (this.passkeysEnabled) {
 			String headers = createHeaders(request);
-			Map<String, Object> passkeyPageContext = Map.of("headers", headers,
-					"loginPageUrl", loginPageUrl);
+			Map<String, Object> passkeyPageContext = Map.of("headers", headers, "loginPageUrl", loginPageUrl);
 			sb.append(processTemplate(SCRIPT_TEMPLATE, passkeyPageContext));
 		}
 		sb.append("  </head>\n");
@@ -257,7 +256,7 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 			sb.append(createLogoutSuccess(logoutSuccess));
 			sb.append("<table class=\"table table-striped\">\n");
 			for (Map.Entry<String, String> clientAuthenticationUrlToClientName : this.oauth2AuthenticationUrlToClientName
-					.entrySet()) {
+				.entrySet()) {
 				sb.append(" <tr><td>");
 				String url = clientAuthenticationUrlToClientName.getKey();
 				sb.append("<a href=\"").append(contextPath).append(url).append("\">");
@@ -274,7 +273,7 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 			sb.append(createLogoutSuccess(logoutSuccess));
 			sb.append("<table class=\"table table-striped\">\n");
 			for (Map.Entry<String, String> relyingPartyUrlToName : this.saml2AuthenticationUrlToProviderName
-					.entrySet()) {
+				.entrySet()) {
 				sb.append(" <tr><td>");
 				String url = relyingPartyUrlToName.getKey();
 				sb.append("<a href=\"").append(contextPath).append(url).append("\">");
@@ -288,7 +287,8 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 		if (this.passkeysEnabled) {
 			sb.append("<div class=\"form-signin\">\n");
 			sb.append("<h2 class=\"form-signin-heading\">Login with Passkeys</h2>");
-			sb.append("<button id=\"passkey-signin\" class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Sign in with a passkey</button>\n");
+			sb.append(
+					"<button id=\"passkey-signin\" class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Sign in with a passkey</button>\n");
 			sb.append("</div>");
 		}
 		sb.append("</div>\n");
@@ -299,7 +299,7 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 	private String getLoginErrorMessage(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session != null && session
-				.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) instanceof AuthenticationException exception) {
+			.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) instanceof AuthenticationException exception) {
 			return exception.getMessage();
 		}
 		return "Invalid credentials";
@@ -328,19 +328,17 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 		String javascriptHeadersEntries = "";
 		Map<String, String> headers = this.resolveHeaders.apply(request);
 		for (Map.Entry<String, String> header : headers.entrySet()) {
-			Map<String, Object> headerContext = Map.of(
-				"headerName", header.getKey(),
-				"headerValue", header.getValue());
+			Map<String, Object> headerContext = Map.of("headerName", header.getKey(), "headerValue", header.getValue());
 			javascriptHeadersEntries += processTemplate(HEADER_ENTRY_TEMPLATE, headerContext);
 		}
 		return javascriptHeadersEntries;
 	}
 
 	private static final String HEADER_ENTRY_TEMPLATE = """
-		"${headerName}" : "${headerValue}",
-	""";
+				"${headerName}" : "${headerValue}",
+			""";
 
-	private static String processTemplate(String template, Map<String,Object> context) {
+	private static String processTemplate(String template, Map<String, Object> context) {
 		for (Map.Entry<String, Object> entry : context.entrySet()) {
 			String pattern = Pattern.quote("${" + entry.getKey() + "}");
 			String value = String.valueOf(entry.getValue());
@@ -350,91 +348,91 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 	}
 
 	private static final String SCRIPT_TEMPLATE = """
-		<script type="text/javascript">
-		<!--
-			document.addEventListener("DOMContentLoaded", setup);
-			const base64url = {
-				encode: function(buffer) {
-					const base64 = window.btoa(String.fromCharCode(...new Uint8Array(buffer)));
-					return base64.replace(/=/g, '').replace(/\\+/g, '-').replace(/\\//g, '_');
-				},
-				decode: function(base64url) {
-					const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
-					const binStr = window.atob(base64);
-					const bin = new Uint8Array(binStr.length);
-					for (let i = 0; i < binStr.length; i++) {
-						bin[i] = binStr.charCodeAt(i);
-					}
-					return bin.buffer;
-				}
-			}
-
-			function setup() {
-
-				// <button>
-				const passkeySignin = document.getElementById('passkey-signin');
-
-				// Start authentication when the user clicks a button
-				passkeySignin.addEventListener('click', async () => {
-
-					const optionsResponse = await fetch('/webauthn/authenticate/options');
-					const options = await optionsResponse.json();
-					// FIXME: Use https://www.w3.org/TR/webauthn-3/#sctn-parseRequestOptionsFromJSON
-					options.challenge = base64url.decode(options.challenge);
-
-					// Invoke the WebAuthn get() method.
-					const cred = await navigator.credentials.get({
-						publicKey: options
-					});
-					const { response, credType } = cred;
-					let userHandle = undefined;
-					if (response.userHandle) {
-						userHandle = base64url.encode(response.userHandle);
-					}
-					const body = {
-						id: cred.id,
-						rawId: base64url.encode(cred.rawId),
-						response: {
-							authenticatorData: base64url.encode(response.authenticatorData),
-							clientDataJSON: base64url.encode(response.clientDataJSON),
-							signature: base64url.encode(response.signature),
-							userHandle,
+				<script type="text/javascript">
+				<!--
+					document.addEventListener("DOMContentLoaded", setup);
+					const base64url = {
+						encode: function(buffer) {
+							const base64 = window.btoa(String.fromCharCode(...new Uint8Array(buffer)));
+							return base64.replace(/=/g, '').replace(/\\+/g, '-').replace(/\\//g, '_');
 						},
-						credType,
-						clientExtensionResults: cred.getClientExtensionResults(),
-						authenticatorAttachment: cred.authenticatorAttachment,
-					};
-
-					// POST the response to the endpoint that calls
-					const authenticationResponse = await fetch('/login/webauthn',
-						{
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-								${headers}
-							},
-							body: JSON.stringify(body),
+						decode: function(base64url) {
+							const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+							const binStr = window.atob(base64);
+							const bin = new Uint8Array(binStr.length);
+							for (let i = 0; i < binStr.length; i++) {
+								bin[i] = binStr.charCodeAt(i);
+							}
+							return bin.buffer;
 						}
-					)
-					.then(response => {
-						if (response.ok) {
-							return response.json()
-						} else {
-							return { 'errorUrl': '${loginPageUrl}?error' }
-						}
-					});
-
-					// Show UI appropriate for the `verified` status
-					if (authenticationResponse && authenticationResponse.authenticated) {
-						window.location.href = authenticationResponse.redirectUrl;
-					} else {
-						window.location.href = authenticationResponse.errorUrl
 					}
-				});
-			}
-		//-->
-		</script>
-	""";
+
+					function setup() {
+
+						// <button>
+						const passkeySignin = document.getElementById('passkey-signin');
+
+						// Start authentication when the user clicks a button
+						passkeySignin.addEventListener('click', async () => {
+
+							const optionsResponse = await fetch('/webauthn/authenticate/options');
+							const options = await optionsResponse.json();
+							// FIXME: Use https://www.w3.org/TR/webauthn-3/#sctn-parseRequestOptionsFromJSON
+							options.challenge = base64url.decode(options.challenge);
+
+							// Invoke the WebAuthn get() method.
+							const cred = await navigator.credentials.get({
+								publicKey: options
+							});
+							const { response, credType } = cred;
+							let userHandle = undefined;
+							if (response.userHandle) {
+								userHandle = base64url.encode(response.userHandle);
+							}
+							const body = {
+								id: cred.id,
+								rawId: base64url.encode(cred.rawId),
+								response: {
+									authenticatorData: base64url.encode(response.authenticatorData),
+									clientDataJSON: base64url.encode(response.clientDataJSON),
+									signature: base64url.encode(response.signature),
+									userHandle,
+								},
+								credType,
+								clientExtensionResults: cred.getClientExtensionResults(),
+								authenticatorAttachment: cred.authenticatorAttachment,
+							};
+
+							// POST the response to the endpoint that calls
+							const authenticationResponse = await fetch('/login/webauthn',
+								{
+									method: 'POST',
+									headers: {
+										'Content-Type': 'application/json',
+										${headers}
+									},
+									body: JSON.stringify(body),
+								}
+							)
+							.then(response => {
+								if (response.ok) {
+									return response.json()
+								} else {
+									return { 'errorUrl': '${loginPageUrl}?error' }
+								}
+							});
+
+							// Show UI appropriate for the `verified` status
+							if (authenticationResponse && authenticationResponse.authenticated) {
+								window.location.href = authenticationResponse.redirectUrl;
+							} else {
+								window.location.href = authenticationResponse.errorUrl
+							}
+						});
+					}
+				//-->
+				</script>
+			""";
 
 	private boolean isLogoutSuccess(HttpServletRequest request) {
 		return this.logoutSuccessUrl != null && matches(request, this.logoutSuccessUrl);
@@ -452,7 +450,8 @@ public class DefaultLoginPageGeneratingFilter extends GenericFilterBean {
 		if (!isError) {
 			return "";
 		}
-		return "<div class=\"form-signin alert alert-danger\" role=\"alert\">" + HtmlUtils.htmlEscape(message) + "</div>";
+		return "<div class=\"form-signin alert alert-danger\" role=\"alert\">" + HtmlUtils.htmlEscape(message)
+				+ "</div>";
 	}
 
 	private String createLogoutSuccess(boolean isLogoutSuccess) {

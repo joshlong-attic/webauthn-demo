@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 
 /**
  * Contains the information necessary to register a new Credential.
+ *
  * @see Webauthn4JRelyingPartyOperations#registerCredential(RelyingPartyRegistrationRequest)
  * @since 6.3
  * @author Rob Winch
@@ -35,10 +36,12 @@ public class RelyingPartyRegistrationRequest {
 	/**
 	 * Creates a new instance.
 	 * @param options the {@link PublicKeyCredentialCreationOptions} that were saved when
-	 * {@link WebAuthnRelyingPartyOperations#createCredentialRequestOptions(Authentication)} was called.
+	 * {@link WebAuthnRelyingPartyOperations#createCredentialRequestOptions(Authentication)}
+	 * was called.
 	 * @param publicKey this is submitted by the client and if validated stored.
 	 */
-	public RelyingPartyRegistrationRequest(PublicKeyCredentialCreationOptions options, RelyingPartyPublicKey publicKey) {
+	public RelyingPartyRegistrationRequest(PublicKeyCredentialCreationOptions options,
+			RelyingPartyPublicKey publicKey) {
 		Assert.notNull(options, "options cannot be null");
 		Assert.notNull(publicKey, "publicKey cannot be null");
 		this.options = options;
@@ -52,4 +55,5 @@ public class RelyingPartyRegistrationRequest {
 	public RelyingPartyPublicKey getPublicKey() {
 		return this.publicKey;
 	}
+
 }

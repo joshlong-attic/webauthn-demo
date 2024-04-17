@@ -17,9 +17,11 @@
 package org.springframework.security.webauthn.api;
 
 /**
- * The <a href="https://www.w3.org/TR/webauthn-3/#iface-authenticatorresponse">AuthenticatorResponse</a> represents
- * <a href="https://www.w3.org/TR/webauthn-3/#authenticator">Authenticators</a> respond to
- * <a href="https://www.w3.org/TR/webauthn-3/#relying-party">Relying Party</a> requests.
+ * The <a href=
+ * "https://www.w3.org/TR/webauthn-3/#iface-authenticatorresponse">AuthenticatorResponse</a>
+ * represents <a href="https://www.w3.org/TR/webauthn-3/#authenticator">Authenticators</a>
+ * respond to <a href="https://www.w3.org/TR/webauthn-3/#relying-party">Relying Party</a>
+ * requests.
  *
  * @since 6.3
  * @author Rob Winch
@@ -37,10 +39,11 @@ abstract class AuthenticatorResponse {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-authenticatorresponse-clientdatajson">clientDataJSON</a>
-	 * contains a JSON-compatible serialization of the client data, the hash of which is passed to the authenticator by
-	 * the client in its call to either create() or get() (i.e., the client data itself is not sent to the
-	 * authenticator).
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-authenticatorresponse-clientdatajson">clientDataJSON</a>
+	 * contains a JSON-compatible serialization of the client data, the hash of which is
+	 * passed to the authenticator by the client in its call to either create() or get()
+	 * (i.e., the client data itself is not sent to the authenticator).
 	 * @return the client data JSON
 	 */
 	public Base64Url getClientDataJSON() {

@@ -23,19 +23,24 @@ import org.springframework.security.webauthn.api.PublicKeyCredentialRequestOptio
 import org.springframework.util.Assert;
 
 /**
- * A {@link PublicKeyCredentialRequestOptionsRepository} that stores the {@link PublicKeyCredentialRequestOptions} in
- * the {@link jakarta.servlet.http.HttpSession}.
+ * A {@link PublicKeyCredentialRequestOptionsRepository} that stores the
+ * {@link PublicKeyCredentialRequestOptions} in the
+ * {@link jakarta.servlet.http.HttpSession}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
-public class HttpSessionPublicKeyCredentialRequestOptionsRepository implements PublicKeyCredentialRequestOptionsRepository {
+public class HttpSessionPublicKeyCredentialRequestOptionsRepository
+		implements PublicKeyCredentialRequestOptionsRepository {
 
-	static final String DEFAULT_ATTR_NAME = PublicKeyCredentialRequestOptionsRepository.class.getName().concat(".ATTR_NAME");
+	static final String DEFAULT_ATTR_NAME = PublicKeyCredentialRequestOptionsRepository.class.getName()
+		.concat(".ATTR_NAME");
 
 	private String attrName = DEFAULT_ATTR_NAME;
 
 	@Override
-	public void save(HttpServletRequest request, HttpServletResponse response, PublicKeyCredentialRequestOptions options) {
+	public void save(HttpServletRequest request, HttpServletResponse response,
+			PublicKeyCredentialRequestOptions options) {
 		HttpSession session = request.getSession();
 		session.setAttribute(this.attrName, options);
 	}
@@ -53,4 +58,5 @@ public class HttpSessionPublicKeyCredentialRequestOptionsRepository implements P
 		Assert.notNull(attrName, "attrName cannot be null");
 		this.attrName = attrName;
 	}
+
 }

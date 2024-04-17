@@ -17,8 +17,11 @@
 package org.springframework.security.webauthn.api;
 
 /**
- * The <a href="https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialrpentity">PublicKeyCredentialRpEntity</a>
- * dictionary is used to supply additional Relying Party attributes when creating a new credential.
+ * The <a href=
+ * "https://www.w3.org/TR/webauthn-3/#dictdef-publickeycredentialrpentity">PublicKeyCredentialRpEntity</a>
+ * dictionary is used to supply additional Relying Party attributes when creating a new
+ * credential.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -34,9 +37,11 @@ public class PublicKeyCredentialRpEntity {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialentity-name">name</a> property is a
-	 * human-palatable name for the entity. Its function depends on what the PublicKeyCredentialEntity represents for
-	 * the Relying Party, intended only for display.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialentity-name">name</a>
+	 * property is a human-palatable name for the entity. Its function depends on what the
+	 * PublicKeyCredentialEntity represents for the Relying Party, intended only for
+	 * display.
 	 * @return the name
 	 */
 	public String getName() {
@@ -44,8 +49,10 @@ public class PublicKeyCredentialRpEntity {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrpentity-id">id</a> property is a unique
-	 * identifier for the Relying Party entity, which sets the <a href="https://www.w3.org/TR/webauthn-3/#rp-id">RP ID</a>.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrpentity-id">id</a>
+	 * property is a unique identifier for the Relying Party entity, which sets the
+	 * <a href="https://www.w3.org/TR/webauthn-3/#rp-id">RP ID</a>.
 	 * @return the relying party id
 	 */
 	public String getId() {
@@ -62,6 +69,7 @@ public class PublicKeyCredentialRpEntity {
 
 	/**
 	 * Used to create a {@link PublicKeyCredentialRpEntity}.
+	 *
 	 * @since 6.3
 	 * @author Rob Winch
 	 */

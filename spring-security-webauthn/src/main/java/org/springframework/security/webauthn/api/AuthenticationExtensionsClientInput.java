@@ -27,14 +27,20 @@ package org.springframework.security.webauthn.api;
 public interface AuthenticationExtensionsClientInput<T> {
 
 	/**
-	 * Gets the <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension identifier</a>.
-	 * @return the <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension identifier</a>.
+	 * Gets the <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension
+	 * identifier</a>.
+	 * @return the
+	 * <a href="https://www.w3.org/TR/webauthn-3/#extension-identifier">extension
+	 * identifier</a>.
 	 */
 	String getExtensionId();
 
 	/**
-	 * Gets the <a href="https://www.w3.org/TR/webauthn-3/#client-extension-input">client extension</a>.
-	 * @return the <a href="https://www.w3.org/TR/webauthn-3/#client-extension-input">client extension</a>.
+	 * Gets the <a href="https://www.w3.org/TR/webauthn-3/#client-extension-input">client
+	 * extension</a>.
+	 * @return the
+	 * <a href="https://www.w3.org/TR/webauthn-3/#client-extension-input">client
+	 * extension</a>.
 	 */
 	T getInput();
 

@@ -25,6 +25,7 @@ import org.springframework.security.webauthn.api.PublicKeyCredentialType;
 
 /**
  * An immutable {@link CredentialRecord}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -58,7 +59,11 @@ public class ImmutableCredentialRecord implements CredentialRecord {
 
 	private final String label;
 
-	private ImmutableCredentialRecord(PublicKeyCredentialType credentialType, Base64Url credentialId, Base64Url userEntityUserId, PublicKeyCose publicKey, long signatureCount, boolean uvInitialized, List<AuthenticatorTransport> transports, boolean backupEligible, boolean backupState, Base64Url attestationObject, Base64Url attestationClientDataJSON, Instant created, Instant lastUsed, String label) {
+	private ImmutableCredentialRecord(PublicKeyCredentialType credentialType, Base64Url credentialId,
+			Base64Url userEntityUserId, PublicKeyCose publicKey, long signatureCount, boolean uvInitialized,
+			List<AuthenticatorTransport> transports, boolean backupEligible, boolean backupState,
+			Base64Url attestationObject, Base64Url attestationClientDataJSON, Instant created, Instant lastUsed,
+			String label) {
 		this.credentialType = credentialType;
 		this.credentialId = credentialId;
 		this.userEntityUserId = userEntityUserId;
@@ -154,19 +159,33 @@ public class ImmutableCredentialRecord implements CredentialRecord {
 	}
 
 	public static final class ImmutableCredentialRecordBuilder {
+
 		private PublicKeyCredentialType credentialType;
+
 		private Base64Url credentialId;
+
 		private Base64Url userEntityUserId;
+
 		private PublicKeyCose publicKey;
+
 		private long signatureCount;
+
 		private boolean uvInitialized;
+
 		private List<AuthenticatorTransport> transports;
+
 		private boolean backupEligible;
+
 		private boolean backupState;
+
 		private Base64Url attestationObject;
+
 		private Base64Url attestationClientDataJSON;
+
 		private Instant created = Instant.now();
+
 		private Instant lastUsed = this.created;
+
 		private String label;
 
 		private ImmutableCredentialRecordBuilder() {
@@ -188,7 +207,6 @@ public class ImmutableCredentialRecord implements CredentialRecord {
 			this.lastUsed = other.getLastUsed();
 			this.label = other.getLabel();
 		}
-
 
 		public ImmutableCredentialRecordBuilder credentialType(PublicKeyCredentialType credentialType) {
 			this.credentialType = credentialType;
@@ -261,7 +279,11 @@ public class ImmutableCredentialRecord implements CredentialRecord {
 		}
 
 		public ImmutableCredentialRecord build() {
-			return new ImmutableCredentialRecord(credentialType, credentialId, userEntityUserId, publicKey, signatureCount, uvInitialized, transports, backupEligible, backupState, attestationObject, attestationClientDataJSON, created, lastUsed, label);
+			return new ImmutableCredentialRecord(credentialType, credentialId, userEntityUserId, publicKey,
+					signatureCount, uvInitialized, transports, backupEligible, backupState, attestationObject,
+					attestationClientDataJSON, created, lastUsed, label);
 		}
+
 	}
+
 }

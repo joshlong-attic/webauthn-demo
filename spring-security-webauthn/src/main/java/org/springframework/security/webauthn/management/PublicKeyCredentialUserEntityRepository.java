@@ -20,8 +20,9 @@ import org.springframework.security.webauthn.api.Base64Url;
 import org.springframework.security.webauthn.api.PublicKeyCredentialUserEntity;
 
 /**
- * FIXME: only interfaces for inputs and outputs
- * A repository for managing {@link PublicKeyCredentialUserEntity} instances.
+ * FIXME: only interfaces for inputs and outputs A repository for managing
+ * {@link PublicKeyCredentialUserEntity} instances.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -43,9 +44,10 @@ public interface PublicKeyCredentialUserEntityRepository {
 
 	/**
 	 * Saves the {@link PublicKeyCredentialUserEntity} to the associated username.
-	 * @param username the username to associate to the provided {@link PublicKeyCredentialUserEntity}
-	 * @param userEntity the {@link PublicKeyCredentialUserEntity} to associate to the provided username. If null, any
-	 * existing entry is deleted.
+	 * @param username the username to associate to the provided
+	 * {@link PublicKeyCredentialUserEntity}
+	 * @param userEntity the {@link PublicKeyCredentialUserEntity} to associate to the
+	 * provided username. If null, any existing entry is deleted.
 	 */
 	void save(String username, PublicKeyCredentialUserEntity userEntity);
 

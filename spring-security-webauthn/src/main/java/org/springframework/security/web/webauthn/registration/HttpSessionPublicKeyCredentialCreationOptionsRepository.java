@@ -22,14 +22,16 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.security.webauthn.api.PublicKeyCredentialCreationOptions;
 import org.springframework.util.Assert;
 
-public class HttpSessionPublicKeyCredentialCreationOptionsRepository implements PublicKeyCredentialCreationOptionsRepository {
+public class HttpSessionPublicKeyCredentialCreationOptionsRepository
+		implements PublicKeyCredentialCreationOptionsRepository {
 
 	static final String DEFAULT_ATTR_NAME = PublicKeyCredentialCreationOptions.class.getName().concat("ATTR_NAME");
 
 	private String attrName = DEFAULT_ATTR_NAME;
 
 	@Override
-	public void save(HttpServletRequest request, HttpServletResponse response, PublicKeyCredentialCreationOptions options) {
+	public void save(HttpServletRequest request, HttpServletResponse response,
+			PublicKeyCredentialCreationOptions options) {
 		request.getSession().setAttribute(this.attrName, options);
 	}
 
@@ -45,4 +47,5 @@ public class HttpSessionPublicKeyCredentialCreationOptionsRepository implements 
 		Assert.notNull(attrName, "attrName cannot be null");
 		this.attrName = attrName;
 	}
+
 }

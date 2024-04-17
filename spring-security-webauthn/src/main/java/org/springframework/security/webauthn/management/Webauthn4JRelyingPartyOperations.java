@@ -52,8 +52,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * A <a href="https://webauthn4j.github.io/webauthn4j/en/">WebAuthn4j</a> implementation of
- * {@link WebAuthnRelyingPartyOperations}.
+ * A <a href="https://webauthn4j.github.io/webauthn4j/en/">WebAuthn4j</a> implementation
+ * of {@link WebAuthnRelyingPartyOperations}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -73,9 +74,11 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 
 	private WebAuthnManager webAuthnManager = WebAuthnManager.createNonStrictWebAuthnManager();
 
-	private Consumer<PublicKeyCredentialCreationOptionsBuilder> customizeCreationOptions = (options) -> {};
+	private Consumer<PublicKeyCredentialCreationOptionsBuilder> customizeCreationOptions = (options) -> {
+	};
 
-	private Consumer<PublicKeyCredentialRequestOptionsBuilder> customizeRequestOptions = (options) -> {};
+	private Consumer<PublicKeyCredentialRequestOptionsBuilder> customizeRequestOptions = (options) -> {
+	};
 
 	/**
 	 * Creates a new instance.
@@ -84,7 +87,9 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 	 * @param rpEntity the {@link PublicKeyCredentialRpEntity} to use.
 	 * @param allowedOrigins the allowed origins.
 	 */
-	public Webauthn4JRelyingPartyOperations(PublicKeyCredentialUserEntityRepository userEntities, UserCredentialRepository userCredentials, PublicKeyCredentialRpEntity rpEntity, Set<String> allowedOrigins) {
+	public Webauthn4JRelyingPartyOperations(PublicKeyCredentialUserEntityRepository userEntities,
+			UserCredentialRepository userCredentials, PublicKeyCredentialRpEntity rpEntity,
+			Set<String> allowedOrigins) {
 		Assert.notNull(userEntities, "userEntities cannot be null");
 		Assert.notNull(userCredentials, "userCredentials cannot be null");
 		Assert.notNull(rpEntity, "rpEntity cannot be null");
@@ -96,7 +101,8 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 	}
 
 	/**
-	 * Sets the {@link WebAuthnManager} to use. The default is {@link WebAuthnManager#createNonStrictWebAuthnManager()}
+	 * Sets the {@link WebAuthnManager} to use. The default is
+	 * {@link WebAuthnManager#createNonStrictWebAuthnManager()}
 	 * @param webAuthnManager the {@link WebAuthnManager}.
 	 */
 	public void setWebAuthnManager(WebAuthnManager webAuthnManager) {
@@ -105,23 +111,26 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 	}
 
 	/**
-	 * Sets a {@link Consumer} used to customize the {@link PublicKeyCredentialCreationOptionsBuilder} for
-	 * {@link #createPublicKeyCredentialCreationOptions(Authentication)}. The default values are always populated, but
-	 * can be overridden with this property.
-	 *
-	 * @param customizeCreationOptions the {@link Consumer} to customize the {@link PublicKeyCredentialCreationOptionsBuilder}
+	 * Sets a {@link Consumer} used to customize the
+	 * {@link PublicKeyCredentialCreationOptionsBuilder} for
+	 * {@link #createPublicKeyCredentialCreationOptions(Authentication)}. The default
+	 * values are always populated, but can be overridden with this property.
+	 * @param customizeCreationOptions the {@link Consumer} to customize the
+	 * {@link PublicKeyCredentialCreationOptionsBuilder}
 	 */
-	public void setCustomizeCreationOptions(Consumer<PublicKeyCredentialCreationOptionsBuilder> customizeCreationOptions) {
+	public void setCustomizeCreationOptions(
+			Consumer<PublicKeyCredentialCreationOptionsBuilder> customizeCreationOptions) {
 		Assert.notNull(customizeCreationOptions, "customizeCreationOptions must not be null");
 		this.customizeCreationOptions = customizeCreationOptions;
 	}
 
 	/**
-	 * Sets a {@link Consumer} used to customize the {@link PublicKeyCredentialRequestOptionsBuilder} for
-	 * {@link #createCredentialRequestOptions(Authentication)}.The default values are always populated, but
-	 * can be overridden with this property.
-	 *
-	 * @param customizeRequestOptions the {@link Consumer} to customize the {@link PublicKeyCredentialRequestOptionsBuilder}
+	 * Sets a {@link Consumer} used to customize the
+	 * {@link PublicKeyCredentialRequestOptionsBuilder} for
+	 * {@link #createCredentialRequestOptions(Authentication)}.The default values are
+	 * always populated, but can be overridden with this property.
+	 * @param customizeRequestOptions the {@link Consumer} to customize the
+	 * {@link PublicKeyCredentialRequestOptionsBuilder}
 	 */
 	public void setCustomizeRequestOptions(Consumer<PublicKeyCredentialRequestOptionsBuilder> customizeRequestOptions) {
 		Assert.notNull(customizeRequestOptions, "customizeRequestOptions cannot be null");
@@ -134,27 +143,29 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 			throw new IllegalArgumentException("Authentication must be authenticated");
 		}
 		AuthenticatorSelectionCriteria authenticatorSelection = AuthenticatorSelectionCriteria.builder()
-				.userVerification(UserVerificationRequirement.PREFERRED)
-				.residentKey(ResidentKeyRequirement.REQUIRED)
-				.build();
+			.userVerification(UserVerificationRequirement.PREFERRED)
+			.residentKey(ResidentKeyRequirement.REQUIRED)
+			.build();
 
-		ImmutableAuthenticationExtensionsClientInputs clientInputs = new ImmutableAuthenticationExtensionsClientInputs(ImmutableAuthenticationExtensionsClientInput.credProps);
+		ImmutableAuthenticationExtensionsClientInputs clientInputs = new ImmutableAuthenticationExtensionsClientInputs(
+				ImmutableAuthenticationExtensionsClientInput.credProps);
 
 		PublicKeyCredentialUserEntity userEntity = findUserEntityOrCreateAndSave(authentication.getName());
 		List<CredentialRecord> credentialRecords = this.userCredentials.findByUserId(userEntity.getId());
 
 		PublicKeyCredentialCreationOptions options = PublicKeyCredentialCreationOptions.builder()
-				.attestation(AttestationConveyancePreference.DIRECT)
-				.pubKeyCredParams(PublicKeyCredentialParameters.EdDSA, PublicKeyCredentialParameters.ES256, PublicKeyCredentialParameters.RS256)
-				.authenticatorSelection(authenticatorSelection)
-				.challenge(Base64Url.random())
-				.extensions(clientInputs)
-				.timeout(Duration.ofMinutes(5))
-				.user(userEntity)
-				.rp(this.rp)
-				.excludeCredentials(credentialDescriptors(credentialRecords))
-				.customize(this.customizeCreationOptions)
-				.build();
+			.attestation(AttestationConveyancePreference.DIRECT)
+			.pubKeyCredParams(PublicKeyCredentialParameters.EdDSA, PublicKeyCredentialParameters.ES256,
+					PublicKeyCredentialParameters.RS256)
+			.authenticatorSelection(authenticatorSelection)
+			.challenge(Base64Url.random())
+			.extensions(clientInputs)
+			.timeout(Duration.ofMinutes(5))
+			.user(userEntity)
+			.rp(this.rp)
+			.excludeCredentials(credentialDescriptors(credentialRecords))
+			.customize(this.customizeCreationOptions)
+			.build();
 		return options;
 	}
 
@@ -163,9 +174,9 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 		for (CredentialRecord credentialRecord : credentialRecords) {
 			Base64Url id = Base64Url.fromBase64(credentialRecord.getCredentialId().getBytesAsBase64());
 			PublicKeyCredentialDescriptor credentialDescriptor = PublicKeyCredentialDescriptor.builder()
-					.id(id)
-					.transports(credentialRecord.getTransports())
-					.build();
+				.id(id)
+				.transports(credentialRecord.getTransports())
+				.build();
 			result.add(credentialDescriptor);
 		}
 		return result;
@@ -178,10 +189,10 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 		}
 
 		PublicKeyCredentialUserEntity userEntity = PublicKeyCredentialUserEntity.builder()
-				.displayName(username)
-				.id(Base64Url.random())
-				.name(username)
-				.build();
+			.displayName(username)
+			.id(Base64Url.random())
+			.name(username)
+			.build();
 		this.userEntities.save(username, userEntity);
 		return userEntity;
 	}
@@ -206,31 +217,36 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 		byte[] clientDataJSON = response.getClientDataJSON().getBytes();
 		Challenge challenge = new DefaultChallenge(base64Challenge);
 		// FIXME: should populate this
-		byte[] tokenBindingId = null /* set tokenBindingId */; // FIXME: https://www.w3.org/TR/webauthn-1/#dom-collectedclientdata-tokenbinding
+		byte[] tokenBindingId = null /* set tokenBindingId */; // FIXME:
+																// https://www.w3.org/TR/webauthn-1/#dom-collectedclientdata-tokenbinding
 		ServerProperty serverProperty = new ServerProperty(origins, rpId, challenge, tokenBindingId);
-		boolean userVerificationRequired = creationOptions.getAuthenticatorSelection().getUserVerification() == UserVerificationRequirement.REQUIRED;
+		boolean userVerificationRequired = creationOptions.getAuthenticatorSelection()
+			.getUserVerification() == UserVerificationRequirement.REQUIRED;
 		RegistrationRequest webauthn4jRegistrationRequest = new RegistrationRequest(attestationObject, clientDataJSON);
-		RegistrationParameters registrationParameters = new RegistrationParameters(serverProperty, userVerificationRequired);
+		RegistrationParameters registrationParameters = new RegistrationParameters(serverProperty,
+				userVerificationRequired);
 
-		RegistrationData registrationData = this.webAuthnManager.validate(webauthn4jRegistrationRequest, registrationParameters);
-		AuthenticatorData<RegistrationExtensionAuthenticatorOutput> authData = registrationData.getAttestationObject().getAuthenticatorData();
+		RegistrationData registrationData = this.webAuthnManager.validate(webauthn4jRegistrationRequest,
+				registrationParameters);
+		AuthenticatorData<RegistrationExtensionAuthenticatorOutput> authData = registrationData.getAttestationObject()
+			.getAuthenticatorData();
 
 		CborConverter cborConverter = this.objectConverter.getCborConverter();
 		byte[] coseKey = cborConverter.writeValueAsBytes(authData.getAttestedCredentialData().getCOSEKey());
 		ImmutableCredentialRecord userCredential = ImmutableCredentialRecord.builder()
-				.userEntityUserId(creationOptions.getUser().getId())
-				.credentialType(credential.getType())
-				.credentialId(credential.getRawId())
-				.publicKey(new ImmutablePublicKeyCose(coseKey))
-				.signatureCount(authData.getSignCount())
-				.uvInitialized(authData.isFlagUV())
-				.transports(convertTransports(registrationData.getTransports()))
-				.backupEligible(authData.isFlagBE())
-				.backupState(authData.isFlagBS())
-				.label(publicKey.getLabel())
-				.attestationClientDataJSON(credential.getResponse().getClientDataJSON())
-				.attestationObject(credential.getResponse().getAttestationObject())
-				.build();
+			.userEntityUserId(creationOptions.getUser().getId())
+			.credentialType(credential.getType())
+			.credentialId(credential.getRawId())
+			.publicKey(new ImmutablePublicKeyCose(coseKey))
+			.signatureCount(authData.getSignCount())
+			.uvInitialized(authData.isFlagUV())
+			.transports(convertTransports(registrationData.getTransports()))
+			.backupEligible(authData.isFlagBE())
+			.backupState(authData.isFlagBS())
+			.label(publicKey.getLabel())
+			.attestationClientDataJSON(credential.getResponse().getClientDataJSON())
+			.attestationObject(credential.getResponse().getAttestationObject())
+			.build();
 		this.userCredentials.save(userCredential);
 		return userCredential;
 	}
@@ -239,13 +255,14 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 		return this.allowedOrigins.stream().map(Origin::new).collect(Collectors.toSet());
 	}
 
-	private static List<AuthenticatorTransport> convertTransports(Set<com.webauthn4j.data.AuthenticatorTransport> transports) {
+	private static List<AuthenticatorTransport> convertTransports(
+			Set<com.webauthn4j.data.AuthenticatorTransport> transports) {
 		if (transports == null) {
 			return Collections.emptyList();
 		}
 		return transports.stream()
-				.map(t -> AuthenticatorTransport.valueOf(t.getValue()))
-				.collect(Collectors.toUnmodifiableList());
+			.map(t -> AuthenticatorTransport.valueOf(t.getValue()))
+			.collect(Collectors.toUnmodifiableList());
 	}
 
 	@Override
@@ -254,13 +271,13 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 		PublicKeyCredentialUserEntity userEntity = findUserEntityOrCreateAndSave(authentication.getName());
 		List<CredentialRecord> credentialRecords = this.userCredentials.findByUserId(userEntity.getId());
 		return PublicKeyCredentialRequestOptions.builder()
-				.allowCredentials(credentialDescriptors(credentialRecords))
-				.challenge(Base64Url.random())
-				.rpId(this.rp.getId())
-				.timeout(Duration.ofMinutes(5))
-				.userVerification(UserVerificationRequirement.PREFERRED)
-				.customize(this.customizeRequestOptions)
-				.build();
+			.allowCredentials(credentialDescriptors(credentialRecords))
+			.challenge(Base64Url.random())
+			.rpId(this.rp.getId())
+			.timeout(Duration.ofMinutes(5))
+			.userVerification(UserVerificationRequirement.PREFERRED)
+			.customize(this.customizeRequestOptions)
+			.build();
 	}
 
 	@Override
@@ -271,13 +288,15 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 		CredentialRecord credentialRecord = this.userCredentials.findByCredentialId(keyId);
 
 		CborConverter cborConverter = this.objectConverter.getCborConverter();
-		AttestationObject attestationObject = cborConverter.readValue(credentialRecord.getAttestationObject().getBytes(), AttestationObject.class);
+		AttestationObject attestationObject = cborConverter
+			.readValue(credentialRecord.getAttestationObject().getBytes(), AttestationObject.class);
 
 		AuthenticatorData<RegistrationExtensionAuthenticatorOutput> authData = attestationObject.getAuthenticatorData();
-		AttestedCredentialData data = new AttestedCredentialData(authData.getAttestedCredentialData().getAaguid(), keyId.getBytes(), authData.getAttestedCredentialData().getCOSEKey());
+		AttestedCredentialData data = new AttestedCredentialData(authData.getAttestedCredentialData().getAaguid(),
+				keyId.getBytes(), authData.getAttestedCredentialData().getCOSEKey());
 
-
-		Authenticator authenticator = new AuthenticatorImpl(data, attestationObject.getAttestationStatement(), credentialRecord.getSignatureCount());
+		Authenticator authenticator = new AuthenticatorImpl(data, attestationObject.getAttestationStatement(),
+				credentialRecord.getSignatureCount());
 		if (authenticator == null) {
 			throw new IllegalStateException("No authenticator found");
 		}
@@ -285,24 +304,25 @@ public class Webauthn4JRelyingPartyOperations implements WebAuthnRelyingPartyOpe
 		Challenge challenge = new DefaultChallenge(requestOptions.getChallenge().getBytes());
 		// FIXME: should populate this
 		byte[] tokenBindingId = null /* set tokenBindingId */;
-		ServerProperty serverProperty = new ServerProperty(origins,requestOptions.getRpId(), challenge, tokenBindingId);
-		boolean userVerificationRequired = request.getRequestOptions().getUserVerification() == UserVerificationRequirement.REQUIRED;
+		ServerProperty serverProperty = new ServerProperty(origins, requestOptions.getRpId(), challenge,
+				tokenBindingId);
+		boolean userVerificationRequired = request.getRequestOptions()
+			.getUserVerification() == UserVerificationRequirement.REQUIRED;
 
 		com.webauthn4j.data.AuthenticationRequest authenticationRequest = new com.webauthn4j.data.AuthenticationRequest(
-				request.getPublicKey().getId().getBytes(),
-				assertionResponse.getAuthenticatorData().getBytes(),
-				assertionResponse.getClientDataJSON().getBytes(),
-				assertionResponse.getSignature().getBytes()
-		);
-		AuthenticationParameters authenticationParameters = new AuthenticationParameters(serverProperty, authenticator, userVerificationRequired);
+				request.getPublicKey().getId().getBytes(), assertionResponse.getAuthenticatorData().getBytes(),
+				assertionResponse.getClientDataJSON().getBytes(), assertionResponse.getSignature().getBytes());
+		AuthenticationParameters authenticationParameters = new AuthenticationParameters(serverProperty, authenticator,
+				userVerificationRequired);
 
-		AuthenticationData authenticationData = this.webAuthnManager.validate(authenticationRequest, authenticationParameters);
+		AuthenticationData authenticationData = this.webAuthnManager.validate(authenticationRequest,
+				authenticationParameters);
 
 		long updatedSignCount = authenticationData.getAuthenticatorData().getSignCount();
 		ImmutableCredentialRecord updatedRecord = ImmutableCredentialRecord.fromCredentialRecord(credentialRecord)
-				.lastUsed(Instant.now())
-				.signatureCount(updatedSignCount)
-				.build();
+			.lastUsed(Instant.now())
+			.signatureCount(updatedSignCount)
+			.build();
 		this.userCredentials.save(updatedRecord);
 
 		return this.userEntities.findUsernameByUserEntityId(credentialRecord.getUserEntityUserId());

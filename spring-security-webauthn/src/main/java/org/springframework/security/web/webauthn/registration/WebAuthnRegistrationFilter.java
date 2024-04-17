@@ -16,7 +16,6 @@
 
 package org.springframework.security.web.webauthn.registration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -42,9 +41,9 @@ import java.io.IOException;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 /**
- * Authenticates {@code PublicKeyCredential<AuthenticatorAssertionResponse>} that is parsed from the body of the
- * {@link HttpServletRequest} using the {@link #setConverter(HttpMessageConverter)}. An example request is
- * provided below:
+ * Authenticates {@code PublicKeyCredential<AuthenticatorAssertionResponse>} that is
+ * parsed from the body of the {@link HttpServletRequest} using the
+ * {@link #setConverter(HttpMessageConverter)}. An example request is provided below:
  *
  * <pre>
  * {
@@ -82,8 +81,8 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 
 	private final UserCredentialRepository userCredentials;
 
-	private HttpMessageConverter<Object> converter = new MappingJackson2HttpMessageConverter(JsonMapper.builder()
-			.findAndAddModules().build());
+	private HttpMessageConverter<Object> converter = new MappingJackson2HttpMessageConverter(
+			JsonMapper.builder().findAndAddModules().build());
 
 	private PublicKeyCredentialCreationOptionsRepository creationOptionsRepository = new HttpSessionPublicKeyCredentialCreationOptionsRepository();
 
@@ -91,7 +90,8 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 
 	private RequestMatcher removeCredentialMatcher = antMatcher(HttpMethod.POST, "/webauthn/register/{id}");
 
-	public WebAuthnRegistrationFilter(UserCredentialRepository userCredentials, WebAuthnRelyingPartyOperations rpOptions) {
+	public WebAuthnRegistrationFilter(UserCredentialRepository userCredentials,
+			WebAuthnRelyingPartyOperations rpOptions) {
 		Assert.notNull(userCredentials, "userCredentials must not be null");
 		Assert.notNull(rpOptions, "rpOptions must not be null");
 		this.userCredentials = userCredentials;
@@ -99,7 +99,8 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 		if (this.registerCredentialMatcher.matches(request)) {
 			registerCredential(request, response);
 			return;
@@ -114,8 +115,9 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Set the {@link HttpMessageConverter} to read the {@link WebAuthnRegistrationRequest} and write the response. The default
-	 * is {@link MappingJackson2HttpMessageConverter}.
+	 * Set the {@link HttpMessageConverter} to read the
+	 * {@link WebAuthnRegistrationRequest} and write the response. The default is
+	 * {@link MappingJackson2HttpMessageConverter}.
 	 * @param converter the {@link HttpMessageConverter} to use. Cannot be null.
 	 */
 	public void setConverter(HttpMessageConverter<Object> converter) {
@@ -124,8 +126,10 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Sets the {@link PublicKeyCredentialCreationOptionsRepository} to use. The default is {@link HttpSessionPublicKeyCredentialCreationOptionsRepository}.
-	 * @param creationOptionsRepository the {@link PublicKeyCredentialCreationOptionsRepository} to use. Cannot be null.
+	 * Sets the {@link PublicKeyCredentialCreationOptionsRepository} to use. The default
+	 * is {@link HttpSessionPublicKeyCredentialCreationOptionsRepository}.
+	 * @param creationOptionsRepository the
+	 * {@link PublicKeyCredentialCreationOptionsRepository} to use. Cannot be null.
 	 */
 	public void setCreationOptionsRepository(PublicKeyCredentialCreationOptionsRepository creationOptionsRepository) {
 		Assert.notNull(creationOptionsRepository, "creationOptionsRepository cannot be null");
@@ -145,38 +149,35 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 			return;
 		}
 		this.creationOptionsRepository.save(request, response, null);
-		CredentialRecord credentialRecord = this.rpOptions.registerCredential(new RelyingPartyRegistrationRequest(options, registrationRequest.getPublicKey()));
-		SuccessfulUserRegistrationResponse registrationResponse = new SuccessfulUserRegistrationResponse(credentialRecord);
+		CredentialRecord credentialRecord = this.rpOptions
+			.registerCredential(new RelyingPartyRegistrationRequest(options, registrationRequest.getPublicKey()));
+		SuccessfulUserRegistrationResponse registrationResponse = new SuccessfulUserRegistrationResponse(
+				credentialRecord);
 		ServletServerHttpResponse outputMessage = new ServletServerHttpResponse(response);
 		this.converter.write(registrationResponse, MediaType.APPLICATION_JSON, outputMessage);
 	}
 
 	private WebAuthnRegistrationRequest readRegistrationRequest(HttpServletRequest request) {
-		System.out.println("reading registration request " + request);
 		HttpInputMessage inputMessage = new ServletServerHttpRequest(request);
-		System.out.println("preparing input message " + inputMessage);
 		try {
-//			var field = this.converter.getClass().getField("defaultObjectMapper");
-//			var om = (ObjectMapper) field.get(this.converter);
-//			Assert.notNull(om, "the objectMapper is null");
-			System.out.println("about to convert to " + WebAuthnRegistrationRequest.class + " for " + inputMessage);
 			return (WebAuthnRegistrationRequest) this.converter.read(WebAuthnRegistrationRequest.class, inputMessage);
 		}
 		catch (Exception e) {
-			System.out.println("oops! " +e.getLocalizedMessage() );
-			logger.error(e);
-			e.printStackTrace();
+			logger.error("exception encountered when trying to convert " + WebAuthnRegistrationRequest.class.getName(),
+					e);
 			return null;
 		}
 	}
 
-	private void removeCredential(HttpServletRequest request, HttpServletResponse response, String id) throws IOException {
+	private void removeCredential(HttpServletRequest request, HttpServletResponse response, String id)
+			throws IOException {
 		this.userCredentials.delete(Base64Url.fromBase64(id));
 		response.sendRedirect("/webauthn/register?success");
 	}
 
 	// FIXME: make private
 	public static class WebAuthnRegistrationRequest {
+
 		private RelyingPartyPublicKey publicKey;
 
 		public RelyingPartyPublicKey getPublicKey() {
@@ -186,11 +187,13 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 		public void setPublicKey(RelyingPartyPublicKey publicKey) {
 			this.publicKey = publicKey;
 		}
+
 	}
 
 	// FIXME: make private
 	// FIXME: expose userCredential as a getter (need to update JSON mapping)
 	public static class SuccessfulUserRegistrationResponse {
+
 		private final CredentialRecord credentialRecord;
 
 		public SuccessfulUserRegistrationResponse(CredentialRecord credentialRecord) {

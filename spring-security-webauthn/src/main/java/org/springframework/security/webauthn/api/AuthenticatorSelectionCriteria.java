@@ -18,9 +18,11 @@
 package org.springframework.security.webauthn.api;
 
 /**
- * <a href="https://www.w3.org/TR/webauthn-3/#dictdef-authenticatorselectioncriteria">AuthenticatorAttachment</a> can be
- * used by <a href="https://www.w3.org/TR/webauthn-3/#webauthn-relying-party">WebAuthn Relying Parties</a> to specify
- * their requirements regarding authenticator attributes.
+ * <a href=
+ * "https://www.w3.org/TR/webauthn-3/#dictdef-authenticatorselectioncriteria">AuthenticatorAttachment</a>
+ * can be used by
+ * <a href="https://www.w3.org/TR/webauthn-3/#webauthn-relying-party">WebAuthn Relying
+ * Parties</a> to specify their requirements regarding authenticator attributes.
  *
  * @since 6.3
  * @author Rob Winch
@@ -39,20 +41,23 @@ public class AuthenticatorSelectionCriteria {
 	 * @param residentKey the resident key requirement
 	 * @param userVerification the user verification
 	 */
-	private AuthenticatorSelectionCriteria(AuthenticatorAttachment authenticatorAttachment, ResidentKeyRequirement residentKey, UserVerificationRequirement userVerification) {
+	private AuthenticatorSelectionCriteria(AuthenticatorAttachment authenticatorAttachment,
+			ResidentKeyRequirement residentKey, UserVerificationRequirement userVerification) {
 		this.authenticatorAttachment = authenticatorAttachment;
 		this.residentKey = residentKey;
 		this.userVerification = userVerification;
 	}
 
 	/**
-	 * If <a href="https://www.w3.org/TR/webauthn-3/#dom-authenticatorselectioncriteria-authenticatorattachment">
-	 * authenticatorAttachment</a> is present, eligible <a href="https://www.w3.org/TR/webauthn-3/#authenticator">authenticators</a>
-	 * are filtered to be only those authenticators attached with the specified
-	 * <a href="https://www.w3.org/TR/webauthn-3/#enum-attachment">authenticator attachment modality</a> (see also
-	 * <a href="https://www.w3.org/TR/webauthn-3/#sctn-authenticator-attachment-modality">6.2.1 Authenticator Attachment
-	 * Modality</a>).
-	 *
+	 * If <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-authenticatorselectioncriteria-authenticatorattachment">
+	 * authenticatorAttachment</a> is present, eligible
+	 * <a href="https://www.w3.org/TR/webauthn-3/#authenticator">authenticators</a> are
+	 * filtered to be only those authenticators attached with the specified
+	 * <a href="https://www.w3.org/TR/webauthn-3/#enum-attachment">authenticator
+	 * attachment modality</a> (see also <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#sctn-authenticator-attachment-modality">6.2.1
+	 * Authenticator Attachment Modality</a>).
 	 * @return the authenticator attachment
 	 */
 	public AuthenticatorAttachment getAuthenticatorAttachment() {
@@ -60,11 +65,13 @@ public class AuthenticatorSelectionCriteria {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-authenticatorselectioncriteria-residentkey">residentKey</a>
-	 * specifies the extent to which the <a href="https://www.w3.org/TR/webauthn-3/#relying-party">Relying Party</a>
-	 * desires to create a <a href="https://www.w3.org/TR/webauthn-3/#client-side-discoverable-credential">client-side
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-authenticatorselectioncriteria-residentkey">residentKey</a>
+	 * specifies the extent to which the
+	 * <a href="https://www.w3.org/TR/webauthn-3/#relying-party">Relying Party</a> desires
+	 * to create a <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#client-side-discoverable-credential">client-side
 	 * discoverable credential</a>.
-	 *
 	 * @return the residenty key requirement
 	 */
 	public ResidentKeyRequirement getResidentKey() {
@@ -72,10 +79,13 @@ public class AuthenticatorSelectionCriteria {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-authenticatorselectioncriteria-userverification">userVerification</a>
-	 * specifies the <a href="https://www.w3.org/TR/webauthn-3/#relying-party">Relying Party</a>'s requirements regarding
-	 * <a href="https://www.w3.org/TR/webauthn-3/#user-verification">user verification</a> for the
-	 * <a href="https://w3c.github.io/webappsec-credential-management/#dom-credentialscontainer-create">create()</a>
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-authenticatorselectioncriteria-userverification">userVerification</a>
+	 * specifies the <a href="https://www.w3.org/TR/webauthn-3/#relying-party">Relying
+	 * Party</a>'s requirements regarding
+	 * <a href="https://www.w3.org/TR/webauthn-3/#user-verification">user verification</a>
+	 * for the <a href=
+	 * "https://w3c.github.io/webappsec-credential-management/#dom-credentialscontainer-create">create()</a>
 	 * operation.
 	 * @return the user verification requirement
 	 */
@@ -93,12 +103,16 @@ public class AuthenticatorSelectionCriteria {
 
 	/**
 	 * Creates a {@link AuthenticatorSelectionCriteria}
+	 *
 	 * @since 6.3
 	 * @author Rob Winch
 	 */
 	public static final class AuthenticatorSelectionCriteriaBuilder {
+
 		private AuthenticatorAttachment authenticatorAttachment;
+
 		private ResidentKeyRequirement residentKey;
+
 		private UserVerificationRequirement userVerification;
 
 		private AuthenticatorSelectionCriteriaBuilder() {
@@ -109,7 +123,8 @@ public class AuthenticatorSelectionCriteria {
 		 * @param authenticatorAttachment the authenticator attachment
 		 * @return the {@link AuthenticatorSelectionCriteriaBuilder}
 		 */
-		public AuthenticatorSelectionCriteriaBuilder authenticatorAttachment(AuthenticatorAttachment authenticatorAttachment) {
+		public AuthenticatorSelectionCriteriaBuilder authenticatorAttachment(
+				AuthenticatorAttachment authenticatorAttachment) {
 			this.authenticatorAttachment = authenticatorAttachment;
 			return this;
 		}
@@ -139,7 +154,8 @@ public class AuthenticatorSelectionCriteria {
 		 * @return a new {@link AuthenticatorSelectionCriteria}
 		 */
 		public AuthenticatorSelectionCriteria build() {
-			return new AuthenticatorSelectionCriteria(this.authenticatorAttachment, this.residentKey, this.userVerification);
+			return new AuthenticatorSelectionCriteria(this.authenticatorAttachment, this.residentKey,
+					this.userVerification);
 		}
 
 	}

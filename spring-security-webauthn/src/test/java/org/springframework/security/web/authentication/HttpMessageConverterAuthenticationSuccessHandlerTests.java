@@ -55,14 +55,12 @@ class HttpMessageConverterAuthenticationSuccessHandlerTests {
 
 	@Test
 	void setConverterWhenNullThenThrowIllegalArgumentException() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> this.handler.setConverter(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.handler.setConverter(null));
 	}
 
 	@Test
 	void setRequestCacheWhenNullThenThrowIllegalArgumentException() {
-		assertThatIllegalArgumentException()
-				.isThrownBy(() -> this.handler.setRequestCache(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.handler.setRequestCache(null));
 	}
 
 	@Test
@@ -70,10 +68,10 @@ class HttpMessageConverterAuthenticationSuccessHandlerTests {
 		this.handler.onAuthenticationSuccess(this.request, this.response, this.authentication);
 		String body = this.response.getContentAsString();
 		JSONAssert.assertEquals("""
-			{
-				"redirectUrl" : "/",
-				"authenticated": true
-			}""", body, false);
+				{
+					"redirectUrl" : "/",
+					"authenticated": true
+				}""", body, false);
 	}
 
 	@Test
@@ -85,10 +83,10 @@ class HttpMessageConverterAuthenticationSuccessHandlerTests {
 		verify(this.requestCache).removeRequest(this.request, this.response);
 		String body = this.response.getContentAsString();
 		JSONAssert.assertEquals("""
-			{
-				"redirectUrl" : "/redirect",
-				"authenticated": true
-			}""", body, false);
+				{
+					"redirectUrl" : "/redirect",
+					"authenticated": true
+				}""", body, false);
 	}
 
 	@Test
@@ -99,8 +97,7 @@ class HttpMessageConverterAuthenticationSuccessHandlerTests {
 		doAnswer(invocation -> {
 			this.response.getWriter().write(expectedBody);
 			return null;
-		})
-		.when(this.converter).write(any(), any(), any());
+		}).when(this.converter).write(any(), any(), any());
 		this.handler.setRequestCache(this.requestCache);
 		this.handler.setConverter(this.converter);
 		this.handler.onAuthenticationSuccess(this.request, this.response, this.authentication);

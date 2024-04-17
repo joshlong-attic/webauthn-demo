@@ -25,6 +25,7 @@ import java.io.IOException;
 
 /**
  * Jackson serializer for {@link PublicKeyCredentialType}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -38,7 +39,9 @@ class PublicKeyCredentialTypeSerializer extends StdSerializer<PublicKeyCredentia
 	}
 
 	@Override
-	public void serialize(PublicKeyCredentialType type, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+	public void serialize(PublicKeyCredentialType type, JsonGenerator jgen, SerializerProvider provider)
+			throws IOException {
 		jgen.writeString(type.getValue());
 	}
+
 }

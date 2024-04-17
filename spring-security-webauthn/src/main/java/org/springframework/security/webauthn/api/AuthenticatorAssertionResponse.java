@@ -17,19 +17,25 @@
 package org.springframework.security.webauthn.api;
 
 /**
- * The <a href="https://www.w3.org/TR/webauthn-3/#authenticatorassertionresponse">AuthenticatorAssertionResponse</a>
- * interface represents an <a href="https://www.w3.org/TR/webauthn-3/#authenticator">authenticator</a>'s response to a
- * client’s request for generation of a new
- * <a href="https://www.w3.org/TR/webauthn-3/#authentication-assertion>authentication assertion</a> given the
- * <a href="https://www.w3.org/TR/webauthn-3/#webauthn-relying-party">WebAuthn Relying Party</a>'s challenge and
- * OPTIONAL list of credentials it is aware of. This response contains a cryptographic signature proving possession of
- * the <a href="https://www.w3.org/TR/webauthn-3/#credential-private-key">credential private key</a>, and optionally
- * evidence of <a href="https://www.w3.org/TR/webauthn-3/#user-consent">user consent</a> to a specific transaction.
+ * The <a href=
+ * "https://www.w3.org/TR/webauthn-3/#authenticatorassertionresponse">AuthenticatorAssertionResponse</a>
+ * interface represents an
+ * <a href="https://www.w3.org/TR/webauthn-3/#authenticator">authenticator</a>'s response
+ * to a client’s request for generation of a new <a
+ * href="https://www.w3.org/TR/webauthn-3/#authentication-assertion>authentication
+ * assertion</a> given the
+ * <a href="https://www.w3.org/TR/webauthn-3/#webauthn-relying-party">WebAuthn Relying
+ * Party</a>'s challenge and OPTIONAL list of credentials it is aware of. This response
+ * contains a cryptographic signature proving possession of the
+ * <a href="https://www.w3.org/TR/webauthn-3/#credential-private-key">credential private
+ * key</a>, and optionally evidence of
+ * <a href="https://www.w3.org/TR/webauthn-3/#user-consent">user consent</a> to a specific
+ * transaction.
  *
  * @since 6.3
  * @author Rob Winch
  */
-public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
+public class AuthenticatorAssertionResponse extends AuthenticatorResponse {
 
 	private final Base64Url authenticatorData;
 
@@ -39,7 +45,8 @@ public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
 
 	private final Base64Url attestationObject;
 
-	private AuthenticatorAssertionResponse(Base64Url clientDataJSON, Base64Url authenticatorData, Base64Url signature, Base64Url userHandle, Base64Url attestationObject) {
+	private AuthenticatorAssertionResponse(Base64Url clientDataJSON, Base64Url authenticatorData, Base64Url signature,
+			Base64Url userHandle, Base64Url attestationObject) {
 		super(clientDataJSON);
 		this.authenticatorData = authenticatorData;
 		this.signature = signature;
@@ -48,9 +55,13 @@ public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-authenticatorassertionresponse-authenticatordata">authenticatorData</a>
-	 * contains the <a href="https://www.w3.org/TR/webauthn-3/#authenticator-data">authenticator data</a> returned by
-	 * the authenticator. See <a href="https://www.w3.org/TR/webauthn-3/#sctn-authenticator-data">6.1 Authenticator Data.</a>.
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-authenticatorassertionresponse-authenticatordata">authenticatorData</a>
+	 * contains the
+	 * <a href="https://www.w3.org/TR/webauthn-3/#authenticator-data">authenticator
+	 * data</a> returned by the authenticator. See
+	 * <a href="https://www.w3.org/TR/webauthn-3/#sctn-authenticator-data">6.1
+	 * Authenticator Data.</a>.
 	 * @return the {@code authenticatorData}
 	 */
 	public Base64Url getAuthenticatorData() {
@@ -58,9 +69,11 @@ public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-authenticatorassertionresponse-signature">signature</a>
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-authenticatorassertionresponse-signature">signature</a>
 	 * contains the raw signature returned from the authenticator. See
-	 * <a href="https://www.w3.org/TR/webauthn-3/#sctn-op-get-assertion">6.3.3 The authenticatorGetAssertion Operation</a>.
+	 * <a href="https://www.w3.org/TR/webauthn-3/#sctn-op-get-assertion">6.3.3 The
+	 * authenticatorGetAssertion Operation</a>.
 	 * @return the {@code signature}
 	 */
 	public Base64Url getSignature() {
@@ -68,15 +81,18 @@ public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
 	}
 
 	/**
-	 * The <a href="https://www.w3.org/TR/webauthn-3/#dom-authenticatorassertionresponse-userhandle">userHandle</a>
-	 * is the <a href="https://www.w3.org/TR/webauthn-3/#user-handle">user handle</a> which is returned from the
-	 * authenticator, or null if the authenticator did not return a user handle. See
-	 * <a href="https://www.w3.org/TR/webauthn-3/#sctn-op-get-assertion">6.3.3 The authenticatorGetAssertion Operation</a>.
-	 * The authenticator MUST always return a user handle if the
-	 * <a href="https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-allowcredentials">allowCredentials</a>
-	 * option used in the <a href="https://www.w3.org/TR/webauthn-3/#authentication-ceremony">authentication ceremony</a>
-	 * is empty, and MAY return one otherwise.
-	 *
+	 * The <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-authenticatorassertionresponse-userhandle">userHandle</a>
+	 * is the <a href="https://www.w3.org/TR/webauthn-3/#user-handle">user handle</a>
+	 * which is returned from the authenticator, or null if the authenticator did not
+	 * return a user handle. See
+	 * <a href="https://www.w3.org/TR/webauthn-3/#sctn-op-get-assertion">6.3.3 The
+	 * authenticatorGetAssertion Operation</a>. The authenticator MUST always return a
+	 * user handle if the <a href=
+	 * "https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialrequestoptions-allowcredentials">allowCredentials</a>
+	 * option used in the
+	 * <a href="https://www.w3.org/TR/webauthn-3/#authentication-ceremony">authentication
+	 * ceremony</a> is empty, and MAY return one otherwise.
 	 * @return the <a href="https://www.w3.org/TR/webauthn-3/#user-handle">user handle</a>
 	 */
 	public Base64Url getUserHandle() {
@@ -85,9 +101,8 @@ public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
 
 	/**
 	 * The <a href="">attestationObject</a> is an OPTIONAL attribute contains an
-	 * <a href="https://www.w3.org/TR/webauthn-3/#attestation-object">attestation object</a>, if the authenticator
-	 * supports attestation in assertions.
-	 *
+	 * <a href="https://www.w3.org/TR/webauthn-3/#attestation-object">attestation
+	 * object</a>, if the authenticator supports attestation in assertions.
 	 * @return the {@code attestationObject}
 	 */
 	public Base64Url getAttestationObject() {
@@ -109,10 +124,15 @@ public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
 	 * @author Rob Winch
 	 */
 	public static final class AuthenticatorAssertionResponseBuilder {
+
 		private Base64Url authenticatorData;
+
 		private Base64Url signature;
+
 		private Base64Url userHandle;
+
 		private Base64Url attestationObject;
+
 		private Base64Url clientDataJSON;
 
 		private AuthenticatorAssertionResponseBuilder() {
@@ -173,7 +193,8 @@ public class AuthenticatorAssertionResponse extends AuthenticatorResponse  {
 		 * @return the {@link AuthenticatorAssertionResponse}
 		 */
 		public AuthenticatorAssertionResponse build() {
-			return new AuthenticatorAssertionResponse(this.clientDataJSON, this.authenticatorData, this.signature, this.userHandle, this.attestationObject);
+			return new AuthenticatorAssertionResponse(this.clientDataJSON, this.authenticatorData, this.signature,
+					this.userHandle, this.attestationObject);
 		}
 
 	}

@@ -18,7 +18,8 @@
 package org.springframework.security.webauthn.api;
 
 /**
- * The <a href="https://www.w3.org/TR/webauthn-3/#enumdef-authenticatorattachment">AuthenticatorAttachment</a>.
+ * The <a href=
+ * "https://www.w3.org/TR/webauthn-3/#enumdef-authenticatorattachment">AuthenticatorAttachment</a>.
  *
  * @since 6.3
  * @author Rob Winch
@@ -26,20 +27,23 @@ package org.springframework.security.webauthn.api;
 public enum AuthenticatorAttachment {
 
 	/**
-	 * Indicates <a
-	 * href="https://www.w3.org/TR/2021/REC-webauthn-2-20210408/#cross-platform-attachment">cross-platform
+	 * Indicates <a href=
+	 * "https://www.w3.org/TR/2021/REC-webauthn-2-20210408/#cross-platform-attachment">cross-platform
 	 * attachment</a>.
 	 *
-	 * <p>Authenticators of this class are removable from, and can "roam" among, client platforms.
+	 * <p>
+	 * Authenticators of this class are removable from, and can "roam" among, client
+	 * platforms.
 	 */
 	CROSS_PLATFORM("cross-platform"),
 
 	/**
-	 * Indicates <a
-	 * href="https://www.w3.org/TR/2021/REC-webauthn-2-20210408/#platform-attachment">platform
+	 * Indicates <a href=
+	 * "https://www.w3.org/TR/2021/REC-webauthn-2-20210408/#platform-attachment">platform
 	 * attachment</a>.
 	 *
-	 * <p>Usually, authenticators of this class are not removable from the platform.
+	 * <p>
+	 * Usually, authenticators of this class are not removable from the platform.
 	 */
 	PLATFORM("platform");
 

@@ -28,9 +28,11 @@ public class ImmutableAuthenticationExtensionsClientInput<T> implements Authenti
 	/**
 	 * https://www.w3.org/TR/webauthn-3/#sctn-authenticator-credential-properties-extension
 	 */
-	public static final AuthenticationExtensionsClientInput<Boolean> credProps = new ImmutableAuthenticationExtensionsClientInput<>("credProps", true);
+	public static final AuthenticationExtensionsClientInput<Boolean> credProps = new ImmutableAuthenticationExtensionsClientInput<>(
+			"credProps", true);
 
-	public static final AuthenticationExtensionsClientInput<Boolean> credProtect = new ImmutableAuthenticationExtensionsClientInput<>("credProtect", true);
+	public static final AuthenticationExtensionsClientInput<Boolean> credProtect = new ImmutableAuthenticationExtensionsClientInput<>(
+			"credProtect", true);
 
 	private final String extensionId;
 
@@ -55,4 +57,5 @@ public class ImmutableAuthenticationExtensionsClientInput<T> implements Authenti
 	public T getInput() {
 		return this.input;
 	}
+
 }

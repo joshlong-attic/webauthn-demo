@@ -28,10 +28,11 @@ import org.springframework.security.webauthn.management.WebAuthnRelyingPartyOper
 import org.springframework.util.Assert;
 
 /**
- * An {@link AuthenticationProvider} that uses {@link WebAuthnRelyingPartyOperations} for authentication using an
- * {@link WebAuthnAuthenticationRequestToken}. First
- * {@link WebAuthnRelyingPartyOperations#authenticate(RelyingPartyAuthenticationRequest)} is invoked. The result is a username
- * passed into {@link UserDetailsService}. The {@link UserDetails} is used to create an {@link Authentication}.
+ * An {@link AuthenticationProvider} that uses {@link WebAuthnRelyingPartyOperations} for
+ * authentication using an {@link WebAuthnAuthenticationRequestToken}. First
+ * {@link WebAuthnRelyingPartyOperations#authenticate(RelyingPartyAuthenticationRequest)}
+ * is invoked. The result is a username passed into {@link UserDetailsService}. The
+ * {@link UserDetails} is used to create an {@link Authentication}.
  *
  * @since 6.3
  * @author Rob Winch
@@ -44,10 +45,12 @@ public class WebAuthnAuthenticationProvider implements AuthenticationProvider {
 
 	/**
 	 * Creates a new instance.
-	 * @param relyingPartyOperations the {@link WebAuthnRelyingPartyOperations} to use. Cannot be null.
+	 * @param relyingPartyOperations the {@link WebAuthnRelyingPartyOperations} to use.
+	 * Cannot be null.
 	 * @param userDetailsService the {@link UserDetailsService} to use. Cannot be null.
 	 */
-	public WebAuthnAuthenticationProvider(WebAuthnRelyingPartyOperations relyingPartyOperations, UserDetailsService userDetailsService) {
+	public WebAuthnAuthenticationProvider(WebAuthnRelyingPartyOperations relyingPartyOperations,
+			UserDetailsService userDetailsService) {
 		Assert.notNull(relyingPartyOperations, "relyingPartyOperations cannot be null");
 		Assert.notNull(userDetailsService, "userDetailsService cannot be null");
 		this.relyingPartyOperations = relyingPartyOperations;
@@ -60,7 +63,8 @@ public class WebAuthnAuthenticationProvider implements AuthenticationProvider {
 		try {
 			String username = this.relyingPartyOperations.authenticate(webAuthnRequest.getWebAuthnRequest());
 			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-			return UsernamePasswordAuthenticationToken.authenticated(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+			return UsernamePasswordAuthenticationToken.authenticated(userDetails, userDetails.getPassword(),
+					userDetails.getAuthorities());
 		}
 		catch (RuntimeException e) {
 			throw new BadCredentialsException(e.getMessage(), e);

@@ -25,13 +25,16 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 /**
  * Tests for {@link MapPublicKeyCredentialUserEntityRepository}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 class MapPublicKeyCredentialUserEntityRepositoryTests {
 
 	private MapPublicKeyCredentialUserEntityRepository userEntities = new MapPublicKeyCredentialUserEntityRepository();
+
 	private PublicKeyCredentialUserEntity userEntity = TestPublicKeyCredentialUserEntity.userEntity().build();
+
 	private String username = "username";
 
 	@Test
@@ -90,4 +93,5 @@ class MapPublicKeyCredentialUserEntityRepositoryTests {
 	void saveWhenNullAndDOesNotExistThenNoException() {
 		assertThatNoException().isThrownBy(() -> this.userEntities.save(this.username, null));
 	}
+
 }

@@ -22,13 +22,16 @@ import org.springframework.security.webauthn.api.Base64Url;
 
 /**
  * Jackson mixin for {@link org.springframework.security.webauthn.api.Base64Url}
+ *
  * @since 6.3
  * @author Rob Winch
  */
 @JsonSerialize(using = Base64Serializer.class)
 class Base64UrlMixin {
+
 	@JsonCreator
 	public static Base64Url fromBase64(String value) {
 		return Base64Url.fromBase64(value);
 	}
+
 }

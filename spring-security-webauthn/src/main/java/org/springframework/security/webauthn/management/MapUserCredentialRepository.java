@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 /**
  * A {@link Map} based implementation of {@link UserCredentialRepository}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -31,14 +32,15 @@ public class MapUserCredentialRepository implements UserCredentialRepository {
 
 	private final Map<Base64Url, CredentialRecord> credentialIdToUserCredential = new HashMap<>();
 
-	private final Map<Base64Url,Set<Base64Url>> userEntityIdToUserCredentialIds = new HashMap<>();
+	private final Map<Base64Url, Set<Base64Url>> userEntityIdToUserCredentialIds = new HashMap<>();
 
 	@Override
 	public void delete(Base64Url credentialId) {
 		Assert.notNull(credentialId, "credentialId cannot be null");
 		CredentialRecord credentialRecord = this.credentialIdToUserCredential.remove(credentialId);
 		if (credentialRecord != null) {
-			Set<Base64Url> credentialIds = this.userEntityIdToUserCredentialIds.get(credentialRecord.getUserEntityUserId());
+			Set<Base64Url> credentialIds = this.userEntityIdToUserCredentialIds
+				.get(credentialRecord.getUserEntityUserId());
 			if (credentialIds != null) {
 				credentialIds.remove(credentialId);
 			}
@@ -49,7 +51,9 @@ public class MapUserCredentialRepository implements UserCredentialRepository {
 	public void save(CredentialRecord credentialRecord) {
 		Assert.notNull(credentialRecord, "credentialRecord cannot be null");
 		this.credentialIdToUserCredential.put(credentialRecord.getCredentialId(), credentialRecord);
-		this.userEntityIdToUserCredentialIds.computeIfAbsent(credentialRecord.getUserEntityUserId(), (id) -> new HashSet<>()).add(credentialRecord.getCredentialId());
+		this.userEntityIdToUserCredentialIds
+			.computeIfAbsent(credentialRecord.getUserEntityUserId(), (id) -> new HashSet<>())
+			.add(credentialRecord.getCredentialId());
 	}
 
 	@Override
@@ -61,9 +65,9 @@ public class MapUserCredentialRepository implements UserCredentialRepository {
 	@Override
 	public List<CredentialRecord> findByUserId(Base64Url userId) {
 		Assert.notNull(userId, "userId cannot be null");
-		Set<Base64Url> credentialIds = this.userEntityIdToUserCredentialIds.getOrDefault(userId, Collections.emptySet());
-		return credentialIds.stream()
-			.map(this::findByCredentialId)
-			.collect(Collectors.toUnmodifiableList());
+		Set<Base64Url> credentialIds = this.userEntityIdToUserCredentialIds.getOrDefault(userId,
+				Collections.emptySet());
+		return credentialIds.stream().map(this::findByCredentialId).collect(Collectors.toUnmodifiableList());
 	}
+
 }

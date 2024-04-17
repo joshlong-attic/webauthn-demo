@@ -19,10 +19,13 @@ package org.springframework.security.webauthn.jackson;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Jackson mixin for {@link org.springframework.security.webauthn.api.CredentialPropertiesOutput}
+ * Jackson mixin for
+ * {@link org.springframework.security.webauthn.api.CredentialPropertiesOutput}
+ *
  * @since 6.3
  * @author Rob Winch
  */
 @JsonDeserialize(using = CredentialPropertiesOutputDeserializer.class)
 abstract class CredentialPropertiesOutputMixin {
+
 }

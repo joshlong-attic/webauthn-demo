@@ -57,11 +57,11 @@ public class DefaultWebAuthnRegistrationPageGeneratingFilter extends OncePerRequ
 
 	/**
 	 * Creates a new instance.
-	 *
 	 * @param userEntities the {@link PublicKeyCredentialUserEntity}
 	 * @param userCredentials
 	 */
-	public DefaultWebAuthnRegistrationPageGeneratingFilter(PublicKeyCredentialUserEntityRepository userEntities, UserCredentialRepository userCredentials) {
+	public DefaultWebAuthnRegistrationPageGeneratingFilter(PublicKeyCredentialUserEntityRepository userEntities,
+			UserCredentialRepository userCredentials) {
 		Assert.notNull(userEntities, "userEntities cannot be null");
 		Assert.notNull(userCredentials, "userCredentials cannot be null");
 		this.userEntities = userEntities;
@@ -69,8 +69,8 @@ public class DefaultWebAuthnRegistrationPageGeneratingFilter extends OncePerRequ
 	}
 
 	@Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 		if (!this.matcher.matches(request)) {
 			filterChain.doFilter(request, response);
 			return;
@@ -90,13 +90,14 @@ public class DefaultWebAuthnRegistrationPageGeneratingFilter extends OncePerRequ
 		response.getWriter().write(processTemplate(HTML_TEMPLATE, context));
 	}
 
-	private String passkeyRows(String username, Map<String,Object> baseContext) {
+	private String passkeyRows(String username, Map<String, Object> baseContext) {
 		PublicKeyCredentialUserEntity userEntity = this.userEntities.findByUsername(username);
-		List<CredentialRecord> credentials = userEntity == null ? Collections.emptyList() : this.userCredentials.findByUserId(userEntity.getId());
+		List<CredentialRecord> credentials = userEntity == null ? Collections.emptyList()
+				: this.userCredentials.findByUserId(userEntity.getId());
 		if (credentials.isEmpty()) {
 			return """
-				<tr><td colspan="4">No Passkeys</td></tr>
-				""";
+					<tr><td colspan="4">No Passkeys</td></tr>
+					""";
 		}
 		String html = "";
 		for (CredentialRecord credential : credentials) {
@@ -111,7 +112,7 @@ public class DefaultWebAuthnRegistrationPageGeneratingFilter extends OncePerRequ
 		return html;
 	}
 
-	private String processTemplate(String template, Map<String,Object> context) {
+	private String processTemplate(String template, Map<String, Object> context) {
 		for (Map.Entry<String, Object> entry : context.entrySet()) {
 			String pattern = Pattern.quote("${" + entry.getKey() + "}");
 			String value = String.valueOf(entry.getValue());
@@ -121,176 +122,177 @@ public class DefaultWebAuthnRegistrationPageGeneratingFilter extends OncePerRequ
 	}
 
 	private static final String HTML_TEMPLATE = """
-		<html>
-			<head>
-				<meta charset="utf-8">
-				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-				<meta name="description" content="">
-				<meta name="author" content="">
-				<title>WebAuthn Registration</title>
-				<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-				<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
-				<script type="text/javascript" id="registration-script" data-csrf-token="${csrfToken}" data-csrf-header-name="${csrfHeaderName}">
-				<!--
-					document.addEventListener("DOMContentLoaded", function(event) {
-						setup()
-					});
-					function setVisibility(elmt, value) {
-						elmt.style.display = value ? 'block' : 'none'
-					}
-					const base64url = {
-						encode: function(buffer) {
-							const base64 = window.btoa(String.fromCharCode(...new Uint8Array(buffer)));
-							return base64.replace(/=/g, '').replace(/\\+/g, '-').replace(/\\//g, '_');
-						},
-						decode: function(base64url) {
-							const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
-							const binStr = window.atob(base64);
-							const bin = new Uint8Array(binStr.length);
-							for (let i = 0; i < binStr.length; i++) {
-								bin[i] = binStr.charCodeAt(i);
-							}
-							return bin.buffer;
-						}
-					}
-					function setup() {
-						const config = document.getElementById('registration-script').dataset
-						const csrfToken = config.csrfToken
-						const csrfHeaderName = config.csrfHeaderName
-						const register = document.getElementById('register');
-						const success = document.getElementById('success');
-						const error = document.getElementById('error');
-						setVisibility(success, false)
-						setVisibility(error, false)
-
-						// Start registration when the user clicks a button
-						register.addEventListener('click', async () => {
-							// Reset success/error messages
-							setVisibility(success, false)
-							setVisibility(error, false)
-							success.innerHTML = '';
-							error.innerHTML = '';
-
-							const label = document.getElementById('label').value
-							if (!label) {
-								setVisibility(error, true)
-								error.innerText = 'Error: Passkey Label is required'
-								return;
-							}
-
-							const optionsResponse = await fetch('${contextPath}/webauthn/register/options', {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-									[csrfHeaderName]: csrfToken,
-								},
-							});
-							const options = await optionsResponse.json();
-							// FIXME: Use https://www.w3.org/TR/webauthn-3/#sctn-parseCreationOptionsFromJSON
-							options.user.id = base64url.decode(options.user.id);
-							options.challenge = base64url.decode(options.challenge);
-							if (options.excludeCredentials) {
-								for (let cred of options.excludeCredentials) {
-									cred.id = base64url.decode(cred.id);
+					<html>
+						<head>
+							<meta charset="utf-8">
+							<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+							<meta name="description" content="">
+							<meta name="author" content="">
+							<title>WebAuthn Registration</title>
+							<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+							<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+							<script type="text/javascript" id="registration-script" data-csrf-token="${csrfToken}" data-csrf-header-name="${csrfHeaderName}">
+							<!--
+								document.addEventListener("DOMContentLoaded", function(event) {
+									setup()
+								});
+								function setVisibility(elmt, value) {
+									elmt.style.display = value ? 'block' : 'none'
 								}
-							}
-							const credentialsContainer = await navigator.credentials.create({
-								publicKey: options,
-							});
-							// FIXME: Let response be credential.response. If response is not an instance of AuthenticatorAttestationResponse, abort the ceremony with a user-visible error. https://www.w3.org/TR/webauthn-3/#sctn-registering-a-new-credential
-							const { response } = credentialsContainer;
-							const credential = {
-								id: credentialsContainer.id,
-								rawId: base64url.encode(credentialsContainer.rawId),
-								response: {
-									attestationObject: base64url.encode(response.attestationObject),
-									clientDataJSON: base64url.encode(response.clientDataJSON),
-									transports: response.getTransports ? response.getTransports() : [],
-									publicKeyAlgorithm: response.getPublicKeyAlgorithm(),
-									publicKey: base64url.encode(response.getPublicKey()),
-									authenticatorData: base64url.encode(response.getAuthenticatorData()),
-								},
-								type: credentialsContainer.type,
-								clientExtensionResults: credentialsContainer.getClientExtensionResults(),
-								authenticatorAttachment: credentialsContainer.authenticatorAttachment,
-							};
-
-							const registrationRequest = {
-								"publicKey": {
-									"credential": credential,
-									"label": label,
+								const base64url = {
+									encode: function(buffer) {
+										const base64 = window.btoa(String.fromCharCode(...new Uint8Array(buffer)));
+										return base64.replace(/=/g, '').replace(/\\+/g, '-').replace(/\\//g, '_');
+									},
+									decode: function(base64url) {
+										const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+										const binStr = window.atob(base64);
+										const bin = new Uint8Array(binStr.length);
+										for (let i = 0; i < binStr.length; i++) {
+											bin[i] = binStr.charCodeAt(i);
+										}
+										return bin.buffer;
+									}
 								}
-							}
-							const registrationRequestJSON = JSON.stringify(registrationRequest, null, 2)
-							console.log(registrationRequestJSON)
+								function setup() {
+									const config = document.getElementById('registration-script').dataset
+									const csrfToken = config.csrfToken
+									const csrfHeaderName = config.csrfHeaderName
+									const register = document.getElementById('register');
+									const success = document.getElementById('success');
+									const error = document.getElementById('error');
+									setVisibility(success, false)
+									setVisibility(error, false)
 
-							// POST the response to the endpoint that calls
-							const verificationResp = await fetch('${contextPath}/webauthn/register', {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-									[csrfHeaderName]: csrfToken,
-								},
-								body: registrationRequestJSON,
-							});
+									// Start registration when the user clicks a button
+									register.addEventListener('click', async () => {
+										// Reset success/error messages
+										setVisibility(success, false)
+										setVisibility(error, false)
+										success.innerHTML = '';
+										error.innerHTML = '';
 
-							// Wait for the results of verification
-							const verificationJSON = await verificationResp.json();
+										const label = document.getElementById('label').value
+										if (!label) {
+											setVisibility(error, true)
+											error.innerText = 'Error: Passkey Label is required'
+											return;
+										}
 
-							// Show UI appropriate for the `success` status & reload to display the new registration
-							if (verificationJSON && verificationJSON.success) {
-								window.location.href = '${contextPath}/webauthn/register?success'
-							} else {
-								setVisibility(error, true)
-								error.innerHTML = `Registration failed! Response: <pre>${JSON.stringify(verificationJSON,null,2)}</pre>`;
-							}
-						});
-					}
-				//-->
-				</script>
-			</head>
-			<body>
-				<div class="container">
-					<form class="form-signin" method="post" action="#" onclick="return false">
-						<h2 class="form-signin-heading">WebAuthn Registration</h2>
-						${message}
-						<div id="success" class="alert alert-success" role="alert"></div>
-						<div id="error" class="alert alert-danger" role="alert"></div>
-						<p>
-							<input type="text" id="label" name="label" class="form-control" placeholder="Passkey Label" required autofocus>
-						</p>
-						<button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-					</form>
-					<table class="table table-striped">
-						<thead>
-							<tr><th>Label</th><th>Created</th><th>Last Used</th><th>Signature Count</th><th>Delete</th></tr>
-						</thead>
-						<tbody>
-							${passkeys}
-						</tbody>
-					</table>
-				</div>
-			</body>
-		</html>
-""";
+										const optionsResponse = await fetch('${contextPath}/webauthn/register/options', {
+											method: 'POST',
+											headers: {
+												'Content-Type': 'application/json',
+												[csrfHeaderName]: csrfToken,
+											},
+										});
+										const options = await optionsResponse.json();
+										// FIXME: Use https://www.w3.org/TR/webauthn-3/#sctn-parseCreationOptionsFromJSON
+										options.user.id = base64url.decode(options.user.id);
+										options.challenge = base64url.decode(options.challenge);
+										if (options.excludeCredentials) {
+											for (let cred of options.excludeCredentials) {
+												cred.id = base64url.decode(cred.id);
+											}
+										}
+										const credentialsContainer = await navigator.credentials.create({
+											publicKey: options,
+										});
+										// FIXME: Let response be credential.response. If response is not an instance of AuthenticatorAttestationResponse, abort the ceremony with a user-visible error. https://www.w3.org/TR/webauthn-3/#sctn-registering-a-new-credential
+										const { response } = credentialsContainer;
+										const credential = {
+											id: credentialsContainer.id,
+											rawId: base64url.encode(credentialsContainer.rawId),
+											response: {
+												attestationObject: base64url.encode(response.attestationObject),
+												clientDataJSON: base64url.encode(response.clientDataJSON),
+												transports: response.getTransports ? response.getTransports() : [],
+												publicKeyAlgorithm: response.getPublicKeyAlgorithm(),
+												publicKey: base64url.encode(response.getPublicKey()),
+												authenticatorData: base64url.encode(response.getAuthenticatorData()),
+											},
+											type: credentialsContainer.type,
+											clientExtensionResults: credentialsContainer.getClientExtensionResults(),
+											authenticatorAttachment: credentialsContainer.authenticatorAttachment,
+										};
+
+										const registrationRequest = {
+											"publicKey": {
+												"credential": credential,
+												"label": label,
+											}
+										}
+										const registrationRequestJSON = JSON.stringify(registrationRequest, null, 2)
+										console.log(registrationRequestJSON)
+
+										// POST the response to the endpoint that calls
+										const verificationResp = await fetch('${contextPath}/webauthn/register', {
+											method: 'POST',
+											headers: {
+												'Content-Type': 'application/json',
+												[csrfHeaderName]: csrfToken,
+											},
+											body: registrationRequestJSON,
+										});
+
+										// Wait for the results of verification
+										const verificationJSON = await verificationResp.json();
+
+										// Show UI appropriate for the `success` status & reload to display the new registration
+										if (verificationJSON && verificationJSON.success) {
+											window.location.href = '${contextPath}/webauthn/register?success'
+										} else {
+											setVisibility(error, true)
+											error.innerHTML = `Registration failed! Response: <pre>${JSON.stringify(verificationJSON,null,2)}</pre>`;
+										}
+									});
+								}
+							//-->
+							</script>
+						</head>
+						<body>
+							<div class="container">
+								<form class="form-signin" method="post" action="#" onclick="return false">
+									<h2 class="form-signin-heading">WebAuthn Registration</h2>
+									${message}
+									<div id="success" class="alert alert-success" role="alert"></div>
+									<div id="error" class="alert alert-danger" role="alert"></div>
+									<p>
+										<input type="text" id="label" name="label" class="form-control" placeholder="Passkey Label" required autofocus>
+									</p>
+									<button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+								</form>
+								<table class="table table-striped">
+									<thead>
+										<tr><th>Label</th><th>Created</th><th>Last Used</th><th>Signature Count</th><th>Delete</th></tr>
+									</thead>
+									<tbody>
+										${passkeys}
+									</tbody>
+								</table>
+							</div>
+						</body>
+					</html>
+			""";
 
 	private static final String PASSKEY_ROW_TEMPLATE = """
-		<tr>
-			<td>${label}</td>
-			<td>${created}</td>
-			<td>${lastUsed}</td>
-			<td>${signatureCount}</td>
-			<td>
-				<form method="post" action="${contextPath}/webauthn/register/${credentialId}">
-					<input type="hidden" name="method" value="delete">
-					<input type="hidden" name="${csrfParameterName}" value="${csrfToken}">
-					<button class="btn btn-sm btn-primary btn-block" type="submit">Delete</button>
-				</form>
-			</td>
-		</tr>
-	""";
+				<tr>
+					<td>${label}</td>
+					<td>${created}</td>
+					<td>${lastUsed}</td>
+					<td>${signatureCount}</td>
+					<td>
+						<form method="post" action="${contextPath}/webauthn/register/${credentialId}">
+							<input type="hidden" name="method" value="delete">
+							<input type="hidden" name="${csrfParameterName}" value="${csrfToken}">
+							<button class="btn btn-sm btn-primary btn-block" type="submit">Delete</button>
+						</form>
+					</td>
+				</tr>
+			""";
 
 	private static final String SUCCESS_MESSAGE = """
- 		<div class="alert alert-success" role="alert">Success!</div>
-	""";
+					<div class="alert alert-success" role="alert">Success!</div>
+			""";
+
 }

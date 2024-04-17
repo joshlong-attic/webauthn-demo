@@ -19,9 +19,12 @@ package org.springframework.security.webauthn.api;
 import java.util.List;
 
 /**
- * <a href="https://www.w3.org/TR/webauthn-3/#dictdef-authenticationextensionsclientoutputs">AuthenticationExtensionsClientOutputs</a>
- * is a dictionary containing the <a href="https://www.w3.org/TR/webauthn-3/#client-extension-output">client extension
- * output</a> values for zero or more <a href="https://www.w3.org/TR/webauthn-3/#webauthn-extensions">WebAuthn
+ * <a href=
+ * "https://www.w3.org/TR/webauthn-3/#dictdef-authenticationextensionsclientoutputs">AuthenticationExtensionsClientOutputs</a>
+ * is a dictionary containing the
+ * <a href="https://www.w3.org/TR/webauthn-3/#client-extension-output">client extension
+ * output</a> values for zero or more
+ * <a href="https://www.w3.org/TR/webauthn-3/#webauthn-extensions">WebAuthn
  * Extensions</a>.
  *
  * @since 6.3

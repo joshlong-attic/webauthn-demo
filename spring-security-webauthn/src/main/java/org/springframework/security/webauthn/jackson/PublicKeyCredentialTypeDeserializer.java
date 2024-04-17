@@ -26,6 +26,7 @@ import java.io.IOException;
 
 /**
  * Jackson deserializer for {@link PublicKeyCredentialType}
+ *
  * @since 6.3
  * @author Rob Winch
  */
@@ -39,7 +40,8 @@ class PublicKeyCredentialTypeDeserializer extends StdDeserializer<PublicKeyCrede
 	}
 
 	@Override
-	public PublicKeyCredentialType deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JacksonException {
+	public PublicKeyCredentialType deserialize(JsonParser parser, DeserializationContext ctxt)
+			throws IOException, JacksonException {
 		String type = parser.readValueAs(String.class);
 		for (PublicKeyCredentialType publicKeyCredentialType : PublicKeyCredentialType.values()) {
 			if (publicKeyCredentialType.getValue().equals(type)) {
@@ -48,6 +50,5 @@ class PublicKeyCredentialTypeDeserializer extends StdDeserializer<PublicKeyCrede
 		}
 		return null;
 	}
-
 
 }

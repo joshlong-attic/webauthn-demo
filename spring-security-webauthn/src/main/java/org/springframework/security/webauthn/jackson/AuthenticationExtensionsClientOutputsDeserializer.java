@@ -29,10 +29,12 @@ import java.util.List;
 
 /**
  * Provides Jackson deserialization of {@link AuthenticationExtensionsClientOutputs}.
+ *
  * @since 6.3
  * @author Rob Winch
  */
 class AuthenticationExtensionsClientOutputsDeserializer extends StdDeserializer<AuthenticationExtensionsClientOutputs> {
+
 	/**
 	 * Creates a new instance.
 	 */
@@ -41,7 +43,8 @@ class AuthenticationExtensionsClientOutputsDeserializer extends StdDeserializer<
 	}
 
 	@Override
-	public AuthenticationExtensionsClientOutputs deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JacksonException {
+	public AuthenticationExtensionsClientOutputs deserialize(JsonParser parser, DeserializationContext ctxt)
+			throws IOException, JacksonException {
 		List<AuthenticationExtensionsClientOutput<?>> outputs = new ArrayList<>();
 		for (String key = parser.nextFieldName(); key != null; key = parser.nextFieldName()) {
 			JsonToken startObject = parser.nextValue();
@@ -63,4 +66,5 @@ class AuthenticationExtensionsClientOutputsDeserializer extends StdDeserializer<
 
 		return new ImmutableAuthenticationExtensionsClientOutputs(outputs);
 	}
+
 }
