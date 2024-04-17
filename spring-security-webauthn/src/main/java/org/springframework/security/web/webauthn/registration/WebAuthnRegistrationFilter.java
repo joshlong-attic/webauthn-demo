@@ -137,7 +137,7 @@ public class WebAuthnRegistrationFilter extends OncePerRequestFilter {
 	}
 
 	private void registerCredential(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("registerCredential");
+
 		WebAuthnRegistrationRequest registrationRequest = readRegistrationRequest(request);
 		if (registrationRequest == null) {
 			response.setStatus(HttpStatus.BAD_REQUEST.value());

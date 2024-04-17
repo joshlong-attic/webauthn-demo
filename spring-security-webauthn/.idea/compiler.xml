@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="webauthn" />
+        <module name="spring-security-webauthn" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring-security-webauthn" options="-parameters" />
       <module name="webauthn" options="-parameters" />
     </option>
   </component>
