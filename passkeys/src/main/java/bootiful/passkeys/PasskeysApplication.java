@@ -8,48 +8,42 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.WebauthnConfigurer;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 
-@EnableWebSecurity
+
+
 @SpringBootApplication
 public class PasskeysApplication {
-
 
     public static void main(String[] args) {
         SpringApplication.run(PasskeysApplication.class, args);
     }
 
     @Bean
-    InMemoryUserDetailsManager authentication() {
+    UserDetailsService userDetailsService() {
+        var builder = User.withDefaultPasswordEncoder().roles("USER").password("pw");
         return new InMemoryUserDetailsManager(
-                User.withDefaultPasswordEncoder()
-                        .username("jlong")
-                        .password("pw")
-                        .roles("USER")
-                        .build(),
-                User.withDefaultPasswordEncoder()
-                        .username("dgarnier")
-                        .password("pw")
-                        .roles("USER")
-                        .build()
+                builder.username("jlong").build(),
+                builder.username("dgarniermoiroux").build()
         );
     }
 
     @Bean
-    DefaultSecurityFilterChain springSecurity(HttpSecurity http) throws Exception {
-        http
+    DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
                 .formLogin(Customizer.withDefaults())
-                .authorizeHttpRequests(requests -> requests
+                .authorizeHttpRequests(http -> http
                         .requestMatchers("/login/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated())
+                .with(new WebauthnConfigurer<>(), passkeys ->
+                        passkeys.allowedOrigins("http://localhost:8080")
+                                .rpId("localhost")
+                                .rpName("Bootiful WebAuthn")
                 )
-                .with(new WebauthnConfigurer<>(), (passkeys) -> passkeys
-                        .rpName("Spring Security Relying Party")
-                        .rpId("localhost")
-                        .allowedOrigins("http://localhost:8080")
-                );
-        return http.build();
+                .build();
+
     }
 
 }
