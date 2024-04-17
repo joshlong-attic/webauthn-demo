@@ -1,5 +1,6 @@
 package bootiful.passkeys;
 
+import com.webauthn4j.WebAuthnManager;
 import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
@@ -50,10 +51,8 @@ public class PasskeysApplication {
 
         @Override
         public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-            for (var c : findClassesInPackage(com.webauthn4j.WebAuthnManager.class.getPackageName())) {
-                System.out.println("class: " +c .getName());
-                hints.reflection().registerType(c, MemberCategory.values());
-            }
+
+            var typeReferenceHashSet = new HashSet<>(findClassesInPackage(WebAuthnManager.class.getPackageName()));
 
             hints.resources().registerResource(new ClassPathResource("/META-INF/services/com.fasterxml.jackson.databind.Module"));
 
@@ -204,55 +203,19 @@ public class PasskeysApplication {
                     org.springframework.security.webauthn.jackson.UserVerificationRequirementSerializer
                     org.springframework.security.webauthn.management.RelyingPartyPublicKey
                     """.split(System.lineSeparator());
-            var mcs = MemberCategory.values();
+
             for (var c : classes) {
                 if (StringUtils.hasText(c)) {
                     var tr = TypeReference.of(c);
-                    hints.reflection().registerType(tr, mcs);
+                    typeReferenceHashSet.add(tr);
                 }
             }
 
-            var one = findClassesInPackage("org.springframework.security.webauthn");
-            var two = findClassesInPackage("org.springframework.security.web.webauthn");
-            var springSecurityWebauthn = new HashSet<TypeReference>();
-            springSecurityWebauthn.addAll(one);
-            springSecurityWebauthn.addAll(two);
+            typeReferenceHashSet.addAll(findClassesInPackage("org.springframework.security.webauthn"));
+            typeReferenceHashSet.addAll(findClassesInPackage("org.springframework.security.web.webauthn"));
 
-            for (var r : springSecurityWebauthn) {
-                try {
-                    hints.reflection().registerType(r, mcs);
-                }// 
-                catch (Throwable throwable) {
-                    System.out.println("couldn't register for reflection " + r.getName() + " got exception " + throwable);
-                    System.out.println(throwable.getLocalizedMessage());
-                    throwable.printStackTrace();
-                }
-            }
-
-            for (var c : springSecurityWebauthn) {
-
-                var clazzName = c.getName();
-                if (StringUtils.hasText(clazzName)) {
-                    try {
-                        System.out.println("got the class " + clazzName);
-                        var clzz = Class.forName(clazzName);
-                        var a = Serializable.class.isAssignableFrom(clzz);
-                        if (a) {
-                            System.out.println("serializable registration: " + c.getName());
-                            hints.serialization().registerType(c);
-                        }
-
-                    }//
-                    catch (Throwable e) {
-                        System.out.println("got an error registering " +
-                                c.getName() + " : " + e.getLocalizedMessage());
-
-                    }
-                }
-
-            }
-
-            var registrationSpecificClasses = Set.of(PublicKeyCredentialCreationOptions.class,
+            var registrationSpecificClasses = Set.of(
+                            PublicKeyCredentialCreationOptions.class,
                     AttestationConveyancePreference.class,
                     PublicKeyCredentialUserEntity.class,
                     Base64Url.class, PublicKeyCredentialParameters.class,
@@ -261,35 +224,43 @@ public class PasskeysApplication {
                     AuthenticationExtensionsClientInputs.class,
                     PublicKeyCredentialRpEntity.class,
                     COSEAlgorithmIdentifier.class,
-                    PublicKeyCredentialType.class
-            );
-
-            for (var s : registrationSpecificClasses) {
-                try {
-                    hints.reflection().registerType(s, mcs);
-                } catch (Throwable throwable) {
-                    // don't care
-                }
-            }
-            for (var s : registrationSpecificClasses) {
-                try {
-                    hints.serialization().registerType(TypeReference.of(s));
-                } catch (Throwable throwable) {
-                    // don't care
-                }
-            }
-
-            for (var c : Set.of(
+                            PublicKeyCredentialType.class,
                     AuthenticatorAttestationResponse.AuthenticatorAttestationResponseBuilder.class,
                     AuthenticatorTransport.class,
-
-                    AuthenticatorAttestationResponse.class, PublicKeyCredential.class,
-                    HttpMessageConverter.class, MappingJackson2HttpMessageConverter.class,
+                            AuthenticatorAttestationResponse.class,
+                            PublicKeyCredential.class,
+                            HttpMessageConverter.class,
+                            MappingJackson2HttpMessageConverter.class,
                     WebAuthnRegistrationFilter.SuccessfulUserRegistrationResponse.class,
                     com.webauthn4j.data.attestation.authenticator.AttestedCredentialData.class,
                     WebAuthnRegistrationFilter.WebAuthnRegistrationRequest.class
-            ))
-                hints.reflection().registerType(c, mcs);
+                    )
+                    .stream()
+                    .map(TypeReference::of)
+                    .toList();
+
+            typeReferenceHashSet.addAll(registrationSpecificClasses);
+
+            var mcs = MemberCategory.values();
+            for (var tr : typeReferenceHashSet) {
+                hints.reflection().registerType(tr, mcs);
+
+                try {
+                    if (StringUtils.hasText(tr.getName())) {
+                        var clzz = Class.forName(tr.getName());
+                        var isSerializable = Serializable.class.isAssignableFrom(clzz);
+                        if (isSerializable) {
+                            hints.serialization().registerType(tr);
+                        }
+                    }
+                } //
+                catch (Throwable throwable) {
+                    // don't care
+                }
+
+            }
+
+
         }
 
 
